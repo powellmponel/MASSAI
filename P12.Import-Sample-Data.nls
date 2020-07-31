@@ -1,0 +1,317 @@
+To P12.Import-Household-Plot-Data
+  show "import-file"
+ import-text-file 
+  show "map sampled"
+ map-sampled-plots 
+  show "others"
+ random-locate-others 
+ derive-variables 
+  show "Household-Plot-Data-Imported" 
+End
+To import-text-file
+ask turtles [die]
+crt 451
+file-open "Data\\HH&plot\\HP20200302.txt"
+  foreach sort turtles
+ [ while [not file-at-end?]
+  [ask turtles
+    [
+set	PH_ID	file-read
+set	PH_village	file-read
+set	H_x	file-read
+set	H_y	file-read
+set	H_LSPN	file-read
+set	H_AGEH	file-read
+set	H_EDUH	file-read
+set	H_ELHI	file-read
+set	H_EDUI	file-read
+set	H_GENH	file-read
+set	H_HECT	file-read
+set	H_PLOT	file-read
+set	H_LABOUR	file-read
+set	depend-h	file-read
+set	H_DEPD	file-read
+set	H_TLUN	file-read
+set	H_INCC	file-read
+set	H_INCL	file-read
+set	H_INCO	file-read
+set	H_INCR	file-read
+set	H_INMS	file-read
+set	H_COMM	file-read
+set	H_TRAN	file-read
+set	H_IMPL	file-read
+set	H_EQUI	file-read
+set	H_WEAI	file-read
+set	weai_prod	file-read
+set	weai_inc	file-read
+set	weai_res	file-read
+set	weai-h	file-read
+set	H_GMEM	file-read
+set	H_SCHa	file-read
+set	H_SLHa	file-read
+set	H_CLHa	file-read
+set	H_COHa	file-read
+set	H_SOHa	file-read
+set	H_FALO	file-read
+set	H_NoLe	file-read
+set	H_WiLe	file-read
+set	NoLeF	file-read
+set	WiLeF	file-read
+set	H_CROP	file-read
+set	H_FERT	file-read
+set	H_ORGA	file-read
+set	H_ROTC	file-read
+set	H_SWCn	file-read
+set	HCLUS	file-read
+set	TimberValue	file-read
+set	NTFPValue	file-read
+set	naturalValue	file-read
+set	NaturalUS	file-read
+set	H_size	file-read
+set	H_YoMal	file-read
+set	H_YoFem	file-read
+set	H_workMale	file-read
+set	H_workFem	file-read
+set	H_old	file-read
+set	P_ID	file-read
+set	HP_ID	file-read
+set	P_y	file-read
+set	P_x	file-read
+set	P_Hect	file-read
+set	P_lclu	file-read
+set	P_cultyrs	file-read
+set	P_crops	file-read
+set	P_cereal5	file-read
+set	P_cele5	file-read
+set	P_legu5	file-read
+set	P_ceother5	file-read
+set	P_other5	file-read
+set	P_nocrop5	file-read
+set	P_fertpers	file-read
+set	P_Mzkg-im	file-read
+set	P_MzkgEq	file-read
+set	P_Gnkg	file-read
+set	P_Leguton	file-read
+set	P_laborLP	file-read
+set	P_labweed	file-read
+set	P_labfert	file-read
+set	P_Laborga	file-read
+set	P_LabMen	file-read
+set	P_LabWomen	file-read
+set	P_Labdepend	file-read
+set	mandays	file-read
+set	Total_fert	file-read
+set	Fert_N	file-read
+set	Fert_P	file-read
+set	Fert_K	file-read
+set	fert_ha-im	file-read
+set	ManureKG	file-read
+set	Org_ha-im	file-read
+set	Org_N	file-read
+set	Org_P	file-read
+set	Org_K	file-read
+set	P_Grainyield	file-read
+set	P_YieldUSD	file-read
+set	P_LabUSD	file-read
+set	Fertpaid	file-read
+set	Fert-subsidy	file-read
+set	P_SeedActual	file-read
+set	P_Benefit	file-read
+set	Crop2017	file-read
+set	Fertkgpaid	file-read
+set	fertkgmarket	file-read
+       
+
+  ]  ]]
+file-close  
+  
+
+;household-summary-statistics
+ 
+End
+To derive-variables
+  random-seed -141276233
+ask turtles with [hp_id != 0]
+[set fert_ha fert_ha-im
+set fert_ha-hc fert_ha-im 
+if org_ha-im > 2500 [set org_ha-im 2500 + ((org_ha-im / max [org_ha-im] of turtles) * 500)]  
+set org_ha org_ha-im
+set orga_ha-hc org_ha-im 
+; correct maize outliers by winzolisation    
+if P_mzkg-im > 10000 [set p_mzkg-im 10000 + ((p_mzkg-im / max [p_mzkg-im] of turtles) * 5000)]  
+set P_mzkg p_mzkg-im
+set mzkg-hc p_mzkg-im    
+set p_legukg p_leguton * 1000    
+if p_legukg > 2000 [set p_legukg 2000 + (p_legukg / max [p_legukg] of turtles) * 500]  
+set legukg-hc p_legukg
+;show "setting dummy variables"
+ ; ask turtles with [HP_ID != 0 ] [ask patches with [P_plot-patches = [HP_ID] of myself]
+; [set PHCLUS [HCLUS] of myself  
+ ; set PHNew [HPNew] of myself
+ ; set HP_fert [P_fert] of myself]]
+    if p_crops = 1 [set P_leguD 1]  ;dummy-variables
+    if p_crops >  3 [set P_leguD 1] 
+    if P_crops = 1 [set Intercrop 0]
+    if P_crops > 1 [set Intercrop 1]
+    if ManureKG > 0 [set P_orgaD 1]
+    if ManureKG = 0 [set P_orgaD 0]
+    ifelse Total_fert > 0 [set P_fertD 1] [set P_fertD 0]
+    if p_lclu >= 2 [set P_tree10D 1]
+    if p_lclu < 2 [set P_tree10D 0]
+    
+    ;cereal-vs-legume_integration
+ if p_mzkg > 0 and p_legukg = 0 [set cereal-vs-integration 1 ] ; sole cereal
+ if p_mzkg > 0 and p_legukg > 0 [set cereal-vs-integration 2 ] ; legume integration
+ if mzkg-hc > 0 and legukg-hc = 0 [set cereal-vs-integration-hc 1]
+ if mzkg-hc > 0 and legukg-hc > 0 [set cereal-vs-integration-hc 2]   
+ 
+    ;estimate-nutrient-porportion-in-fert
+    if fert_ha > 0 [set N_Fert% Fert_N / fert_ha] 
+    if fert_ha = 0 [set N_Fert% 0.23 + random-float 0.46 - 0.23]
+    if fert_ha > 0 [set P_Fert% Fert_P / fert_ha] 
+    if fert_ha = 0 [set P_Fert% 0.07 + random-float 0.21 - 0.07 ]      
+;set K_Fert% Fert_K / (Total_fert + 1) * 100
+;grain-residue-nutrientcontent&conversionfactors
+    if Parameter = "High" [
+set	NpGNg	 0.0410 set	NpMZg	0.0230 set	NpGNs	0.0408 set	NpMZs	0.0213
+set	PpGNg	 0.0022 set	PpMZg	0.0038 set	PpGNs	0.0032 set	PpMZs	0.0019
+set	KpGNg	 0.0214 set	KpMZg	0.0187 set	KpGNs	0.0280 set	KpMZs	0.0206
+    ]
+    if Parameter = "Low" [
+set	NpGNg	 0.0278 set	NpMZg	0.0088 set	NpGNs	0.0201 set	NpMZs	0.0122
+set	PpGNg	 0.0009 set	PpMZg	0.0020 set	PpGNs	0.0015 set	PpMZs	0.0012
+set	KpGNg	 0.0097 set	KpMZg	0.0043 set	KpGNs	0.0101 set	KpMZs	0.0205
+    ]      
+    set hiMZ 0.2365
+    if cereal-vs-integration = 1 [set	hiMZ   0.363] ;0.11 + random-float (0.363 -	0.11) 
+    if cereal-vs-integration = 2 [set hiMZ   0.110]
+    set	hiGN	 0.209 ;0.209 + random-float (0.352 - .209) NB: 0.209 sole and .352 intercrop
+    if p_mzkg = 0 and p_legukg > 0 [set hiGN	 0.352]
+    set rsMZ 0.25
+    if fert_ha > 0 and p_mzkg > 0 [set	rsMZ	0.42]
+    if fert_ha = 0 and p_mzkg > 0 [set rsMZ  0.08]
+set	rsGN	 0.2945 ;0.193 + random-float(0.396 - 0.193)
+set	mcMZ	 0.875 
+set	mcGN	 0.82   ;0.76 + random-float(0.88 - 0.76)
+set	NdfaGN 0.755  ;0.73 + random-float (0.78 - 0.73)    
+  ]
+; Descriptives-frequencies
+  let P_leguD% count turtles with [P_leguD = 1] / count turtles with [HP_ID != 0]  * 100
+  let P_intercrop% count turtles with [Intercrop = 1] / count turtles with [HP_ID != 0] * 100
+  let P_orgaD% count turtles with [P_orgaD = 1] / count turtles with [HP_ID != 0] * 100
+  let P_fertD% count turtles with [P_fertD = 1] / count turtles with [HP_ID != 0] * 100
+  let P_tree10D% count turtles with [P_tree10D = 1] / count turtles with [HP_ID != 0] * 100
+ show (word "leguD% = " P_leguD% ", intercrop% = " P_intercrop% ", orgaD% = " P_orgaD% ", fertD% = " P_fertD% ", tree10D% =" P_tree10D% )
+; model-drift1   ;adjusting the survey estimate for model drift
+End
+To map-sampled-plots
+;locate sampled plots at their pixels
+  ask turtles with [HP_ID > 0]
+  [let plots one-of patches with [P_plot-patches = [HP_ID] of myself]
+    if plots != nobody[setxy [pxcor] of plots [pycor] of plots]
+    set shape "plant" set color green set size 3
+  ]
+End
+To random-locate-others
+  ask turtles with [HP_ID > 0 and HP_ID != [P_plot-patches] of patch-here ]
+  [set PH_village 3
+    set HPNew 1
+    let plot0 one-of patches with [p_remaining = 1 and P_bound = 1 and P_village = [PH_village] of myself]
+    if plot0 != nobody [setxy [pxcor] of plot0 [pycor] of plot0]
+    set shape "plant" set color pink set size 5 
+    
+    ask patches with [P_plot-patches != [HP_ID] of myself]
+    
+    [set P_plot-centre  [HP_ID]  of myself
+     set phclus         [hclus]  of myself
+     set HP_hectare     [P_hect] of myself 
+     set PHNew          [HPNew]  of myself 
+      set P_plot-patches [HP_ID]  of myself]
+  ]
+end
+To P13.Plots-For-Unsampled-Households
+random-seed 1234  show "creating exact copy"
+create-exact-copy show "creating remainder"
+create-remainder  
+;generate-new-plot-areas 
+;map-plot-areas show "map-plot-areas"
+End
+To create-exact-copy
+  ; The purpose of this procedure is to generate the whole plot population which is most similar to the survey plot dataset, with given plot population size N ~ 1136.
+  ; The remaining plot population is: N - 451 = (451 * floor(N/451) - 1) + (N mod 451). Because the part (451 * floor(N/451) - 1) is an multiple of 451, at best it should be
+  ; generated by copying exactly the set of sampled plots (section 1). Because the part (N mod 451) is less than 451, at best it is generated by random selection
+  ; from 451 surveyed plots (section 2).
+;=======================================
+
+ ;Section 1: Multiply the 451 surveyed plots by (floor(N/451)-1)
+show "creating copy of sample plot turtles and locating on random patches"
+ask turtles with [HP_ID > 0]
+ [hatch floor ((2640 / 451)  - 1)    ; i)Create new plot turtles, each identical to its parent
+  [set HP_ID HP_ID + 10000           ;   create HP_ID for the new plot
+      set HPnew 2]]
+ ask turtles with [HPNew = 2]
+  [set HPNew_patch one-of patches with [p_remaining = 1 and P_village = [PH_village] of myself and Prod-cat = [Prod-cat] of myself]
+   setxy [pxcor] of HPNew_patch [pycor] of HPNew_patch 
+    set shape "plant" set color yellow set size 5
+    ask patches with [P_Plot-patches = 1][
+     set P_plot-centre  [HP_ID]  of myself
+     set phclus         [hclus]  of myself
+     set HP_hectare     [P_hect] of myself 
+     set PHNew          [HPNew]  of myself 
+     ]]
+End
+;===========================================
+To create-remainder
+;Section 2: Select randomly (N mod n) plots from the 451 surveyed plots
+show "creating randomly the remainder"
+  ask n-of (2640 mod 451) turtles with [HP_ID > 0]  ; Select randomly x (N mod n) plots from the 451 surveyed plots
+   [hatch 1                                           ; Create new turtles, each identical to its parent
+    [set HP_ID HP_ID + 20000                           ;   create PH_ID for the new plot
+        set HPnew 3]]
+  ask turtles with [HPNew = 3]
+  [set HPNew_patch2 one-of patches with [p_remaining = 1 and P_village = [PH_village] of myself and Prod-cat = [Prod-cat] of myself]
+   if HPNew_patch = nobody
+    [setxy [pxcor] of HPNew_patch2 [pycor] of HPNew_patch2]
+    set shape "plant" set color blue set size 5
+    ask patches with [P_Plot-patches = 1]
+    [set P_plot-centre  [HP_ID]  of myself
+     set phclus         [hclus]  of myself
+     set HP_hectare     [P_hect] of myself 
+     set PHNew          [HPNew]  of myself 
+     set P_plot-patches [HP_ID]  of myself
+  ]]
+ ;show "Generate Remaining Plot Population has been done."
+End
+To set-ID-for-patch
+ask turtles with [HPNew > 0]   [ask patches with [P_bound = 1 and P_plot-patches != [HP_ID] of myself ]
+    [set P_plot-centre  [HP_ID]  of myself
+     set phclus         [hclus]  of myself
+     set HP_hectare     [P_hect] of myself 
+     set PHNew          [HPNew]  of myself 
+     set P_plot-patches [HP_ID]  of myself 
+  ]] 
+End
+;===============================================
+To generate-new-plot-areas
+ show "Now, we are generating the holding areas (i.e. p_owner variable) of all households"
+ask patches with [PHNew  > 0] 
+  [let my-n-patch round(HP_Hectare / 100 * 10000); n-patch is the number of pixel within the parcel area we have to generate.
+   if my-n-patch = 0 [set my-n-patch 1]
+    let radius 0
+    while [(count    (patches in-radius-nowrap radius with [P_plot-patches = 1]))  <= my-n-patch]
+          [set radius (radius + 1)]
+    ask n-of my-n-patch patches in-radius-nowrap radius with [p_plot-patches = 1]
+       [set P_plot-patches [P_plot-patches] of myself
+          set phclus [phclus] of myself
+  ]
+
+  ]       
+End
+;=================================================
+To map-plot-areas 
+ask patches with [P_plot-patches > 1] [set pcolor black ; just for visualizing the total generated landholding
+ if P_plot-patches > 10000 [set pcolor yellow]]
+  show "OK, all cultivated and managed areas are generated"
+End
+  
+

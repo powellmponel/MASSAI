@@ -1,0 +1,476 @@
+To P14.Working-policy-variables
+ask turtles [
+;subsidy scenarios
+    set fert-sub0 Fert-subsidy
+    set fert-sub1 Fert-subsidy
+    set fert-sub2 Fert-subsidy
+    set fert-sub3 Fert-subsidy
+    set p_fertsubsidy Fert-subsidy
+   ;productivity indicators
+    set F-S0 fert_ha  set f-hc-S0 fert_ha-hc ;F=fertilizer input
+    set O-S0 org_ha   set O-hc-S0 orga_ha-hc ;O=organic manure input
+    set M-S0 p_mzkg   set M-hc-S0 mzkg-hc    ;M=Maize yield
+    set L-S0 p_legukg set L-hc-S0 legukg-hc
+    
+    set F-s1 fert_ha  set f-hc-s1 fert_ha-hc
+    set O-s1 org_ha   set O-hc-s1 orga_ha-hc
+    set M-s1 p_mzkg   set M-hc-s1 mzkg-hc
+    set L-s1 p_legukg set L-hc-s1 legukg-hc
+
+    set F-s2 fert_ha  set f-hc-s2 fert_ha-hc
+    set O-s2 org_ha   set O-hc-s2 orga_ha-hc
+    set M-s2 p_mzkg   set M-hc-s2 mzkg-hc
+    set L-s2 p_legukg set L-hc-s2 legukg-hc
+
+    set F-s3 fert_ha  set f-hc-s3 fert_ha-hc
+    set O-s3 org_ha   set O-hc-s3 orga_ha-hc
+    set M-s3 p_mzkg   set M-hc-s3 mzkg-hc
+    set L-s3 p_legukg set L-hc-s3 legukg-hc
+   ;ecological indicators
+    set	NB-S0	N_balance-H	set	NB-hc-S0	N_balance-H-hc
+    set	PB-S0	P_balance-H	set	PB-hc-S0	P_balance-H-hc
+    set	KB-S0	K_balance-H	set	KB-hc-S0	K_balance-H-hc
+    set	CB-S0	C_balance-H	set	CB-hc-S0	C_balance-H-hc
+    
+    set	NB-S1	N_balance-H	set	NB-hc-S1	N_balance-H-hc
+    set	PB-S1	P_balance-H	set	PB-hc-S1	P_balance-H-hc
+    set	KB-S1	K_balance-H	set	KB-hc-S1	K_balance-H-hc
+    set	CB-S1	C_balance-H	set	CB-hc-S1	C_balance-H-hc
+    
+    set	NB-S2	N_balance-H	set	NB-hc-S2	N_balance-H-hc
+    set	PB-S2	P_balance-H	set	PB-hc-S2	P_balance-H-hc
+    set	KB-S2	K_balance-H	set	KB-hc-S2	K_balance-H-hc
+    set	CB-S2	C_balance-H	set	CB-hc-S2	C_balance-H-hc
+    
+    set	NB-S3	N_balance-H	set	NB-hc-S3	N_balance-H-hc   
+    set	PB-S3	P_balance-H	set	PB-hc-S3	P_balance-H-hc 
+	  set	KB-S3	K_balance-H	set	KB-hc-S3	K_balance-H-hc 
+    set	CB-S3	C_balance-H	set	CB-hc-S3	C_balance-H-hc 	
+
+    ;economic indicators
+    set P$-S0 Product-$_ha  set E$-S0 Expenses-$_ha  set B-C$-S0 B-C$-ha
+    set P$-S1 Product-$_ha  set E$-S1 Expenses-$_ha  set B-C$-s1 B-C$-ha
+    set P$-S2 Product-$_ha  set E$-S2 Expenses-$_ha  set B-C$-s2 B-C$-ha     
+    set P$-S3 Product-$_ha  set E$-S3 Expenses-$_ha  set B-C$-s3 B-C$-ha
+    
+    set P$-hc-S0 Product-$_ha-hc  set E$-hc-S0 Expenses-$_ha-hc  set B-C$-hc-s0 B-C$-ha-hc
+    set P$-hc-S1 Product-$_ha-hc  set E$-hc-S1 Expenses-$_ha-hc  set B-C$-hc-s1 B-C$-ha-hc
+    set P$-hc-S2 Product-$_ha-hc  set E$-hc-S2 Expenses-$_ha-hc  set B-C$-hc-s2 B-C$-ha-hc     
+    set P$-hc-S3 Product-$_ha-hc  set E$-hc-S3 Expenses-$_ha-hc  set B-C$-hc-s3 B-C$-ha-hc
+    
+;gender and labour temporary variables
+    set WEAI-INCR WEAI-H
+    set Depend-decr depend-h
+    set Labour-decr p_labourT
+;productivity indicators
+set F-b fert_ha  set f-hc-b fert_ha-hc set F-w fert_ha  set f-hc-w fert_ha-hc
+set F-l fert_ha  set f-hc-l fert_ha-hc set F-d fert_ha  set f-hc-d fert_ha-hc
+set O-b org_ha   set O-hc-b orga_ha-hc set O-w org_ha   set O-hc-w orga_ha-hc
+set O-l org_ha   set O-hc-l orga_ha-hc set O-d org_ha   set O-hc-d orga_ha-hc
+set M-l p_mzkg   set M-hc-l mzkg-hc set M-d p_mzkg   set M-hc-d mzkg-hc   
+set M-w p_mzkg   set M-hc-w mzkg-hc set M-b p_mzkg   set M-hc-b mzkg-hc            
+set L-w p_legukg set L-hc-w legukg-hc set L-b p_legukg set L-hc-b legukg-hc
+set L-l p_legukg set L-hc-l legukg-hc set L-d p_legukg set L-hc-d legukg-hc
+ 
+ ]
+End
+
+To P511.subsidy-current ; current scenario
+ask turtles [
+set p_fertsubsidy fert-sub1 set h_weai2 WEAI-H  set h_depr depend-h  set p_labourT mandays
+if elapsed-years = 1 [set fert_ha fert_ha-im set org_ha org_ha-im set p_mzkg p_mzkg-im set p_legukg p_leguton
+      set fert_ha-hc fert_ha-im set orga_ha-hc org_ha-im set mzkg-hc p_mzkg-im set legukg-hc p_leguton ]              
+    set fert_ha  F-s1  set fert_ha-hc f-hc-s1 
+    set org_ha   O-s1  set orga_ha-hc O-hc-s1
+    set p_mzkg   M-s1  set mzkg-hc    M-hc-s1 
+    set p_legukg L-s1  set legukg-hc  L-hc-s1   
+
+;	set	N_balance-H	NB-S1	 	set	N_balance-H-hc	NB-hc-S1	
+;	set	P_balance-H	PB-S1	 	set	P_balance-H-hc	PB-hc-S1	
+;	set	K_balance-H	KB-S1	 	set	K_balance-H-hc	KB-hc-S1	
+;	set	C_balance-H	CB-S1	 	set	C_balance-H-hc	CB-hc-S1	
+
+  ] 
+P4.iterations
+P22.Nutrient-Stocks&Flows
+Update-household-clusters   
+P332.estimate-economic-benefit  
+ask turtles [set F-s1 fert_ha  set f-hc-s1 fert_ha-hc
+             set O-s1 org_ha   set O-hc-s1 orga_ha-hc
+             set M-s1 p_mzkg   set M-hc-s1 mzkg-hc
+             set L-s1 p_legukg set L-hc-s1 legukg-hc
+        ;ecological indicators
+    set	NB-S1	N_balance-H set	NB-hc-S1	N_balance-H-hc 
+    set	PB-S1	P_balance-H	set	PB-hc-S1	P_balance-H-hc
+    set	KB-S1	K_balance-H	set	KB-hc-S1	K_balance-H-hc
+    set	CB-S1	C_balance-H	set	CB-hc-S1	C_balance-H-hc
+  ;economic indicators
+    set P$-S1    Product-$_ha     set E$-S1    Expenses-$_ha     set B-C$-s1    B-C$-ha
+    set P$-hc-S1 Product-$_ha-hc  set E$-hc-S1 Expenses-$_ha-hc  set B-C$-hc-s1 B-C$-ha-hc 
+  ]
+  show-estimates
+end
+
+To P512.subsidy-reduced
+ask turtles [
+set h_weai2 WEAI-H  set h_depr depend-h  set p_labourT mandays
+if elapsed-years > 0 [set fert-sub2 fert-sub2 *   (1 + (decreased-subsidy - 28 ) / 28  / stop-when)]
+    set p_fertsubsidy fert-sub2
+if elapsed-years = 1 [set fert_ha fert_ha-im set org_ha org_ha-im set p_mzkg p_mzkg-im set p_legukg p_leguton
+      set fert_ha-hc fert_ha-im set orga_ha-hc org_ha-im set mzkg-hc p_mzkg-im set legukg-hc p_leguton ]     
+    set fert_ha  F-s2  set fert_ha-hc f-hc-s2 
+    set org_ha   O-s2  set orga_ha-hc O-hc-s2
+    set p_mzkg   M-s2  set mzkg-hc    M-hc-s2 
+    set p_legukg L-s2  set legukg-hc  L-hc-s2 
+
+;	set	N_balance-H	NB-S2	 	set	N_balance-H-hc	NB-hc-S2	
+;	set	P_balance-H	PB-S2	 	set	P_balance-H-hc	PB-hc-S2	
+;	set	K_balance-H	KB-S2	 	set	K_balance-H-hc	KB-hc-S2	
+;	set	C_balance-H	CB-S2	 	set	C_balance-H-hc	CB-hc-S2	
+								
+]
+   ;change the subsidy target currently set at reduction to 20 from average of 28.
+P4.iterations
+S2-fert Update-household-clusters
+P22.Nutrient-Stocks&Flows  
+P332.estimate-economic-benefit  
+ask turtles [set F-s2 fert_ha  set f-hc-s2 fert_ha-hc
+             set O-s2 org_ha   set O-hc-s2 orga_ha-hc
+             set M-s2 p_mzkg   set M-hc-s2 mzkg-hc
+             set L-s2 p_legukg set L-hc-s2 legukg-hc
+  ;ecological indicators
+    set	NB-S2	N_balance-H set	NB-hc-S2	N_balance-H-hc 
+    set	PB-S2	P_balance-H	set	PB-hc-S2	P_balance-H-hc
+    set	KB-S2	K_balance-H	set	KB-hc-S2	K_balance-H-hc
+    set	CB-S2	C_balance-H	set	CB-hc-S2	C_balance-H-hc
+   ;economic indicators
+    set P$-S2 Product-$_ha  set E$-S2 Expenses-$_ha  set B-C$-s2 B-C$-ha
+    set P$-hc-S2 Product-$_ha-hc  set E$-hc-S2 Expenses-$_ha-hc  set B-C$-hc-s2 B-C$-ha-hc  
+  ]
+end
+
+
+To P513.subsidy-universal
+ask turtles [
+ set h_weai2 WEAI-H  set h_depr depend-h  set p_labourT mandays
+ if elapsed-years > 0 [set fert-sub3 fert-sub3 *  (1 + ((universal-subsidy - 28 )/ 28 / stop-when))]
+    set p_fertsubsidy fert-sub3
+if elapsed-years = 1 [set fert_ha fert_ha-im set org_ha org_ha-im set p_mzkg p_mzkg-im set p_legukg p_leguton
+      set fert_ha-hc fert_ha-im set orga_ha-hc org_ha-im set mzkg-hc p_mzkg-im set legukg-hc p_leguton ] 
+    set fert_ha  F-s3  set fert_ha-hc f-hc-s3 
+    set org_ha   O-s3  set orga_ha-hc O-hc-s3
+    set p_mzkg   M-s3  set mzkg-hc    M-hc-s3 
+    set p_legukg L-s3  set legukg-hc  L-hc-s3   
+
+;	set	N_balance-H	NB-S3	 	set	N_balance-H-hc  NB-hc-S3	
+;	set	P_balance-H	PB-S3	 	set	P_balance-H-hc 	PB-hc-S3	
+;	set	K_balance-H	KB-S3	 	set	K_balance-H-hc 	KB-hc-S3	
+;	set	C_balance-H	CB-S3	 	set	C_balance-H-hc 	CB-hc-S3	
+    
+  ]
+P4.iterations
+S3-fert Update-household-clusters
+P22.Nutrient-Stocks&Flows  
+P332.estimate-economic-benefit
+ask turtles [set F-s3 fert_ha  set f-hc-s3 fert_ha-hc
+             set O-s3 org_ha   set O-hc-s3 orga_ha-hc
+             set M-s3 p_mzkg   set M-hc-s3 mzkg-hc
+             set L-s3 p_legukg set L-hc-s3 legukg-hc
+     ;ecological indicators
+    set	NB-S3	N_balance-H set	NB-hc-S3	N_balance-H-hc
+    set	PB-S3	P_balance-H	set	PB-hc-S3	P_balance-H-hc 
+	  set	KB-S3	K_balance-H	set	KB-hc-S3	K_balance-H-hc 
+    set	CB-S3	C_balance-H	set	CB-hc-S3	C_balance-H-hc 	
+    ;economic indicators
+    set P$-S3 Product-$_ha  set E$-S3 Expenses-$_ha  set B-C$-s3 B-C$-ha
+    set P$-hc-S3 Product-$_ha-hc  set E$-hc-S3 Expenses-$_ha-hc  set B-C$-hc-s3 B-C$-ha-hc
+  ]
+End
+
+To P514.subsidy-zero
+ask turtles [ 
+ set h_weai2 WEAI-H  set h_depr depend-h  set p_labourT mandays
+ if elapsed-years > 0 [set fert-sub0 fert-sub0 * (1 + (no-subsidy - 28 ) / 28 / stop-when)]
+    set p_fertsubsidy fert-sub0
+if elapsed-years = 1 [set fert_ha fert_ha-im set org_ha org_ha-im set p_mzkg p_mzkg-im set p_legukg p_leguton
+      set fert_ha-hc fert_ha-im set orga_ha-hc org_ha-im set mzkg-hc p_mzkg-im set legukg-hc p_leguton ] 
+    set fert_ha  F-s0  set fert_ha-hc f-hc-s0 
+    set org_ha   O-s0  set orga_ha-hc O-hc-s0
+    set p_mzkg   M-s0  set mzkg-hc    M-hc-s0 
+    set p_legukg L-s0  set legukg-hc  L-hc-s0   
+;SO FAR THESE ARE NOT USED HENCE NEED TO BE CHECKED AND REVISED AS ESTIMATED SOIL NUTRIENT STATUS AFTER EVERY RUN 
+;	set	N_balance-H	NB-S0	 	set	N_balance-H-hc	NB-hc-S0	
+;	set	P_balance-H	PB-S0	 	set	P_balance-H-hc	PB-hc-S0	
+;	set	K_balance-H	KB-S0	 	set	K_balance-H-hc	KB-hc-S0	
+;	set	C_balance-H	CB-S0	 	set	C_balance-H-hc	CB-hc-S0	
+							
+  ]
+P4.iterations
+SO-fert Update-household-clusters
+P22.Nutrient-Stocks&Flows  
+P332.estimate-economic-benefit ; estimate economic benefit given the estimated input and output levels and the changing determinant variables. then
+ask turtles [
+    ;productivity indicators         
+    set F-S0 fert_ha  set f-hc-S0 fert_ha-hc
+    set O-S0 org_ha   set O-hc-S0 orga_ha-hc
+    set M-S0 p_mzkg   set M-hc-S0 mzkg-hc
+    set L-S0 p_legukg set L-hc-S0 legukg-hc
+   ;ecological indicators
+    set	NB-S0	N_balance-H set	NB-hc-S0	N_balance-H-hc
+    set	PB-S0	P_balance-H	set	PB-hc-S0	P_balance-H-hc
+    set	KB-S0	K_balance-H	set	KB-hc-S0	K_balance-H-hc
+    set	CB-S0	C_balance-H	set	CB-hc-S0	C_balance-H-hc
+  ;economic inddicators 
+    set P$-S0 Product-$_ha  set E$-S0 Expenses-$_ha  set B-C$-s0 B-C$-ha
+    set P$-hc-S0 Product-$_ha-hc  set E$-hc-S0 Expenses-$_ha-hc  set B-C$-hc-s0 B-C$-ha-hc
+  ]
+end
+
+To P521.baseline ;(..-b)
+  ask turtles [ 
+    set p_fertsubsidy Fert-subsidy set h_weai2 WEAI-H  set p_labourT mandays set h_depr depend-h    
+if elapsed-years = 1 [set fert_ha fert_ha-im set org_ha org_ha-im set p_mzkg p_mzkg-im set p_legukg p_leguton
+      set fert_ha-hc fert_ha-im set orga_ha-hc org_ha-im set mzkg-hc p_mzkg-im set legukg-hc p_leguton ] 
+    set fert_ha  F-b  set fert_ha-hc f-hc-b 
+    set org_ha   O-b  set orga_ha-hc O-hc-b
+    set p_mzkg   M-b  set mzkg-hc    M-hc-b 
+    set p_legukg L-b  set legukg-hc  L-hc-b 
+  ]
+P4.iterations
+Update-household-clusters   
+ask turtles [set F-b fert_ha  set f-hc-b fert_ha-hc
+             set O-b org_ha   set O-hc-b orga_ha-hc
+             set M-b p_mzkg   set M-hc-b mzkg-hc
+             set L-b p_legukg set L-hc-b legukg-hc
+  ]
+End
+
+To P522.weai-increase ; (..-w)
+  ask turtles [
+set p_fertsubsidy Fert-subsidy set p_labourT mandays set h_depr depend-h
+if elapsed-years > 0 [    set WEAI-INCR WEAI-INCR * (1 + (0.34 / stop-when))]
+    set h_weai2  WEAI-INCR 
+if elapsed-years = 1 [set fert_ha fert_ha-im set org_ha org_ha-im set p_mzkg p_mzkg-im set p_legukg p_leguton
+      set fert_ha-hc fert_ha-im set orga_ha-hc org_ha-im set mzkg-hc p_mzkg-im set legukg-hc p_leguton ] 
+    set fert_ha  F-w  set fert_ha-hc f-hc-w 
+    set org_ha   O-w  set orga_ha-hc O-hc-w
+    set p_mzkg   M-w  set mzkg-hc    M-hc-w 
+    set p_legukg L-w  set legukg-hc  L-hc-w 
+  ]
+P4.iterations 
+Update-household-clusters   
+ask turtles [set F-w fert_ha  set f-hc-w fert_ha-hc
+             set O-w org_ha   set O-hc-w orga_ha-hc
+             set M-w p_mzkg   set M-hc-w mzkg-hc
+             set L-w p_legukg set L-hc-w legukg-hc
+    ]
+weai-orga
+End  
+
+To P523.labour-decrease ; (..-l)
+ ask turtles [
+  set p_fertsubsidy Fert-subsidy set h_weai2 WEAI-H set h_depr depend-h  
+  if elapsed-years > 0 [set Labour-decr Labour-decr * (1 - (0.33 / stop-when))]
+  set p_labourT Labour-decr
+if elapsed-years = 1 [set fert_ha fert_ha-im set org_ha org_ha-im set p_mzkg p_mzkg-im set p_legukg p_leguton
+      set fert_ha-hc fert_ha-im set orga_ha-hc org_ha-im set mzkg-hc p_mzkg-im set legukg-hc p_leguton ] 
+    set fert_ha  F-l  set fert_ha-hc f-hc-l 
+    set org_ha  O-l   set orga_ha-hc O-hc-l
+    set p_mzkg  M-l   set mzkg-hc    M-hc-l 
+    set p_legukg L-l  set legukg-hc  L-hc-l   
+  ]
+P4.iterations
+Update-household-clusters  
+ask turtles [set F-l fert_ha  set f-hc-l fert_ha-hc
+             set O-l org_ha   set O-hc-l orga_ha-hc
+             set M-l p_mzkg   set M-hc-l mzkg-hc
+             set L-l p_legukg set L-hc-l legukg-hc
+  ]
+labour-fert-orga
+End
+
+To P524.dependecy-decrease ; (..-d)
+ ask turtles [
+  set p_fertsubsidy Fert-subsidy set h_weai2 WEAI-H set p_labourT mandays
+  if elapsed-years > 0 [set Depend-decr Depend-decr * (1 + (0.43 / stop-when))]
+   set h_depr Depend-decr
+if elapsed-years = 1 [set fert_ha fert_ha-im set org_ha org_ha-im set p_mzkg p_mzkg-im set p_legukg p_leguton
+      set fert_ha-hc fert_ha-im set orga_ha-hc org_ha-im set mzkg-hc p_mzkg-im set legukg-hc p_leguton ] 
+    set fert_ha  F-d  set fert_ha-hc f-hc-d 
+    set org_ha   O-d  set orga_ha-hc O-hc-d
+    set p_mzkg   M-d  set mzkg-hc    M-hc-d 
+    set p_legukg L-d  set legukg-hc  L-hc-d 
+  ]
+P4.iterations 
+Update-household-clusters
+ask turtles [set F-d fert_ha  set f-hc-d fert_ha-hc
+             set O-d org_ha   set O-hc-d orga_ha-hc
+             set M-d p_mzkg   set M-hc-d mzkg-hc
+             set L-d p_legukg set L-hc-d legukg-hc 
+
+  ]
+depend
+End
+
+to P41.iteration1
+random-seed -662268354
+  P32.Update-Inputs
+  P33.Update-Outputs
+  save-estimates-r1
+end
+To save-estimates-r1
+ask turtles [
+set fert-all-r1 fert_ha  set fert-hc-r1 fert_ha-hc
+set orga-all-r1 org_ha   set orga-hc-r1 orga_ha-hc
+set maiz-all-r1 Mzkg-all   set maiz-hc-r1 mzkg-hc
+set legu-all-r1 p_legukg set legu-hc-r1 legukg-hc
+  ]
+End
+to P42.iteration2
+random-seed  260958854
+  P32.Update-Inputs
+  P33.Update-Outputs
+save-estimates-r2
+End
+To save-estimates-r2
+ask turtles [
+set fert-all-r2 fert_ha  set fert-hc-r2 fert_ha-hc
+set orga-all-r2 org_ha   set orga-hc-r2 orga_ha-hc
+set maiz-all-r2 Mzkg-all   set maiz-hc-r2 mzkg-hc
+set legu-all-r2 p_legukg set legu-hc-r2 legukg-hc
+  ]
+End
+
+to P43.iteration3
+random-seed  -45176049
+  P32.Update-Inputs
+  P33.Update-Outputs
+save-estimates-r3
+end
+To save-estimates-r3
+ask turtles [
+set fert-all-r3 fert_ha  set fert-hc-r3 fert_ha-hc
+set orga-all-r3 org_ha   set orga-hc-r3 orga_ha-hc
+set maiz-all-r3 Mzkg-all   set maiz-hc-r3 mzkg-hc
+set legu-all-r3 p_legukg set legu-hc-r3 legukg-hc
+  ]
+End
+
+to P44.iteration4
+random-seed  1019063108
+  P32.Update-Inputs
+  P33.Update-Outputs
+save-estimates-r4
+end
+To save-estimates-r4
+ask turtles [
+set fert-all-r4 fert_ha  set fert-hc-r4 fert_ha-hc
+set orga-all-r4 org_ha   set orga-hc-r4 orga_ha-hc
+set maiz-all-r4 Mzkg-all   set maiz-hc-r4 mzkg-hc
+set legu-all-r4 p_legukg set legu-hc-r4 legukg-hc
+  ]
+End
+to P45.iteration5
+random-seed  1726764321
+  P32.Update-Inputs
+  P33.Update-Outputs
+save-estimates-r5
+end
+To save-estimates-r5
+ask turtles [
+set fert-all-r5 fert_ha  set fert-hc-r5 fert_ha-hc
+set orga-all-r5 org_ha   set orga-hc-r5 orga_ha-hc
+set maiz-all-r5 Mzkg-all   set maiz-hc-r5 mzkg-hc
+set legu-all-r5 p_legukg set legu-hc-r5 legukg-hc
+  ]
+End
+
+to P46.iteration6
+random-seed  -1101472133
+  P32.Update-Inputs
+  P33.Update-Outputs
+save-estimates-r6
+end
+To save-estimates-r6
+ask turtles [
+set fert-all-r6 fert_ha  set fert-hc-r6 fert_ha-hc
+set orga-all-r6 org_ha   set orga-hc-r6 orga_ha-hc
+set maiz-all-r6 Mzkg-all   set maiz-hc-r6 mzkg-hc
+set legu-all-r6 p_legukg set legu-hc-r6 legukg-hc
+  ]
+End
+
+to P47.iteration7
+random-seed  1988997292
+  P32.Update-Inputs
+  P33.Update-Outputs
+save-estimates-r7
+end
+To save-estimates-r7
+ask turtles [
+set fert-all-r7 fert_ha  set fert-hc-r7 fert_ha-hc
+set orga-all-r7 org_ha   set orga-hc-r7 orga_ha-hc
+set maiz-all-r7 Mzkg-all   set maiz-hc-r7 mzkg-hc
+set legu-all-r7 p_legukg set legu-hc-r7 legukg-hc
+  ]
+End
+
+to P48.iteration8
+random-seed  -1070331823
+  P32.Update-Inputs
+  P33.Update-Outputs
+save-estimates-r8
+end
+To save-estimates-r8
+ask turtles [
+set fert-all-r8 fert_ha  set fert-hc-r8 fert_ha-hc
+set orga-all-r8 org_ha   set orga-hc-r8 orga_ha-hc
+set maiz-all-r8 Mzkg-all   set maiz-hc-r8 mzkg-hc
+set legu-all-r8 p_legukg set legu-hc-r8 legukg-hc
+  ]
+End
+
+to P49.iteration9
+random-seed  -770772286
+  P32.Update-Inputs
+  P33.Update-Outputs
+save-estimates-r9
+end
+To save-estimates-r9
+ask turtles [
+set fert-all-r9 fert_ha  set fert-hc-r9 fert_ha-hc
+set orga-all-r9 org_ha   set orga-hc-r9 orga_ha-hc
+set maiz-all-r9 Mzkg-all   set maiz-hc-r9 mzkg-hc
+set legu-all-r9 p_legukg set legu-hc-r9 legukg-hc
+  ]
+End
+
+to P410.iteration10
+random-seed  120600922
+  P32.Update-Inputs
+  P33.Update-Outputs
+save-estimates-r10
+end
+To save-estimates-r10
+ask turtles [
+set fert-all-r10 fert_ha  set fert-hc-r10 fert_ha-hc
+set orga-all-r10 org_ha   set orga-hc-r10 orga_ha-hc
+set maiz-all-r10 Mzkg-all   set maiz-hc-r10 mzkg-hc
+set legu-all-r10 p_legukg set legu-hc-r10 legukg-hc
+  ]
+End
+
+
+To P44.sum-iterations
+ask turtles [
+set fert_ha    (	fert-all-r1	+	fert-all-r2	+	fert-all-r3	+	fert-all-r4	+	fert-all-r5	+	fert-all-r6	+	fert-all-r7	+	fert-all-r8	+	fert-all-r9	+	fert-all-r10	) / 10
+set fert_ha-hc    (	fert-hc-r1	+	fert-hc-r2	+	fert-hc-r3	+	fert-hc-r4	+	fert-hc-r5	+	fert-hc-r6	+	fert-hc-r7	+	fert-hc-r8	+	fert-hc-r9	+	fert-hc-r10	) / 10
+set org_ha     (	orga-all-r1	+	orga-all-r2	+	orga-all-r3	+	orga-all-r4	+	orga-all-r5	+	orga-all-r6	+	orga-all-r7	+	orga-all-r8	+	orga-all-r9	+	orga-all-r10	) / 10
+set orga_ha-hc     (	orga-hc-r1	+	orga-hc-r2	+	orga-hc-r3	+	orga-hc-r4	+	orga-hc-r5	+	orga-hc-r6	+	orga-hc-r7	+	orga-hc-r8	+	orga-hc-r9	+	orga-hc-r10	) / 10
+set p_mzkg     (	maiz-all-r1	+	maiz-all-r2	+	maiz-all-r3	+	maiz-all-r4	+	maiz-all-r5	+	maiz-all-r6	+	maiz-all-r7	+	maiz-all-r8	+	maiz-all-r9	+	maiz-all-r10	) / 10
+set mzkg-hc     (	maiz-hc-r1	+	maiz-hc-r2	+	maiz-hc-r3	+	maiz-hc-r4	+	maiz-hc-r5	+	maiz-hc-r6	+	maiz-hc-r7	+	maiz-hc-r8	+	maiz-hc-r9	+	maiz-hc-r10	) / 10
+set p_legukg   (	legu-all-r1	+	legu-all-r2	+	legu-all-r3	+	legu-all-r4	+	legu-all-r5	+	legu-all-r6	+	legu-all-r7	+	legu-all-r8	+	legu-all-r9	+	legu-all-r10	) / 10
+set legukg-hc   (	legu-hc-r1	+	legu-hc-r2	+	legu-hc-r3	+	legu-hc-r4	+	legu-hc-r5	+	legu-hc-r6	+	legu-hc-r7	+	legu-hc-r8	+	legu-hc-r9	+	legu-hc-r10	) / 10
+
+  ]
+End

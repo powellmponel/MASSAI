@@ -1,0 +1,123 @@
+To P11.Import-Spatial-Data show "now, importing GIS layers ..."
+P111.topography
+P112.sample-area&plots
+P113.soil-baseline-layers
+derived-variables
+  show "Spatial Data Imported"
+End
+
+To P111.topography
+file-open "Data\\Topography\\elevation.txt" foreach sort patches [ [?1] -> ask ?1 [set p_elevation file-read ] ]
+file-close show "elevation imported" map-elevation
+file-open "Data\\Topography\\slope.txt" foreach sort patches [ [?1] -> ask ?1 [set p_slope file-read ] ]
+file-close show "slope imported" ;map-slope
+file-open "Data\\Topography\\LS.txt" foreach sort patches [ [?1] -> ask ?1 [set LS-factor file-read]]
+file-close show "LS_factor imported"
+file-open "Data\\Topography\\roughness.txt" foreach sort patches [ [?1] -> ask ?1 [set P_Ri-roughness file-read]]
+file-close show "Roughness imported"
+file-open "Data\\Topography\\flowlength.txt" foreach sort patches [ [?1] -> ask ?1 [set P_flowlength file-read]]
+file-close show "Flowlength imported"
+file-open "Data\\Topography\\flowacc.txt"  foreach sort patches [ [?1] -> ask ?1 [set p_flowacc file-read ] ]
+file-close show "flowacc imported"
+file-open "Data\\Topography\\upslope.txt"  foreach sort patches [ [?1] -> ask ?1 [set p_upslope file-read ] ]
+file-close show "upslope imported"
+;file-open "Data\\Topography\\Ri.txt"  foreach sort patches [ [?1] -> ask ?1 [set Ri file-read ] ]
+;file-close show "Roughness index imported"
+set-p_bound
+End
+To set-p_bound 
+ask patches 
+[;set-P_bound
+ if P_slope = 0 [set P_slope 0.5]
+ if P_Ri-roughness = 0 [set P_Ri-roughness 1]
+ if P_flowlength = 0 [set P_flowlength 29]
+ if P_flowacc = 0 [set P_flowacc 1]
+ if (p_upslope = -999 and P_elevation > -999) [set P_upslope 900]
+ ifelse p_elevation > -999 and p_slope > -999 and LS-factor > -999 and P_Ri-roughness > -999 and P_flowlength > -999 and p_flowacc > -999 and Ri > -999 and  p_upslope > -999
+    [ set P_bound 1] [set P_bound 0]] 
+End
+
+To P112.sample-area&plots
+file-open "Data\\HH&plot\\HP_area.txt" foreach sort patches [ [?1] -> ask ?1 [set P_plot-patches file-read ] ]
+          file-close map-sampled-plot-areas
+file-open "Data\\HH&plot\\PH_area.txt" foreach sort patches [ [?1] -> ask ?1 [set P_H-patches file-read ] ]
+          file-close 
+file-open "Data\\HH&plot\\HP_centre.txt" foreach sort patches [ [?1] -> ask ?1 [set P_plot-centre file-read ] ]
+          file-close  show "sampled plots imported" ;map-sampled-plot-centres
+file-open "Data\\HH&plot\\uncult8419.txt" foreach sort patches [ [?1] -> ask ?1 [set P_land-use-state file-read ] ]
+           file-close ;map-P-land-use show "uncult-polygon imported" 
+file-open "Data\\HH&plot\\villages.txt" foreach sort patches [ [?1] -> ask ?1 [set P_village file-read ] ]
+           file-close    show "village boundary imported"   ;map-village-extent                  
+file-open "Data\\HH&plot\\dwelling.txt"   foreach sort patches [[?1] -> ask ?1 [set H_dwelling-extent file-read]]
+           file-close    show "village dwelling extent imported"   ; map-dwelling-extent                 
+file-open "Data\\HH&plot\\H_ID.txt"   foreach sort patches [[?1] -> ask ?1 [set P_owner-residence file-read]]
+           file-close    show "house locations imported" 
+correct-boundary&assign-villages
+set-cultivated-area
+End
+To correct-boundary&assign-villages
+ask patches
+  [if P_bound = 0 [set H_dwelling-extent -999]
+    if P_bound = 0 [set P_land-use-state -999]
+    if P_bound = 0 [set P_village -999]
+    if H_dwelling-extent = 0 [set H_dwelling-extent 255]
+    ;if P_village = 0 [set P_village 0]     ; Phikani village
+    ;if P_village = 1 [set P_village 1]       ; Malaswa
+    ;if P_village = 2 [set P_village 2]     ; Amosi village
+    if P_village = 3 [set P_village 2]        ; Kwangwani villahe
+    if P_village = 4 [set P_village 1]      ; Kaombe village combined with Malaswa
+    if P_village = 5 [set P_village 2]     ; Hiwa Village
+    if P_village = 6 [set P_village 3]  ; Farm land rented by people from Hiwa, Amosi and Phikani  
+  ]
+  
+End
+To set-cultivated-area
+  ask patches with [P_bound = 1]
+  [if (P_land-use-state = 1 and H_dwelling-extent = 255) [set P_cult 1]
+    if P_cult = 1 and P_plot-patches = 1 [set p_remaining 1]
+  ]
+End
+
+;======================================IMPORTING ESTIMATED SOIL PARAMETERS=======
+To P113.soil-baseline-layers
+  file-open "Data\\Soil\\SOC.txt" foreach sort patches [ [?1] -> ask ?1 [set p_SOC% file-read ] ]
+             file-close show "soc % imported"  ;map-SOC           
+  file-open "Data\\Soil\\Nitrogen.txt" foreach sort patches [ [?1] -> ask ?1 [set P_Nitrogen% file-read ] ]
+             file-close  map-TN show "total nitrogen % imported"              
+  file-open "Data\\Soil\\Phosphorus.txt" foreach sort patches [ [?1] -> ask ?1 [set P_Phosphorus_soil file-read ] ]
+             file-close show "phosphorus g/kg imported" ;map-Phosphorus     
+  file-open "Data\\Soil\\Potassium.txt" foreach sort patches [ [?1] -> ask ?1 [set P_Potassium_soil file-read ] ]
+             file-close show "potassium g/kg imported" ;map-Potassium      
+  file-open "Data\\Soil\\Sand.txt" foreach sort patches [ [?1] -> ask ?1 [set P_Sand% file-read ] ]
+             file-close           show "sand % imported"
+  file-open "Data\\Soil\\Clay.txt" foreach sort patches [ [?1] -> ask ?1 [set P_Clay% file-read ] ]
+             file-close show "clay % imported" ;map-clay           
+  file-open "Data\\Soil\\Silt.txt" foreach sort patches [ [?1] -> ask ?1 [set P_Silt% file-read ] ]
+             file-close show "silt % imported" ;map-silt           
+  file-open "Data\\Soil\\BD.txt" foreach sort patches [ [?1] -> ask ?1 [set P_BD20gcm3 file-read ] ]
+             file-close show "bulk density imported" ;map-bulk-density  
+  file-open "Data\\Soil\\Coarse.txt" foreach sort patches [ [?1] -> ask ?1 [set P_CoarsePer file-read ] ]
+             file-close show "course fragments % imported" ;map-Coarse-fragments 
+
+correct-nodata
+;cultivation-sum-stats
+;nutrients-summary-stats
+;topography-summary-statistics
+End
+To correct-nodata
+ask patches
+[ifelse P_bound = 1 and P_Sand% > -999 and p_SOC% > -999 and P_Nitrogen% > -999 and P_Phosphorus_soil > -999 and 
+ P_Potassium_soil > -999 and P_Clay% > -999 and P_Silt% > -999 and P_BD20gcm3 > -999 and P_CoarsePer > -999 [set P_bound 1] [set P_bound 0]]
+End
+To derived-variables
+set ST-f-max max [P_sand%] of patches
+ask patches with [P_bound = 1]
+  [ let M-f  150 ; days when moisture is available in a year - rainfall period for the area
+    let T 25     ; average temperature in a year
+    let rescale P_Sand% / ST-f-max
+    set ST-f 0.5 +  rescale * 0.5 ; Soil texture factor rescaled on the range of 0.5 to 1 
+    set f-env 1 / (ST-f * M-f / 365 * 2 ^ ((T - 9.5) / 10))  
+    set BD-G-D P_BD20gcm3 * 1000 * (1 - P_CoarsePer / 100) * 10
+  ] 
+End
+
