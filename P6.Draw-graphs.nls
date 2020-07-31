@@ -1,0 +1,2126 @@
+To P6.Draw-graphs
+P61.Subsidy-policy
+P62.Gender&Labour-policies
+End
+
+;---------------To Draw-Population-Household-Unit------------
+To P41.Draw-household-clustering
+let total count turtles with [PH_ID > 0]
+let hclus1 count turtles with [hclus = 1]
+let hclus2 count turtles with [hclus = 2]
+let hclus3 count turtles with [hclus = 3]
+set-current-plot "Population clustering"
+;set-current-plot-pen "Total population"
+;plot total
+set-current-plot-pen "cluster1" plot hclus1
+set-current-plot-pen "cluster2" plot hclus2
+set-current-plot-pen "cluster3" plot hclus3
+End
+
+;---productivity---------------------------------------------------
+;--------------Draw nutrient balance-------------------------------
+To P61.Subsidy-policy
+P611.Productivity
+P612.Ecological
+P613.Economic
+P614.Social  
+end
+To P611.Productivity
+P6111.Fertilizer-input ;IN1
+P6112.Organic-manure-input ;IN2
+P6113.Maize-yield ;OUT1
+P6114.Legume-yield  ;OUT1
+End
+To P6111.Fertilizer-input
+;fertilizer input for whole population
+let Fs0a mean [F-S0] of turtles 
+  let Fs0-sd standard-deviation [F-s0] of turtles 
+  let Fs0-se Fs0-sd / sqrt (count turtles )
+  let Fs0-ci Fs0-se * 1.96 
+ let Fs0Al Fs0a - Fs0-ci
+ let Fs0Au Fs0a + Fs0-ci
+let Fs1a mean [F-S1] of turtles 
+  let Fs1-sd standard-deviation [F-s1] of turtles 
+  let Fs1-se Fs1-sd / sqrt (count turtles )
+  let Fs1-ci Fs1-se * 1.96 
+ let Fs1Al Fs1a - Fs1-ci
+ let Fs1Au Fs1a + Fs1-ci
+let Fs2A mean [F-S2] of turtles 
+ let Fs2-sd standard-deviation [F-s2] of turtles 
+  let Fs2-se Fs2-sd / sqrt (count turtles )
+  let Fs2-ci Fs2-se * 1.96 
+ let Fs2Al Fs2a - Fs2-ci
+ let Fs2Au Fs2a + Fs2-ci
+let Fs3A mean [F-S3] of turtles 
+ let Fs3-sd standard-deviation [F-s3] of turtles 
+  let Fs3-se Fs3-sd / sqrt (count turtles )
+  let Fs3-ci Fs3-se * 1.96 
+ let Fs3Al Fs3a - Fs3-ci
+ let Fs3Au Fs3a + Fs3-ci
+set-current-plot "fert (fert-subsidy) population"  
+set-current-plot-pen "F_zero-sub" plot	Fs0a
+set-current-plot-pen "Fs0l" plot	Fs0Al  
+set-current-plot-pen "Fs0u" plot	Fs0Au
+set-current-plot-pen "F_current-sub" plot	Fs1a
+set-current-plot-pen "Fs1l" plot	Fs1Al  
+set-current-plot-pen "Fs1u" plot	Fs1Au
+set-current-plot-pen "F_reduced-sub" plot	Fs2a
+set-current-plot-pen "Fs2l" plot	Fs2Al  
+set-current-plot-pen "Fs2u" plot	Fs2Au  
+set-current-plot-pen "F_universal-sub" plot	Fs3a
+set-current-plot-pen "Fs3l" plot	Fs3Al  
+set-current-plot-pen "Fs3u" plot	Fs3Au
+
+; fertilizer input for cluster 1  
+let Fs0c1 mean [F-hc-s0] of turtles with [ hclus = 1]
+  let Fs0c1-sd standard-deviation [F-hc-s0] of turtles with [ hclus = 1]
+  let Fs0c1-se Fs0c1-sd / sqrt (count turtles with [ hclus = 1])
+  let Fs0c1-ci Fs0c1-se * 1.96 
+ let Fs0c1l Fs0c1 - Fs0c1-ci
+ let Fs0c1u Fs0c1 + Fs0c1-ci
+let Fs1c1 mean [F-hc-s1] of turtles with [ hclus = 1]
+  let Fs1c1-sd standard-deviation [F-hc-s1] of turtles with [ hclus = 1]
+  let Fs1c1-se Fs1c1-sd / sqrt (count turtles with [ hclus = 1])
+  let Fs1c1-ci Fs1c1-se * 1.96 
+ let Fs1c1l Fs1c1 - Fs1c1-ci
+ let Fs1c1u Fs1c1 + Fs1c1-ci
+let Fs2c1 mean [F-hc-s2] of turtles with [ hclus = 1]
+  let Fs2c1-sd standard-deviation [F-hc-s2] of turtles with [ hclus = 1]
+  let Fs2c1-se Fs2c1-sd / sqrt (count turtles with [ hclus = 1])
+  let Fs2c1-ci Fs2c1-se * 1.96 
+ let Fs2c1l Fs2c1 - Fs2c1-ci
+ let Fs2c1u Fs2c1 + Fs2c1-ci
+let Fs3c1 mean [F-hc-s3] of turtles with [ hclus = 1]
+  let Fs3c1-sd standard-deviation [F-hc-s3] of turtles with [ hclus = 1]
+  let Fs3c1-se Fs3c1-sd / sqrt (count turtles with [ hclus = 1])
+  let Fs3c1-ci Fs3c1-se * 1.96 
+ let Fs3c1l Fs3c1 - Fs3c1-ci
+ let Fs3c1u Fs3c1 + Fs3c1-ci
+set-current-plot "fert (fert-subsidy) farmtype1"  
+set-current-plot-pen "Fs0-c1" plot	Fs0c1
+set-current-plot-pen "Fs0-c1l" plot	Fs0c1l  
+set-current-plot-pen "Fs0-c1u" plot	Fs0c1u
+set-current-plot-pen "Fs1-c1" plot	Fs1c1
+set-current-plot-pen "Fs1-c1l" plot	Fs1c1l  
+set-current-plot-pen "Fs1-c1u" plot	Fs1c1u
+set-current-plot-pen "Fs2-c1" plot	Fs2c1
+set-current-plot-pen "Fs2-c1l" plot	Fs2c1l  
+set-current-plot-pen "Fs2-c1u" plot	Fs2c1u  
+set-current-plot-pen "Fs3-c1" plot	Fs3c1
+set-current-plot-pen "Fs3-c1l" plot	Fs3c1l  
+set-current-plot-pen "Fs3-c1u" plot	Fs3c1u
+
+; fertilizer input for by cluster 2  
+let Fs0c2 mean [F-hc-s0] of turtles with [ hclus = 2]
+  let Fs0c2-sd standard-deviation [F-hc-s0] of turtles with [ hclus = 2]
+  let Fs0c2-se Fs0c2-sd / sqrt (count turtles with [ hclus = 2])
+  let Fs0c2-ci Fs0c2-se * 1.96 
+ let Fs0c2l Fs0c2 - Fs0c2-ci
+ let Fs0c2u Fs0c2 + Fs0c2-ci
+let Fs1c2 mean [F-hc-s1] of turtles with [ hclus = 2]
+  let Fs1c2-sd standard-deviation [F-hc-s1] of turtles with [ hclus = 2]
+  let Fs1c2-se Fs1c2-sd / sqrt (count turtles with [ hclus = 2])
+  let Fs1c2-ci Fs1c2-se * 1.96 
+ let Fs1c2l Fs1c2 - Fs1c2-ci
+ let Fs1c2u Fs1c2 + Fs1c2-ci
+let Fs2c2 mean [F-hc-s2] of turtles with [ hclus = 2]
+  let Fs2c2-sd standard-deviation [F-hc-s2] of turtles with [ hclus = 2]
+  let Fs2c2-se Fs2c2-sd / sqrt (count turtles with [ hclus = 2])
+  let Fs2c2-ci Fs2c2-se * 1.96 
+ let Fs2c2l Fs2c2 - Fs2c2-ci
+ let Fs2c2u Fs2c2 + Fs2c2-ci
+let Fs3c2 mean [F-hc-s3] of turtles with [ hclus = 2]
+  let Fs3c2-sd standard-deviation [F-hc-s3] of turtles with [ hclus = 2]
+  let Fs3c2-se Fs3c2-sd / sqrt (count turtles with [ hclus = 2])
+  let Fs3c2-ci Fs3c2-se * 1.96 
+ let Fs3c2l Fs3c2 - Fs3c2-ci
+ let Fs3c2u Fs3c2 + Fs3c2-ci
+
+set-current-plot "fert (fert-subsidy) farmtype2"  
+set-current-plot-pen "Fs0-c2" plot	Fs0c2
+set-current-plot-pen "Fs0-c2l" plot	Fs0c2l  
+set-current-plot-pen "Fs0-c2u" plot	Fs0c2u
+set-current-plot-pen "Fs1-c2" plot	Fs1c2
+set-current-plot-pen "Fs1-c2l" plot	Fs1c2l  
+set-current-plot-pen "Fs1-c2u" plot	Fs1c2u
+set-current-plot-pen "Fs2-c2" plot	Fs2c2
+set-current-plot-pen "Fs2-c2l" plot	Fs2c2l  
+set-current-plot-pen "Fs2-c2u" plot	Fs2c2u  
+set-current-plot-pen "Fs3-c2" plot	Fs3c2
+set-current-plot-pen "Fs3-c2l" plot	Fs3c2l  
+set-current-plot-pen "Fs3-c2u" plot	Fs3c2u
+ 
+  ; fertilizer input for cluster 3 
+let Fs0c3 mean [F-hc-s0] of turtles with [ hclus = 3]
+  let Fs0c3-sd standard-deviation [F-hc-s0] of turtles with [ hclus = 3]
+  let Fs0c3-se Fs0c3-sd / sqrt (count turtles with [ hclus = 3])
+  let Fs0c3-ci Fs0c3-se * 1.96 
+ let Fs0c3l Fs0c3 - Fs0c3-ci
+ let Fs0c3u Fs0c3 + Fs0c3-ci
+let Fs1c3 mean [F-hc-s1] of turtles with [ hclus = 3]
+  let Fs1c3-sd standard-deviation [F-hc-s1] of turtles with [ hclus = 3]
+  let Fs1c3-se Fs1c3-sd / sqrt (count turtles with [ hclus = 3])
+  let Fs1c3-ci Fs1c3-se * 1.96 
+ let Fs1c3l Fs1c3 - Fs1c3-ci
+ let Fs1c3u Fs1c3 + Fs1c3-ci
+let Fs2c3 mean [F-hc-s2] of turtles with [ hclus = 3]
+  let Fs2c3-sd standard-deviation [F-hc-s2] of turtles with [ hclus = 3]
+  let Fs2c3-se Fs2c3-sd / sqrt (count turtles with [ hclus = 3])
+  let Fs2c3-ci Fs2c3-se * 1.96 
+ let Fs2c3l Fs2c3 - Fs2c3-ci
+ let Fs2c3u Fs2c3 + Fs2c3-ci
+let Fs3c3 mean [F-hc-s3] of turtles with [ hclus = 3]
+  let Fs3c3-sd standard-deviation [F-hc-s3] of turtles with [ hclus = 3]
+  let Fs3c3-se Fs3c3-sd / sqrt (count turtles with [ hclus = 3])
+  let Fs3c3-ci Fs3c3-se * 1.96 
+ let Fs3c3l Fs3c3 - Fs3c3-ci
+ let Fs3c3u Fs3c3 + Fs3c3-ci
+
+set-current-plot "fert (fert-subsidy) farmtype3"  
+set-current-plot-pen "Fs0-c3" plot	Fs0c3
+set-current-plot-pen "Fs0-c3l" plot	Fs0c3l  
+set-current-plot-pen "Fs0-c3u" plot	Fs0c3u
+set-current-plot-pen "Fs1-c3" plot	Fs1c3
+set-current-plot-pen "Fs1-c3l" plot	Fs1c3l  
+set-current-plot-pen "Fs1-c3u" plot	Fs1c3u
+set-current-plot-pen "Fs2-c3" plot	Fs2c3
+set-current-plot-pen "Fs2-c3l" plot	Fs2c3l  
+set-current-plot-pen "Fs2-c3u" plot	Fs2c3u  
+set-current-plot-pen "Fs3-c3" plot	Fs3c3
+set-current-plot-pen "Fs3-c3l" plot	Fs3c3l  
+set-current-plot-pen "Fs3-c3u" plot	Fs3c3u  
+End
+ 
+
+
+To P6112.Organic-manure-input
+;Manure input whole population
+let os0a mean [o-s0] of turtles with [o-s0 > 0]
+  let os0-sd standard-deviation [o-s0] of turtles with [o-s0 > 0]
+  let os0-se os0-sd / sqrt (count turtles with [o-s0 > 0])
+  let os0-ci os0-se * 1.96 
+ let os0Al os0a - os0-ci
+ let os0Au os0a + os0-ci
+let os1a mean [o-s1] of turtles with [o-s1 > 0]
+  let os1-sd standard-deviation [o-s1] of turtles with [o-s1 > 0]
+  let os1-se os1-sd / sqrt (count turtles with [o-s1 > 0])
+  let os1-ci os1-se * 1.96 
+ let os1Al os1a - os1-ci
+ let os1Au os1a + os1-ci
+let os2A mean [o-s2] of turtles with [o-s2 > 0]
+ let os2-sd standard-deviation [o-s2] of turtles with [o-s2 > 0]
+  let os2-se os2-sd / sqrt (count turtles with [o-s2 > 0])
+  let os2-ci os2-se * 1.96 
+ let os2Al os2a - os2-ci
+ let os2Au os2a + os2-ci
+let os3A mean [o-s3] of turtles with [o-s3 > 0]
+ let os3-sd standard-deviation [o-s3] of turtles with [o-s3 > 0]
+  let os3-se os3-sd / sqrt (count turtles with [o-s3 > 0])
+  let os3-ci os3-se * 1.96 
+ let os3Al os3a - os3-ci
+ let os3Au os3a + os3-ci
+set-current-plot "OM (fert-subsidy) population"  
+set-current-plot-pen "O_zero-sub" plot	os0a
+set-current-plot-pen "os0l" plot	os0Al  
+set-current-plot-pen "os0u" plot	os0Au
+set-current-plot-pen "O_current-sub" plot	os1a
+set-current-plot-pen "os1l" plot	os1Al  
+set-current-plot-pen "os1u" plot	os1Au
+set-current-plot-pen "O_reduced-sub" plot	os2a
+set-current-plot-pen "os2l" plot	os2Al  
+set-current-plot-pen "os2u" plot	os2Au  
+set-current-plot-pen "O_universal-sub" plot	os3a
+set-current-plot-pen "os3l" plot	os3Al  
+set-current-plot-pen "os3u" plot	os3Au
+
+; Manure application by cluster 1  
+let os0c1 mean [o-hc-s0] of turtles with [o-hc-s0 > 0 and hclus = 1]
+  let os0c1-sd standard-deviation [o-hc-s0] of turtles with [o-hc-s0 > 0 and hclus = 1]
+  let os0c1-se os0c1-sd / sqrt (count turtles with [o-hc-s0 > 0 and hclus = 1])
+  let os0c1-ci os0c1-se * 1.96 
+ let os0c1l os0c1 - os0c1-ci
+ let os0c1u os0c1 + os0c1-ci
+let os1c1 mean [o-hc-s1] of turtles with [o-hc-s1 > 0 and hclus = 1]
+  let os1c1-sd standard-deviation [o-hc-s1] of turtles with [o-hc-s1 > 0 and hclus = 1]
+  let os1c1-se os1c1-sd / sqrt (count turtles with [o-hc-s1 > 0 and hclus = 1])
+  let os1c1-ci os1c1-se * 1.96 
+ let os1c1l os1c1 - os1c1-ci
+ let os1c1u os1c1 + os1c1-ci
+let os2c1 mean [o-hc-s2] of turtles with [o-hc-s2 > 0 and hclus = 1]
+  let os2c1-sd standard-deviation [o-hc-s2] of turtles with [o-hc-s2 > 0 and hclus = 1]
+  let os2c1-se os2c1-sd / sqrt (count turtles with [o-hc-s2 > 0 and hclus = 1])
+  let os2c1-ci os2c1-se * 1.96 
+ let os2c1l os2c1 - os2c1-ci
+ let os2c1u os2c1 + os2c1-ci
+let os3c1 mean [o-hc-s3] of turtles with [o-hc-s3 > 0 and hclus = 1]
+  let os3c1-sd standard-deviation [o-hc-s3] of turtles with [o-hc-s3 > 0 and hclus = 1]
+  let os3c1-se os3c1-sd / sqrt (count turtles with [o-hc-s3 > 0 and hclus = 1])
+  let os3c1-ci os3c1-se * 1.96 
+ let os3c1l os3c1 - os3c1-ci
+ let os3c1u os3c1 + os3c1-ci
+set-current-plot "OM (fert-subsidy) farmtype1"  
+set-current-plot-pen "os0-c1" plot	os0c1
+set-current-plot-pen "os0-c1l" plot	os0c1l  
+set-current-plot-pen "os0-c1u" plot	os0c1u
+set-current-plot-pen "os1-c1" plot	os1c1
+set-current-plot-pen "os1-c1l" plot	os1c1l  
+set-current-plot-pen "os1-c1u" plot	os1c1u
+set-current-plot-pen "os2-c1" plot	os2c1
+set-current-plot-pen "os2-c1l" plot	os2c1l  
+set-current-plot-pen "os2-c1u" plot	os2c1u  
+set-current-plot-pen "os3-c1" plot	os3c1
+set-current-plot-pen "os3-c1l" plot	os3c1l  
+set-current-plot-pen "os3-c1u" plot	os3c1u
+; Manure application by cluster 2  
+let os0c2 mean [o-hc-s0] of turtles with [o-hc-s0 > 0 and hclus = 2]
+  let os0c2-sd standard-deviation [o-hc-s0] of turtles with [o-hc-s0 > 0 and hclus = 2]
+  let os0c2-se os0c2-sd / sqrt (count turtles with [o-hc-s0 > 0 and hclus = 2])
+  let os0c2-ci os0c2-se * 1.96 
+ let os0c2l os0c2 - os0c2-ci
+ let os0c2u os0c2 + os0c2-ci
+let os1c2 mean [o-hc-s1] of turtles with [o-hc-s1 > 0 and hclus = 2]
+  let os1c2-sd standard-deviation [o-hc-s1] of turtles with [o-hc-s1 > 0 and hclus = 2]
+  let os1c2-se os1c2-sd / sqrt (count turtles with [o-hc-s1 > 0 and hclus = 2])
+  let os1c2-ci os1c2-se * 1.96 
+ let os1c2l os1c2 - os1c2-ci
+ let os1c2u os1c2 + os1c2-ci
+let os2c2 mean [o-hc-s2] of turtles with [o-hc-s2 > 0 and hclus = 2]
+  let os2c2-sd standard-deviation [o-hc-s2] of turtles with [o-hc-s2 > 0 and hclus = 2]
+  let os2c2-se os2c2-sd / sqrt (count turtles with [o-hc-s2 > 0 and hclus = 2])
+  let os2c2-ci os2c2-se * 1.96 
+ let os2c2l os2c2 - os2c2-ci
+ let os2c2u os2c2 + os2c2-ci
+let os3c2 mean [o-hc-s3] of turtles with [o-hc-s3 > 0 and hclus = 2]
+  let os3c2-sd standard-deviation [o-hc-s3] of turtles with [o-hc-s3 > 0 and hclus = 2]
+  let os3c2-se os3c2-sd / sqrt (count turtles with [o-hc-s3 > 0 and hclus = 2])
+  let os3c2-ci os3c2-se * 1.96 
+ let os3c2l os3c2 - os3c2-ci
+ let os3c2u os3c2 + os3c2-ci
+
+set-current-plot "OM (fert-subsidy) farmtype2"  
+set-current-plot-pen "os0-c2" plot	os0c2
+set-current-plot-pen "os0-c2l" plot	os0c2l  
+set-current-plot-pen "os0-c2u" plot	os0c2u
+set-current-plot-pen "os1-c2" plot	os1c2
+set-current-plot-pen "os1-c2l" plot	os1c2l  
+set-current-plot-pen "os1-c2u" plot	os1c2u
+set-current-plot-pen "os2-c2" plot	os2c2
+set-current-plot-pen "os2-c2l" plot	os2c2l  
+set-current-plot-pen "os2-c2u" plot	os2c2u  
+set-current-plot-pen "os3-c2" plot	os3c2
+set-current-plot-pen "os3-c2l" plot	os3c2l  
+set-current-plot-pen "os3-c2u" plot	os3c2u
+ 
+  ; Manure application by cluster 3 
+let os0c3 mean [o-hc-s0] of turtles with [o-hc-s0 > 0 and hclus = 3]
+  let os0c3-sd standard-deviation [o-hc-s0] of turtles with [o-hc-s0 > 0 and hclus = 3]
+  let os0c3-se os0c3-sd / sqrt (count turtles with [o-hc-s0 > 0 and hclus = 3])
+  let os0c3-ci os0c3-se * 1.96 
+ let os0c3l os0c3 - os0c3-ci
+ let os0c3u os0c3 + os0c3-ci
+let os1c3 mean [o-hc-s1] of turtles with [o-hc-s1 > 0 and hclus = 3]
+  let os1c3-sd standard-deviation [o-hc-s1] of turtles with [o-hc-s1 > 0 and hclus = 3]
+  let os1c3-se os1c3-sd / sqrt (count turtles with [o-hc-s1 > 0 and hclus = 3])
+  let os1c3-ci os1c3-se * 1.96 
+ let os1c3l os1c3 - os1c3-ci
+ let os1c3u os1c3 + os1c3-ci
+let os2c3 mean [o-hc-s2] of turtles with [o-hc-s2 > 0 and hclus = 3]
+  let os2c3-sd standard-deviation [o-hc-s2] of turtles with [o-hc-s2 > 0 and hclus = 3]
+  let os2c3-se os2c3-sd / sqrt (count turtles with [o-hc-s2 > 0 and hclus = 3])
+  let os2c3-ci os2c3-se * 1.96 
+ let os2c3l os2c3 - os2c3-ci
+ let os2c3u os2c3 + os2c3-ci
+let os3c3 mean [o-hc-s3] of turtles with [o-hc-s3 > 0 and hclus = 3]
+  let os3c3-sd standard-deviation [o-hc-s3] of turtles with [o-hc-s3 > 0 and hclus = 3]
+  let os3c3-se os3c3-sd / sqrt (count turtles with [o-hc-s3 > 0 and hclus = 3])
+  let os3c3-ci os3c3-se * 1.96 
+ let os3c3l os3c3 - os3c3-ci
+ let os3c3u os3c3 + os3c3-ci
+
+set-current-plot "OM (fert-subsidy) farmtype3"  
+set-current-plot-pen "os0-c3" plot	os0c3
+set-current-plot-pen "os0-c3l" plot	os0c3l  
+set-current-plot-pen "os0-c3u" plot	os0c3u
+set-current-plot-pen "os1-c3" plot	os1c3
+set-current-plot-pen "os1-c3l" plot	os1c3l  
+set-current-plot-pen "os1-c3u" plot	os1c3u
+set-current-plot-pen "os2-c3" plot	os2c3
+set-current-plot-pen "os2-c3l" plot	os2c3l  
+set-current-plot-pen "os2-c3u" plot	os2c3u  
+set-current-plot-pen "os3-c3" plot	os3c3
+set-current-plot-pen "os3-c3l" plot	os3c3l  
+set-current-plot-pen "os3-c3u" plot	os3c3u
+  
+  
+End
+To P6113.Maize-yield
+;Manure input whole population
+let ms0a mean [m-s0] of turtles with [m-s0 > 0]
+  let ms0-sd standard-deviation [m-s0] of turtles with [m-s0 > 0]
+  let ms0-se ms0-sd / sqrt (count turtles with [m-s0 > 0])
+  let ms0-ci ms0-se * 1.96 
+ let ms0Al ms0a - ms0-ci
+ let ms0Au ms0a + ms0-ci
+let ms1a mean [m-s1] of turtles with [m-s1 > 0]
+  let ms1-sd standard-deviation [m-s1] of turtles with [m-s1 > 0]
+  let ms1-se ms1-sd / sqrt (count turtles with [m-s1 > 0])
+  let ms1-ci ms1-se * 1.96 
+ let ms1Al ms1a - ms1-ci
+ let ms1Au ms1a + ms1-ci
+let ms2A mean [m-s2] of turtles with [m-s2 > 0]
+ let ms2-sd standard-deviation [m-s2] of turtles with [m-s2 > 0]
+  let ms2-se ms2-sd / sqrt (count turtles with [m-s2 > 0])
+  let ms2-ci ms2-se * 1.96 
+ let ms2Al ms2a - ms2-ci
+ let ms2Au ms2a + ms2-ci
+let ms3A mean [m-s3] of turtles with [m-s3 > 0]
+ let ms3-sd standard-deviation [m-s3] of turtles with [m-s3 > 0]
+  let ms3-se ms3-sd / sqrt (count turtles with [m-s3 > 0])
+  let ms3-ci ms3-se * 1.96 
+ let ms3Al ms3a - ms3-ci
+ let ms3Au ms3a + ms3-ci
+set-current-plot "Maize (fert-subsidy) population"  
+set-current-plot-pen "M_zero-sub" plot	ms0a
+set-current-plot-pen "ms0l" plot	ms0Al  
+set-current-plot-pen "ms0u" plot	ms0Au
+set-current-plot-pen "M_current-sub" plot	ms1a
+set-current-plot-pen "ms1l" plot	ms1Al  
+set-current-plot-pen "ms1u" plot	ms1Au
+set-current-plot-pen "M_reduced-sub" plot	ms2a
+set-current-plot-pen "ms2l" plot	ms2Al  
+set-current-plot-pen "ms2u" plot	ms2Au  
+set-current-plot-pen "M_universal-sub" plot	ms3a
+set-current-plot-pen "ms3l" plot	ms3Al  
+set-current-plot-pen "ms3u" plot	ms3Au
+
+; Manure application by cluster 1  
+let ms0c1 mean [m-hc-s0] of turtles with [m-hc-s0 > 0 and hclus = 1]
+  let ms0c1-sd standard-deviation [m-hc-s0] of turtles with [m-hc-s0 > 0 and hclus = 1]
+  let ms0c1-se ms0c1-sd / sqrt (count turtles with [m-hc-s0 > 0 and hclus = 1])
+  let ms0c1-ci ms0c1-se * 1.96 
+ let ms0c1l ms0c1 - ms0c1-ci
+ let ms0c1u ms0c1 + ms0c1-ci
+let ms1c1 mean [m-hc-s1] of turtles with [m-hc-s1 > 0 and hclus = 1]
+  let ms1c1-sd standard-deviation [m-hc-s1] of turtles with [m-hc-s1 > 0 and hclus = 1]
+  let ms1c1-se ms1c1-sd / sqrt (count turtles with [m-hc-s1 > 0 and hclus = 1])
+  let ms1c1-ci ms1c1-se * 1.96 
+ let ms1c1l ms1c1 - ms1c1-ci
+ let ms1c1u ms1c1 + ms1c1-ci
+let ms2c1 mean [m-hc-s2] of turtles with [m-hc-s2 > 0 and hclus = 1]
+  let ms2c1-sd standard-deviation [m-hc-s2] of turtles with [m-hc-s2 > 0 and hclus = 1]
+  let ms2c1-se ms2c1-sd / sqrt (count turtles with [m-hc-s2 > 0 and hclus = 1])
+  let ms2c1-ci ms2c1-se * 1.96 
+ let ms2c1l ms2c1 - ms2c1-ci
+ let ms2c1u ms2c1 + ms2c1-ci
+let ms3c1 mean [m-hc-s3] of turtles with [m-hc-s3 > 0 and hclus = 1]
+  let ms3c1-sd standard-deviation [m-hc-s3] of turtles with [m-hc-s3 > 0 and hclus = 1]
+  let ms3c1-se ms3c1-sd / sqrt (count turtles with [m-hc-s3 > 0 and hclus = 1])
+  let ms3c1-ci ms3c1-se * 1.96 
+ let ms3c1l ms3c1 - ms3c1-ci
+ let ms3c1u ms3c1 + ms3c1-ci
+set-current-plot "Maize (fert-subsidy) farmtype1"  
+set-current-plot-pen "ms0-c1" plot	ms0c1
+set-current-plot-pen "ms0-c1l" plot	ms0c1l  
+set-current-plot-pen "ms0-c1u" plot	ms0c1u
+set-current-plot-pen "ms1-c1" plot	ms1c1
+set-current-plot-pen "ms1-c1l" plot	ms1c1l  
+set-current-plot-pen "ms1-c1u" plot	ms1c1u
+set-current-plot-pen "ms2-c1" plot	ms2c1
+set-current-plot-pen "ms2-c1l" plot	ms2c1l  
+set-current-plot-pen "ms2-c1u" plot	ms2c1u  
+set-current-plot-pen "ms3-c1" plot	ms3c1
+set-current-plot-pen "ms3-c1l" plot	ms3c1l  
+set-current-plot-pen "ms3-c1u" plot	ms3c1u
+; Manure application by cluster 1  
+let ms0c2 mean [m-hc-s0] of turtles with [m-hc-s0 > 0 and hclus = 2]
+  let ms0c2-sd standard-deviation [m-hc-s0] of turtles with [m-hc-s0 > 0 and hclus = 2]
+  let ms0c2-se ms0c2-sd / sqrt (count turtles with [m-hc-s0 > 0 and hclus = 2])
+  let ms0c2-ci ms0c2-se * 1.96 
+ let ms0c2l ms0c2 - ms0c2-ci
+ let ms0c2u ms0c2 + ms0c2-ci
+let ms1c2 mean [m-hc-s1] of turtles with [m-hc-s1 > 0 and hclus = 2]
+  let ms1c2-sd standard-deviation [m-hc-s1] of turtles with [m-hc-s1 > 0 and hclus = 2]
+  let ms1c2-se ms1c2-sd / sqrt (count turtles with [m-hc-s1 > 0 and hclus = 2])
+  let ms1c2-ci ms1c2-se * 1.96 
+ let ms1c2l ms1c2 - ms1c2-ci
+ let ms1c2u ms1c2 + ms1c2-ci
+let ms2c2 mean [m-hc-s2] of turtles with [m-hc-s2 > 0 and hclus = 2]
+  let ms2c2-sd standard-deviation [m-hc-s2] of turtles with [m-hc-s2 > 0 and hclus = 2]
+  let ms2c2-se ms2c2-sd / sqrt (count turtles with [m-hc-s2 > 0 and hclus = 2])
+  let ms2c2-ci ms2c2-se * 1.96 
+ let ms2c2l ms2c2 - ms2c2-ci
+ let ms2c2u ms2c2 + ms2c2-ci
+let ms3c2 mean [m-hc-s3] of turtles with [m-hc-s3 > 0 and hclus = 2]
+  let ms3c2-sd standard-deviation [m-hc-s3] of turtles with [m-hc-s3 > 0 and hclus = 2]
+  let ms3c2-se ms3c2-sd / sqrt (count turtles with [m-hc-s3 > 0 and hclus = 2])
+  let ms3c2-ci ms3c2-se * 1.96 
+ let ms3c2l ms3c2 - ms3c2-ci
+ let ms3c2u ms3c2 + ms3c2-ci
+
+set-current-plot "Maize (fert-subsidy) farmtype2"  
+set-current-plot-pen "ms0-c2" plot	ms0c2
+set-current-plot-pen "ms0-c2l" plot	ms0c2l  
+set-current-plot-pen "ms0-c2u" plot	ms0c2u
+set-current-plot-pen "ms1-c2" plot	ms1c2
+set-current-plot-pen "ms1-c2l" plot	ms1c2l  
+set-current-plot-pen "ms1-c2u" plot	ms1c2u
+set-current-plot-pen "ms2-c2" plot	ms2c2
+set-current-plot-pen "ms2-c2l" plot	ms2c2l  
+set-current-plot-pen "ms2-c2u" plot	ms2c2u  
+set-current-plot-pen "ms3-c2" plot	ms3c2
+set-current-plot-pen "ms3-c2l" plot	ms3c2l  
+set-current-plot-pen "ms3-c2u" plot	ms3c2u
+ 
+  ; Manure application by cluster 3 
+let ms0c3 mean [m-hc-s0] of turtles with [m-hc-s0 > 0 and hclus = 3]
+  let ms0c3-sd standard-deviation [m-hc-s0] of turtles with [m-hc-s0 > 0 and hclus = 3]
+  let ms0c3-se ms0c3-sd / sqrt (count turtles with [m-hc-s0 > 0 and hclus = 3])
+  let ms0c3-ci ms0c3-se * 1.96 
+ let ms0c3l ms0c3 - ms0c3-ci
+ let ms0c3u ms0c3 + ms0c3-ci
+let ms1c3 mean [m-hc-s1] of turtles with [m-hc-s1 > 0 and hclus = 3]
+  let ms1c3-sd standard-deviation [m-hc-s1] of turtles with [m-hc-s1 > 0 and hclus = 3]
+  let ms1c3-se ms1c3-sd / sqrt (count turtles with [m-hc-s1 > 0 and hclus = 3])
+  let ms1c3-ci ms1c3-se * 1.96 
+ let ms1c3l ms1c3 - ms1c3-ci
+ let ms1c3u ms1c3 + ms1c3-ci
+let ms2c3 mean [m-hc-s2] of turtles with [m-hc-s2 > 0 and hclus = 3]
+  let ms2c3-sd standard-deviation [m-hc-s2] of turtles with [m-hc-s2 > 0 and hclus = 3]
+  let ms2c3-se ms2c3-sd / sqrt (count turtles with [m-hc-s2 > 0 and hclus = 3])
+  let ms2c3-ci ms2c3-se * 1.96 
+ let ms2c3l ms2c3 - ms2c3-ci
+ let ms2c3u ms2c3 + ms2c3-ci
+let ms3c3 mean [m-hc-s3] of turtles with [m-hc-s3 > 0 and hclus = 3]
+  let ms3c3-sd standard-deviation [m-hc-s3] of turtles with [m-hc-s3 > 0 and hclus = 3]
+  let ms3c3-se ms3c3-sd / sqrt (count turtles with [m-hc-s3 > 0 and hclus = 3])
+  let ms3c3-ci ms3c3-se * 1.96 
+ let ms3c3l ms3c3 - ms3c3-ci
+ let ms3c3u ms3c3 + ms3c3-ci
+
+set-current-plot "Maize (fert-subsidy) farmtype3"  
+set-current-plot-pen "ms0-c3" plot	ms0c3
+set-current-plot-pen "ms0-c3l" plot	ms0c3l  
+set-current-plot-pen "ms0-c3u" plot	ms0c3u
+set-current-plot-pen "ms1-c3" plot	ms1c3
+set-current-plot-pen "ms1-c3l" plot	ms1c3l  
+set-current-plot-pen "ms1-c3u" plot	ms1c3u
+set-current-plot-pen "ms2-c3" plot	ms2c3
+set-current-plot-pen "ms2-c3l" plot	ms2c3l  
+set-current-plot-pen "ms2-c3u" plot	ms2c3u  
+set-current-plot-pen "ms3-c3" plot	ms3c3
+set-current-plot-pen "ms3-c3l" plot	ms3c3l  
+set-current-plot-pen "ms3-c3u" plot	ms3c3u
+End
+
+To P6114.Legume-yield 
+;Legume yield whole population
+let Ls0a mean [l-s0] of turtles with [l-s0 > 0]
+  let Ls0-sd standard-deviation [l-s0] of turtles with [l-s0 > 0]
+  let Ls0-se Ls0-sd / sqrt (count turtles with [l-s0 > 0])
+  let Ls0-ci Ls0-se * 1.96 
+ let Ls0Al Ls0a - Ls0-ci
+ let Ls0Au Ls0a + Ls0-ci
+let Ls1a mean [l-s1] of turtles with [l-s1 > 0]
+  let Ls1-sd standard-deviation [l-s1] of turtles with [l-s1 > 0]
+  let Ls1-se Ls1-sd / sqrt (count turtles with [l-s1 > 0])
+  let Ls1-ci Ls1-se * 1.96 
+ let Ls1Al Ls1a - Ls1-ci
+ let Ls1Au Ls1a + Ls1-ci
+let Ls2A mean [l-s2] of turtles with [l-s2 > 0]
+ let Ls2-sd standard-deviation [l-s2] of turtles with [l-s2 > 0]
+  let Ls2-se Ls2-sd / sqrt (count turtles with [l-s2 > 0])
+  let Ls2-ci Ls2-se * 1.96 
+ let Ls2Al Ls2a - Ls2-ci
+ let Ls2Au Ls2a + Ls2-ci
+let Ls3A mean [l-s3] of turtles with [l-s3 > 0]
+ let Ls3-sd standard-deviation [l-s3] of turtles with [l-s3 > 0]
+  let Ls3-se Ls3-sd / sqrt (count turtles with [l-s3 > 0])
+  let Ls3-ci Ls3-se * 1.96 
+ let Ls3Al Ls3a - Ls3-ci
+ let Ls3Au Ls3a + Ls3-ci
+set-current-plot "Legume (fert-subsidy) population"  
+set-current-plot-pen "L_zero-sub" plot	Ls0a
+set-current-plot-pen "Ls0l" plot	Ls0Al  
+set-current-plot-pen "Ls0u" plot	Ls0Au
+set-current-plot-pen "L_current-sub" plot	Ls1a
+set-current-plot-pen "Ls1l" plot	Ls1Al  
+set-current-plot-pen "Ls1u" plot	Ls1Au
+set-current-plot-pen "L_reduced-sub" plot	Ls2a
+set-current-plot-pen "Ls2l" plot	Ls2Al  
+set-current-plot-pen "Ls2u" plot	Ls2Au  
+set-current-plot-pen "L_universal-sub" plot	Ls3a
+set-current-plot-pen "Ls3l" plot	Ls3Al  
+set-current-plot-pen "Ls3u" plot	Ls3Au
+End
+
+To P612.Ecological
+P6121.Nitrogen-balance
+P6122.Phosphorus-balance
+P6123.Potassium-balance
+P6124.Carbon-balance  
+End
+To P6121.Nitrogen-balance
+;Nitrogen balance for whole population
+let NBs0a mean [NB-S0] of turtles
+  let NBs0-sd standard-deviation [NB-s0] of turtles
+  let NBs0-se NBs0-sd / sqrt (count turtles)
+  let NBs0-ci NBs0-se * 1.96 
+ let NBs0Al NBs0a - NBs0-ci
+ let NBs0Au NBs0a + NBs0-ci
+let NBs1a mean [NB-S1] of turtles
+  let NBs1-sd standard-deviation [NB-s1] of turtles
+  let NBs1-se NBs1-sd / sqrt (count turtles)
+  let NBs1-ci NBs1-se * 1.96 
+ let NBs1Al NBs1a - NBs1-ci
+ let NBs1Au NBs1a + NBs1-ci
+let NBs2A mean [NB-S2] of turtles
+ let NBs2-sd standard-deviation [NB-s2] of turtles 
+  let NBs2-se NBs2-sd / sqrt (count turtles )
+  let NBs2-ci NBs2-se * 1.96 
+ let NBs2Al NBs2a - NBs2-ci
+ let NBs2Au NBs2a + NBs2-ci
+let NBs3A mean [NB-S3] of turtles 
+ let NBs3-sd standard-deviation [NB-s3] of turtles
+  let NBs3-se NBs3-sd / sqrt (count turtles)
+  let NBs3-ci NBs3-se * 1.96 
+ let NBs3Al NBs3a - NBs3-ci
+ let NBs3Au NBs3a + NBs3-ci
+set-current-plot "NB (fert-subsidy) population"  
+set-current-plot-pen "To-zero-sub" plot	NBs0a
+set-current-plot-pen "NBs0l" plot	NBs0Al  
+set-current-plot-pen "NBs0u" plot	NBs0Au
+set-current-plot-pen "Current-sub" plot	NBs1a
+set-current-plot-pen "NBs1l" plot	NBs1Al  
+set-current-plot-pen "NBs1u" plot	NBs1Au
+set-current-plot-pen "Reduced-sub" plot	NBs2a
+set-current-plot-pen "NBs2l" plot	NBs2Al  
+set-current-plot-pen "NBs2u" plot	NBs2Au  
+set-current-plot-pen "Universal-sub" plot	NBs3a
+set-current-plot-pen "NBs3l" plot	NBs3Al  
+set-current-plot-pen "NBs3u" plot	NBs3Au
+
+; Nitrogen balance for cluster 1  
+let NBs0c1 mean [NB-hc-s0] of turtles with [ hclus = 1]
+  let NBs0c1-sd standard-deviation [NB-hc-s0] of turtles with [hclus = 1]
+  let NBs0c1-se NBs0c1-sd / sqrt (count turtles with [hclus = 1])
+  let NBs0c1-ci NBs0c1-se * 1.96 
+ let NBs0c1l NBs0c1 - NBs0c1-ci
+ let NBs0c1u NBs0c1 + NBs0c1-ci
+let NBs1c1 mean [NB-hc-s1] of turtles with [ hclus = 1]
+  let NBs1c1-sd standard-deviation [NB-hc-s1] of turtles with  [hclus = 1]
+  let NBs1c1-se NBs1c1-sd / sqrt (count turtles with [hclus = 1])
+  let NBs1c1-ci NBs1c1-se * 1.96 
+ let NBs1c1l NBs1c1 - NBs1c1-ci
+ let NBs1c1u NBs1c1 + NBs1c1-ci
+let NBs2c1 mean [NB-hc-s2] of turtles with [hclus = 1]
+  let NBs2c1-sd standard-deviation [NB-hc-s2] of turtles with [hclus = 1]
+  let NBs2c1-se NBs2c1-sd / sqrt (count turtles with [hclus = 1])
+  let NBs2c1-ci NBs2c1-se * 1.96 
+ let NBs2c1l NBs2c1 - NBs2c1-ci
+ let NBs2c1u NBs2c1 + NBs2c1-ci
+let NBs3c1 mean [NB-hc-s3] of turtles with [hclus = 1]
+  let NBs3c1-sd standard-deviation [NB-hc-s3] of turtles with [hclus = 1]
+  let NBs3c1-se NBs3c1-sd / sqrt (count turtles with [hclus = 1])
+  let NBs3c1-ci NBs3c1-se * 1.96 
+ let NBs3c1l NBs3c1 - NBs3c1-ci
+ let NBs3c1u NBs3c1 + NBs3c1-ci
+set-current-plot "NB (fert-subsidy) farmtype1"  
+set-current-plot-pen "NBs0-c1" plot	NBs0c1
+set-current-plot-pen "NBs0-c1l" plot	NBs0c1l  
+set-current-plot-pen "NBs0-c1u" plot	NBs0c1u
+set-current-plot-pen "NBs1-c1" plot	NBs1c1
+set-current-plot-pen "NBs1-c1l" plot	NBs1c1l  
+set-current-plot-pen "NBs1-c1u" plot	NBs1c1u
+set-current-plot-pen "NBs2-c1" plot	NBs2c1
+set-current-plot-pen "NBs2-c1l" plot	NBs2c1l  
+set-current-plot-pen "NBs2-c1u" plot	NBs2c1u  
+set-current-plot-pen "NBs3-c1" plot	NBs3c1
+set-current-plot-pen "NBs3-c1l" plot	NBs3c1l  
+set-current-plot-pen "NBs3-c1u" plot	NBs3c1u
+; Nitrogen balance for by cluster 2  
+let NBs0c2 mean [NB-hc-s0] of turtles with [ hclus = 2]
+  let NBs0c2-sd standard-deviation [NB-hc-s0] of turtles with [ hclus = 2]
+  let NBs0c2-se NBs0c2-sd / sqrt (count turtles with [ hclus = 2])
+  let NBs0c2-ci NBs0c2-se * 1.96 
+ let NBs0c2l NBs0c2 - NBs0c2-ci
+ let NBs0c2u NBs0c2 + NBs0c2-ci
+let NBs1c2 mean [NB-hc-s1] of turtles with [ hclus = 2]
+  let NBs1c2-sd standard-deviation [NB-hc-s1] of turtles with [ hclus = 2]
+  let NBs1c2-se NBs1c2-sd / sqrt (count turtles with [ hclus = 2])
+  let NBs1c2-ci NBs1c2-se * 1.96 
+ let NBs1c2l NBs1c2 - NBs1c2-ci
+ let NBs1c2u NBs1c2 + NBs1c2-ci
+let NBs2c2 mean [NB-hc-s2] of turtles with [ hclus = 2]
+  let NBs2c2-sd standard-deviation [NB-hc-s2] of turtles with [ hclus = 2]
+  let NBs2c2-se NBs2c2-sd / sqrt (count turtles with [ hclus = 2])
+  let NBs2c2-ci NBs2c2-se * 1.96 
+ let NBs2c2l NBs2c2 - NBs2c2-ci
+ let NBs2c2u NBs2c2 + NBs2c2-ci
+let NBs3c2 mean [NB-hc-s3] of turtles with [ hclus = 2]
+  let NBs3c2-sd standard-deviation [NB-hc-s3] of turtles with [ hclus = 2]
+  let NBs3c2-se NBs3c2-sd / sqrt (count turtles with [ hclus = 2])
+  let NBs3c2-ci NBs3c2-se * 1.96 
+ let NBs3c2l NBs3c2 - NBs3c2-ci
+ let NBs3c2u NBs3c2 + NBs3c2-ci
+
+set-current-plot "NB (fert-subsidy) farmtype2"  
+set-current-plot-pen "NBs0-c2" plot	NBs0c2
+set-current-plot-pen "NBs0-c2l" plot	NBs0c2l  
+set-current-plot-pen "NBs0-c2u" plot	NBs0c2u
+set-current-plot-pen "NBs1-c2" plot	NBs1c2
+set-current-plot-pen "NBs1-c2l" plot	NBs1c2l  
+set-current-plot-pen "NBs1-c2u" plot	NBs1c2u
+set-current-plot-pen "NBs2-c2" plot	NBs2c2
+set-current-plot-pen "NBs2-c2l" plot	NBs2c2l  
+set-current-plot-pen "NBs2-c2u" plot	NBs2c2u  
+set-current-plot-pen "NBs3-c2" plot	NBs3c2
+set-current-plot-pen "NBs3-c2l" plot	NBs3c2l  
+set-current-plot-pen "NBs3-c2u" plot	NBs3c2u
+ 
+  ; Nitrogen balance for cluster 3 
+let NBs0c3 mean [NB-hc-s0] of turtles with [ hclus = 3]
+  let NBs0c3-sd standard-deviation [NB-hc-s0] of turtles with [ hclus = 3]
+  let NBs0c3-se NBs0c3-sd / sqrt (count turtles with [ hclus = 3])
+  let NBs0c3-ci NBs0c3-se * 1.96 
+ let NBs0c3l NBs0c3 - NBs0c3-ci
+ let NBs0c3u NBs0c3 + NBs0c3-ci
+let NBs1c3 mean [NB-hc-s1] of turtles with [ hclus = 3]
+  let NBs1c3-sd standard-deviation [NB-hc-s1] of turtles with [ hclus = 3]
+  let NBs1c3-se NBs1c3-sd / sqrt (count turtles with [ hclus = 3])
+  let NBs1c3-ci NBs1c3-se * 1.96 
+ let NBs1c3l NBs1c3 - NBs1c3-ci
+ let NBs1c3u NBs1c3 + NBs1c3-ci
+let NBs2c3 mean [NB-hc-s2] of turtles with [ hclus = 3]
+  let NBs2c3-sd standard-deviation [NB-hc-s2] of turtles with [ hclus = 3]
+  let NBs2c3-se NBs2c3-sd / sqrt (count turtles with [ hclus = 3])
+  let NBs2c3-ci NBs2c3-se * 1.96 
+ let NBs2c3l NBs2c3 - NBs2c3-ci
+ let NBs2c3u NBs2c3 + NBs2c3-ci
+let NBs3c3 mean [NB-hc-s3] of turtles with [ hclus = 3]
+  let NBs3c3-sd standard-deviation [NB-hc-s3] of turtles with [ hclus = 3]
+  let NBs3c3-se NBs3c3-sd / sqrt (count turtles with [ hclus = 3])
+  let NBs3c3-ci NBs3c3-se * 1.96 
+ let NBs3c3l NBs3c3 - NBs3c3-ci
+ let NBs3c3u NBs3c3 + NBs3c3-ci
+
+set-current-plot "NB (fert-subsidy) farmtype3"  
+set-current-plot-pen "NBs0-c3" plot	NBs0c3
+set-current-plot-pen "NBs0-c3l" plot	NBs0c3l  
+set-current-plot-pen "NBs0-c3u" plot	NBs0c3u
+set-current-plot-pen "NBs1-c3" plot	NBs1c3
+set-current-plot-pen "NBs1-c3l" plot	NBs1c3l  
+set-current-plot-pen "NBs1-c3u" plot	NBs1c3u
+set-current-plot-pen "NBs2-c3" plot	NBs2c3
+set-current-plot-pen "NBs2-c3l" plot	NBs2c3l  
+set-current-plot-pen "NBs2-c3u" plot	NBs2c3u  
+set-current-plot-pen "NBs3-c3" plot	NBs3c3
+set-current-plot-pen "NBs3-c3l" plot	NBs3c3l  
+set-current-plot-pen "NBs3-c3u" plot	NBs3c3u  
+End
+
+To P6122.Phosphorus-balance
+;phosphorus balance for whole population
+let PBs0a mean [PB-S0] of turtles
+  let PBs0-sd standard-deviation [PB-s0] of turtles
+  let PBs0-se PBs0-sd / sqrt (count turtles)
+  let PBs0-ci PBs0-se * 1.96 
+ let PBs0Al PBs0a - PBs0-ci
+ let PBs0Au PBs0a + PBs0-ci
+let PBs1a mean [PB-S1] of turtles
+  let PBs1-sd standard-deviation [PB-s1] of turtles
+  let PBs1-se PBs1-sd / sqrt (count turtles)
+  let PBs1-ci PBs1-se * 1.96 
+ let PBs1Al PBs1a - PBs1-ci
+ let PBs1Au PBs1a + PBs1-ci
+let PBs2A mean [PB-S2] of turtles
+ let PBs2-sd standard-deviation [PB-s2] of turtles 
+  let PBs2-se PBs2-sd / sqrt (count turtles )
+  let PBs2-ci PBs2-se * 1.96 
+ let PBs2Al PBs2a - PBs2-ci
+ let PBs2Au PBs2a + PBs2-ci
+let PBs3A mean [PB-S3] of turtles 
+ let PBs3-sd standard-deviation [PB-s3] of turtles
+  let PBs3-se PBs3-sd / sqrt (count turtles)
+  let PBs3-ci PBs3-se * 1.96 
+ let PBs3Al PBs3a - PBs3-ci
+ let PBs3Au PBs3a + PBs3-ci
+set-current-plot "PB (fert-subsidy) population"  
+set-current-plot-pen "To-zero-sub" plot	PBs0a
+set-current-plot-pen "PBs0l" plot	PBs0Al  
+set-current-plot-pen "PBs0u" plot	PBs0Au
+set-current-plot-pen "Current-sub" plot	PBs1a
+set-current-plot-pen "PBs1l" plot	PBs1Al  
+set-current-plot-pen "PBs1u" plot	PBs1Au
+set-current-plot-pen "Reduced-sub" plot	PBs2a
+set-current-plot-pen "PBs2l" plot	PBs2Al  
+set-current-plot-pen "PBs2u" plot	PBs2Au  
+set-current-plot-pen "Universal-sub" plot	PBs3a
+set-current-plot-pen "PBs3l" plot	PBs3Al  
+set-current-plot-pen "PBs3u" plot	PBs3Au
+
+; phosphorus balance for cluster 1  
+let PBs0c1 mean [PB-hc-s0] of turtles with [ hclus = 1]
+  let PBs0c1-sd standard-deviation [PB-hc-s0] of turtles with [hclus = 1]
+  let PBs0c1-se PBs0c1-sd / sqrt (count turtles with [hclus = 1])
+  let PBs0c1-ci PBs0c1-se * 1.96 
+ let PBs0c1l PBs0c1 - PBs0c1-ci
+ let PBs0c1u PBs0c1 + PBs0c1-ci
+let PBs1c1 mean [PB-hc-s1] of turtles with [ hclus = 1]
+  let PBs1c1-sd standard-deviation [PB-hc-s1] of turtles with  [hclus = 1]
+  let PBs1c1-se PBs1c1-sd / sqrt (count turtles with [hclus = 1])
+  let PBs1c1-ci PBs1c1-se * 1.96 
+ let PBs1c1l PBs1c1 - PBs1c1-ci
+ let PBs1c1u PBs1c1 + PBs1c1-ci
+let PBs2c1 mean [PB-hc-s2] of turtles with [hclus = 1]
+  let PBs2c1-sd standard-deviation [PB-hc-s2] of turtles with [hclus = 1]
+  let PBs2c1-se PBs2c1-sd / sqrt (count turtles with [hclus = 1])
+  let PBs2c1-ci PBs2c1-se * 1.96 
+ let PBs2c1l PBs2c1 - PBs2c1-ci
+ let PBs2c1u PBs2c1 + PBs2c1-ci
+let PBs3c1 mean [PB-hc-s3] of turtles with [hclus = 1]
+  let PBs3c1-sd standard-deviation [PB-hc-s3] of turtles with [hclus = 1]
+  let PBs3c1-se PBs3c1-sd / sqrt (count turtles with [hclus = 1])
+  let PBs3c1-ci PBs3c1-se * 1.96 
+ let PBs3c1l PBs3c1 - PBs3c1-ci
+ let PBs3c1u PBs3c1 + PBs3c1-ci
+set-current-plot "PB (fert-subsidy) farmtype1"  
+set-current-plot-pen "PBs0-c1" plot	PBs0c1
+set-current-plot-pen "PBs0-c1l" plot	PBs0c1l  
+set-current-plot-pen "PBs0-c1u" plot	PBs0c1u
+set-current-plot-pen "PBs1-c1" plot	PBs1c1
+set-current-plot-pen "PBs1-c1l" plot	PBs1c1l  
+set-current-plot-pen "PBs1-c1u" plot	PBs1c1u
+set-current-plot-pen "PBs2-c1" plot	PBs2c1
+set-current-plot-pen "PBs2-c1l" plot	PBs2c1l  
+set-current-plot-pen "PBs2-c1u" plot	PBs2c1u  
+set-current-plot-pen "PBs3-c1" plot	PBs3c1
+set-current-plot-pen "PBs3-c1l" plot	PBs3c1l  
+set-current-plot-pen "PBs3-c1u" plot	PBs3c1u
+; phosphorus balance for by cluster 2  
+let PBs0c2 mean [PB-hc-s0] of turtles with [ hclus = 2]
+  let PBs0c2-sd standard-deviation [PB-hc-s0] of turtles with [ hclus = 2]
+  let PBs0c2-se PBs0c2-sd / sqrt (count turtles with [ hclus = 2])
+  let PBs0c2-ci PBs0c2-se * 1.96 
+ let PBs0c2l PBs0c2 - PBs0c2-ci
+ let PBs0c2u PBs0c2 + PBs0c2-ci
+let PBs1c2 mean [PB-hc-s1] of turtles with [ hclus = 2]
+  let PBs1c2-sd standard-deviation [PB-hc-s1] of turtles with [ hclus = 2]
+  let PBs1c2-se PBs1c2-sd / sqrt (count turtles with [ hclus = 2])
+  let PBs1c2-ci PBs1c2-se * 1.96 
+ let PBs1c2l PBs1c2 - PBs1c2-ci
+ let PBs1c2u PBs1c2 + PBs1c2-ci
+let PBs2c2 mean [PB-hc-s2] of turtles with [ hclus = 2]
+  let PBs2c2-sd standard-deviation [PB-hc-s2] of turtles with [ hclus = 2]
+  let PBs2c2-se PBs2c2-sd / sqrt (count turtles with [ hclus = 2])
+  let PBs2c2-ci PBs2c2-se * 1.96 
+ let PBs2c2l PBs2c2 - PBs2c2-ci
+ let PBs2c2u PBs2c2 + PBs2c2-ci
+let PBs3c2 mean [PB-hc-s3] of turtles with [ hclus = 2]
+  let PBs3c2-sd standard-deviation [PB-hc-s3] of turtles with [ hclus = 2]
+  let PBs3c2-se PBs3c2-sd / sqrt (count turtles with [ hclus = 2])
+  let PBs3c2-ci PBs3c2-se * 1.96 
+ let PBs3c2l PBs3c2 - PBs3c2-ci
+ let PBs3c2u PBs3c2 + PBs3c2-ci
+
+set-current-plot "PB (fert-subsidy) farmtype2"  
+set-current-plot-pen "PBs0-c2" plot	PBs0c2
+set-current-plot-pen "PBs0-c2l" plot	PBs0c2l  
+set-current-plot-pen "PBs0-c2u" plot	PBs0c2u
+set-current-plot-pen "PBs1-c2" plot	PBs1c2
+set-current-plot-pen "PBs1-c2l" plot	PBs1c2l  
+set-current-plot-pen "PBs1-c2u" plot	PBs1c2u
+set-current-plot-pen "PBs2-c2" plot	PBs2c2
+set-current-plot-pen "PBs2-c2l" plot	PBs2c2l  
+set-current-plot-pen "PBs2-c2u" plot	PBs2c2u  
+set-current-plot-pen "PBs3-c2" plot	PBs3c2
+set-current-plot-pen "PBs3-c2l" plot	PBs3c2l  
+set-current-plot-pen "PBs3-c2u" plot	PBs3c2u
+ 
+  ; phosphorus balance for cluster 3 
+let PBs0c3 mean [PB-hc-s0] of turtles with [ hclus = 3]
+  let PBs0c3-sd standard-deviation [PB-hc-s0] of turtles with [ hclus = 3]
+  let PBs0c3-se PBs0c3-sd / sqrt (count turtles with [ hclus = 3])
+  let PBs0c3-ci PBs0c3-se * 1.96 
+ let PBs0c3l PBs0c3 - PBs0c3-ci
+ let PBs0c3u PBs0c3 + PBs0c3-ci
+let PBs1c3 mean [PB-hc-s1] of turtles with [ hclus = 3]
+  let PBs1c3-sd standard-deviation [PB-hc-s1] of turtles with [ hclus = 3]
+  let PBs1c3-se PBs1c3-sd / sqrt (count turtles with [ hclus = 3])
+  let PBs1c3-ci PBs1c3-se * 1.96 
+ let PBs1c3l PBs1c3 - PBs1c3-ci
+ let PBs1c3u PBs1c3 + PBs1c3-ci
+let PBs2c3 mean [PB-hc-s2] of turtles with [ hclus = 3]
+  let PBs2c3-sd standard-deviation [PB-hc-s2] of turtles with [ hclus = 3]
+  let PBs2c3-se PBs2c3-sd / sqrt (count turtles with [ hclus = 3])
+  let PBs2c3-ci PBs2c3-se * 1.96 
+ let PBs2c3l PBs2c3 - PBs2c3-ci
+ let PBs2c3u PBs2c3 + PBs2c3-ci
+let PBs3c3 mean [PB-hc-s3] of turtles with [ hclus = 3]
+  let PBs3c3-sd standard-deviation [PB-hc-s3] of turtles with [ hclus = 3]
+  let PBs3c3-se PBs3c3-sd / sqrt (count turtles with [ hclus = 3])
+  let PBs3c3-ci PBs3c3-se * 1.96 
+ let PBs3c3l PBs3c3 - PBs3c3-ci
+ let PBs3c3u PBs3c3 + PBs3c3-ci
+
+set-current-plot "PB (fert-subsidy) farmtype3"  
+set-current-plot-pen "PBs0-c3" plot	PBs0c3
+set-current-plot-pen "PBs0-c3l" plot	PBs0c3l  
+set-current-plot-pen "PBs0-c3u" plot	PBs0c3u
+set-current-plot-pen "PBs1-c3" plot	PBs1c3
+set-current-plot-pen "PBs1-c3l" plot	PBs1c3l  
+set-current-plot-pen "PBs1-c3u" plot	PBs1c3u
+set-current-plot-pen "PBs2-c3" plot	PBs2c3
+set-current-plot-pen "PBs2-c3l" plot	PBs2c3l  
+set-current-plot-pen "PBs2-c3u" plot	PBs2c3u  
+set-current-plot-pen "PBs3-c3" plot	PBs3c3
+set-current-plot-pen "PBs3-c3l" plot	PBs3c3l  
+set-current-plot-pen "PBs3-c3u" plot	PBs3c3u  
+End
+
+To P6123.Potassium-balance
+;model shift, plot from 1st year
+; if elapsed-years > 0 [ 
+  
+;potassium balance for whole population
+let KBs0a mean [KB-S0] of turtles
+  let KBs0-sd standard-deviation [KB-s0] of turtles
+  let KBs0-se KBs0-sd / sqrt (count turtles)
+  let KBs0-ci KBs0-se * 1.96 
+ let KBs0Al KBs0a - KBs0-ci
+ let KBs0Au KBs0a + KBs0-ci
+let KBs1a mean [KB-S1] of turtles
+  let KBs1-sd standard-deviation [KB-s1] of turtles
+  let KBs1-se KBs1-sd / sqrt (count turtles)
+  let KBs1-ci KBs1-se * 1.96 
+ let KBs1Al KBs1a - KBs1-ci
+ let KBs1Au KBs1a + KBs1-ci
+let KBs2A mean [KB-S2] of turtles
+ let KBs2-sd standard-deviation [KB-s2] of turtles 
+  let KBs2-se KBs2-sd / sqrt (count turtles )
+  let KBs2-ci KBs2-se * 1.96 
+ let KBs2Al KBs2a - KBs2-ci
+ let KBs2Au KBs2a + KBs2-ci
+let KBs3A mean [KB-S3] of turtles 
+ let KBs3-sd standard-deviation [KB-s3] of turtles
+  let KBs3-se KBs3-sd / sqrt (count turtles)
+  let KBs3-ci KBs3-se * 1.96 
+ let KBs3Al KBs3a - KBs3-ci
+ let KBs3Au KBs3a + KBs3-ci
+set-current-plot "KB (fert-subsidy) population"  
+set-current-plot-pen "To-zero-sub" plot	KBs0a
+set-current-plot-pen "KBs0l" plot	KBs0Al  
+set-current-plot-pen "KBs0u" plot	KBs0Au
+set-current-plot-pen "Current-sub" plot	KBs1a
+set-current-plot-pen "KBs1l" plot	KBs1Al  
+set-current-plot-pen "KBs1u" plot	KBs1Au
+set-current-plot-pen "Reduced-sub" plot	KBs2a
+set-current-plot-pen "KBs2l" plot	KBs2Al  
+set-current-plot-pen "KBs2u" plot	KBs2Au  
+set-current-plot-pen "Universal-sub" plot	KBs3a
+set-current-plot-pen "KBs3l" plot	KBs3Al  
+set-current-plot-pen "KBs3u" plot	KBs3Au
+
+; potassium balance for cluster 1  
+let KBs0c1 mean [KB-hc-s0] of turtles with [ hclus = 1]
+  let KBs0c1-sd standard-deviation [KB-hc-s0] of turtles with [hclus = 1]
+  let KBs0c1-se KBs0c1-sd / sqrt (count turtles with [hclus = 1])
+  let KBs0c1-ci KBs0c1-se * 1.96 
+ let KBs0c1l KBs0c1 - KBs0c1-ci
+ let KBs0c1u KBs0c1 + KBs0c1-ci
+let KBs1c1 mean [KB-hc-s1] of turtles with [ hclus = 1]
+  let KBs1c1-sd standard-deviation [KB-hc-s1] of turtles with  [hclus = 1]
+  let KBs1c1-se KBs1c1-sd / sqrt (count turtles with [hclus = 1])
+  let KBs1c1-ci KBs1c1-se * 1.96 
+ let KBs1c1l KBs1c1 - KBs1c1-ci
+ let KBs1c1u KBs1c1 + KBs1c1-ci
+let KBs2c1 mean [KB-hc-s2] of turtles with [hclus = 1]
+  let KBs2c1-sd standard-deviation [KB-hc-s2] of turtles with [hclus = 1]
+  let KBs2c1-se KBs2c1-sd / sqrt (count turtles with [hclus = 1])
+  let KBs2c1-ci KBs2c1-se * 1.96 
+ let KBs2c1l KBs2c1 - KBs2c1-ci
+ let KBs2c1u KBs2c1 + KBs2c1-ci
+let KBs3c1 mean [KB-hc-s3] of turtles with [hclus = 1]
+  let KBs3c1-sd standard-deviation [KB-hc-s3] of turtles with [hclus = 1]
+  let KBs3c1-se KBs3c1-sd / sqrt (count turtles with [hclus = 1])
+  let KBs3c1-ci KBs3c1-se * 1.96 
+ let KBs3c1l KBs3c1 - KBs3c1-ci
+ let KBs3c1u KBs3c1 + KBs3c1-ci
+set-current-plot "KB (fert-subsidy) farmtype1"  
+set-current-plot-pen "KBs0-c1" plot	KBs0c1
+set-current-plot-pen "KBs0-c1l" plot	KBs0c1l  
+set-current-plot-pen "KBs0-c1u" plot	KBs0c1u
+set-current-plot-pen "KBs1-c1" plot	KBs1c1
+set-current-plot-pen "KBs1-c1l" plot	KBs1c1l  
+set-current-plot-pen "KBs1-c1u" plot	KBs1c1u
+set-current-plot-pen "KBs2-c1" plot	KBs2c1
+set-current-plot-pen "KBs2-c1l" plot	KBs2c1l  
+set-current-plot-pen "KBs2-c1u" plot	KBs2c1u  
+set-current-plot-pen "KBs3-c1" plot	KBs3c1
+set-current-plot-pen "KBs3-c1l" plot	KBs3c1l  
+set-current-plot-pen "KBs3-c1u" plot	KBs3c1u
+; potassium balance for by cluster 2  
+let KBs0c2 mean [KB-hc-s0] of turtles with [ hclus = 2]
+  let KBs0c2-sd standard-deviation [KB-hc-s0] of turtles with [ hclus = 2]
+  let KBs0c2-se KBs0c2-sd / sqrt (count turtles with [ hclus = 2])
+  let KBs0c2-ci KBs0c2-se * 1.96 
+ let KBs0c2l KBs0c2 - KBs0c2-ci
+ let KBs0c2u KBs0c2 + KBs0c2-ci
+let KBs1c2 mean [KB-hc-s1] of turtles with [ hclus = 2]
+  let KBs1c2-sd standard-deviation [KB-hc-s1] of turtles with [ hclus = 2]
+  let KBs1c2-se KBs1c2-sd / sqrt (count turtles with [ hclus = 2])
+  let KBs1c2-ci KBs1c2-se * 1.96 
+ let KBs1c2l KBs1c2 - KBs1c2-ci
+ let KBs1c2u KBs1c2 + KBs1c2-ci
+let KBs2c2 mean [KB-hc-s2] of turtles with [ hclus = 2]
+  let KBs2c2-sd standard-deviation [KB-hc-s2] of turtles with [ hclus = 2]
+  let KBs2c2-se KBs2c2-sd / sqrt (count turtles with [ hclus = 2])
+  let KBs2c2-ci KBs2c2-se * 1.96 
+ let KBs2c2l KBs2c2 - KBs2c2-ci
+ let KBs2c2u KBs2c2 + KBs2c2-ci
+let KBs3c2 mean [KB-hc-s3] of turtles with [ hclus = 2]
+  let KBs3c2-sd standard-deviation [KB-hc-s3] of turtles with [ hclus = 2]
+  let KBs3c2-se KBs3c2-sd / sqrt (count turtles with [ hclus = 2])
+  let KBs3c2-ci KBs3c2-se * 1.96 
+ let KBs3c2l KBs3c2 - KBs3c2-ci
+ let KBs3c2u KBs3c2 + KBs3c2-ci
+
+set-current-plot "KB (fert-subsidy) farmtype2"  
+set-current-plot-pen "KBs0-c2" plot	KBs0c2
+set-current-plot-pen "KBs0-c2l" plot	KBs0c2l  
+set-current-plot-pen "KBs0-c2u" plot	KBs0c2u
+set-current-plot-pen "KBs1-c2" plot	KBs1c2
+set-current-plot-pen "KBs1-c2l" plot	KBs1c2l  
+set-current-plot-pen "KBs1-c2u" plot	KBs1c2u
+set-current-plot-pen "KBs2-c2" plot	KBs2c2
+set-current-plot-pen "KBs2-c2l" plot	KBs2c2l  
+set-current-plot-pen "KBs2-c2u" plot	KBs2c2u  
+set-current-plot-pen "KBs3-c2" plot	KBs3c2
+set-current-plot-pen "KBs3-c2l" plot	KBs3c2l  
+set-current-plot-pen "KBs3-c2u" plot	KBs3c2u
+ 
+  ; potassium balance for cluster 3 
+let KBs0c3 mean [KB-hc-s0] of turtles with [ hclus = 3]
+  let KBs0c3-sd standard-deviation [KB-hc-s0] of turtles with [ hclus = 3]
+  let KBs0c3-se KBs0c3-sd / sqrt (count turtles with [ hclus = 3])
+  let KBs0c3-ci KBs0c3-se * 1.96 
+ let KBs0c3l KBs0c3 - KBs0c3-ci
+ let KBs0c3u KBs0c3 + KBs0c3-ci
+let KBs1c3 mean [KB-hc-s1] of turtles with [ hclus = 3]
+  let KBs1c3-sd standard-deviation [KB-hc-s1] of turtles with [ hclus = 3]
+  let KBs1c3-se KBs1c3-sd / sqrt (count turtles with [ hclus = 3])
+  let KBs1c3-ci KBs1c3-se * 1.96 
+ let KBs1c3l KBs1c3 - KBs1c3-ci
+ let KBs1c3u KBs1c3 + KBs1c3-ci
+let KBs2c3 mean [KB-hc-s2] of turtles with [ hclus = 3]
+  let KBs2c3-sd standard-deviation [KB-hc-s2] of turtles with [ hclus = 3]
+  let KBs2c3-se KBs2c3-sd / sqrt (count turtles with [ hclus = 3])
+  let KBs2c3-ci KBs2c3-se * 1.96 
+ let KBs2c3l KBs2c3 - KBs2c3-ci
+ let KBs2c3u KBs2c3 + KBs2c3-ci
+let KBs3c3 mean [KB-hc-s3] of turtles with [ hclus = 3]
+  let KBs3c3-sd standard-deviation [KB-hc-s3] of turtles with [ hclus = 3]
+  let KBs3c3-se KBs3c3-sd / sqrt (count turtles with [ hclus = 3])
+  let KBs3c3-ci KBs3c3-se * 1.96 
+ let KBs3c3l KBs3c3 - KBs3c3-ci
+ let KBs3c3u KBs3c3 + KBs3c3-ci
+
+set-current-plot "KB (fert-subsidy) farmtype3"  
+set-current-plot-pen "KBs0-c3" plot	KBs0c3
+set-current-plot-pen "KBs0-c3l" plot	KBs0c3l  
+set-current-plot-pen "KBs0-c3u" plot	KBs0c3u
+set-current-plot-pen "KBs1-c3" plot	KBs1c3
+set-current-plot-pen "KBs1-c3l" plot	KBs1c3l  
+set-current-plot-pen "KBs1-c3u" plot	KBs1c3u
+set-current-plot-pen "KBs2-c3" plot	KBs2c3
+set-current-plot-pen "KBs2-c3l" plot	KBs2c3l  
+set-current-plot-pen "KBs2-c3u" plot	KBs2c3u  
+set-current-plot-pen "KBs3-c3" plot	KBs3c3
+set-current-plot-pen "KBs3-c3l" plot	KBs3c3l  
+set-current-plot-pen "KBs3-c3u" plot	KBs3c3u  
+;  ]
+End
+
+To P6124.Carbon-balance
+;first year model shift
+;if elapsed-years > 0 [  
+  ;Carbon balance for whole population
+let CBs0a mean [CB-S0] of turtles
+  let CBs0-sd standard-deviation [CB-s0] of turtles
+  let CBs0-se CBs0-sd / sqrt (count turtles)
+  let CBs0-ci CBs0-se * 1.96 
+ let CBs0Al CBs0a - CBs0-ci
+ let CBs0Au CBs0a + CBs0-ci
+let CBs1a mean [CB-S1] of turtles
+  let CBs1-sd standard-deviation [CB-s1] of turtles
+  let CBs1-se CBs1-sd / sqrt (count turtles)
+  let CBs1-ci CBs1-se * 1.96 
+ let CBs1Al CBs1a - CBs1-ci
+ let CBs1Au CBs1a + CBs1-ci
+let CBs2A mean [CB-S2] of turtles
+ let CBs2-sd standard-deviation [CB-s2] of turtles 
+  let CBs2-se CBs2-sd / sqrt (count turtles )
+  let CBs2-ci CBs2-se * 1.96 
+ let CBs2Al CBs2a - CBs2-ci
+ let CBs2Au CBs2a + CBs2-ci
+let CBs3A mean [CB-S3] of turtles 
+ let CBs3-sd standard-deviation [CB-s3] of turtles
+  let CBs3-se CBs3-sd / sqrt (count turtles)
+  let CBs3-ci CBs3-se * 1.96 
+ let CBs3Al CBs3a - CBs3-ci
+ let CBs3Au CBs3a + CBs3-ci
+set-current-plot "CB (fert-subsidy) population"  
+set-current-plot-pen "To-zero-sub" plot	CBs0a
+set-current-plot-pen "CBs0l" plot	CBs0Al  
+set-current-plot-pen "CBs0u" plot	CBs0Au
+set-current-plot-pen "Current-sub" plot	CBs1a
+set-current-plot-pen "CBs1l" plot	CBs1Al  
+set-current-plot-pen "CBs1u" plot	CBs1Au
+set-current-plot-pen "Reduced-sub" plot	CBs2a
+set-current-plot-pen "CBs2l" plot	CBs2Al  
+set-current-plot-pen "CBs2u" plot	CBs2Au  
+set-current-plot-pen "Universal-sub" plot	CBs3a
+set-current-plot-pen "CBs3l" plot	CBs3Al  
+set-current-plot-pen "CBs3u" plot	CBs3Au
+
+; Carbon balance for cluster 1  
+let CBs0c1 mean [CB-hc-s0] of turtles with [ hclus = 1]
+  let CBs0c1-sd standard-deviation [CB-hc-s0] of turtles with [hclus = 1]
+  let CBs0c1-se CBs0c1-sd / sqrt (count turtles with [hclus = 1])
+  let CBs0c1-ci CBs0c1-se * 1.96 
+ let CBs0c1l CBs0c1 - CBs0c1-ci
+ let CBs0c1u CBs0c1 + CBs0c1-ci
+let CBs1c1 mean [CB-hc-s1] of turtles with [ hclus = 1]
+  let CBs1c1-sd standard-deviation [CB-hc-s1] of turtles with  [hclus = 1]
+  let CBs1c1-se CBs1c1-sd / sqrt (count turtles with [hclus = 1])
+  let CBs1c1-ci CBs1c1-se * 1.96 
+ let CBs1c1l CBs1c1 - CBs1c1-ci
+ let CBs1c1u CBs1c1 + CBs1c1-ci
+let CBs2c1 mean [CB-hc-s2] of turtles with [hclus = 1]
+  let CBs2c1-sd standard-deviation [CB-hc-s2] of turtles with [hclus = 1]
+  let CBs2c1-se CBs2c1-sd / sqrt (count turtles with [hclus = 1])
+  let CBs2c1-ci CBs2c1-se * 1.96 
+ let CBs2c1l CBs2c1 - CBs2c1-ci
+ let CBs2c1u CBs2c1 + CBs2c1-ci
+let CBs3c1 mean [CB-hc-s3] of turtles with [hclus = 1]
+  let CBs3c1-sd standard-deviation [CB-hc-s3] of turtles with [hclus = 1]
+  let CBs3c1-se CBs3c1-sd / sqrt (count turtles with [hclus = 1])
+  let CBs3c1-ci CBs3c1-se * 1.96 
+ let CBs3c1l CBs3c1 - CBs3c1-ci
+ let CBs3c1u CBs3c1 + CBs3c1-ci
+set-current-plot "CB (fert-subsidy) farmtype1"  
+set-current-plot-pen "CBs0-c1" plot	CBs0c1
+set-current-plot-pen "CBs0-c1l" plot	CBs0c1l  
+set-current-plot-pen "CBs0-c1u" plot	CBs0c1u
+set-current-plot-pen "CBs1-c1" plot	CBs1c1
+set-current-plot-pen "CBs1-c1l" plot	CBs1c1l  
+set-current-plot-pen "CBs1-c1u" plot	CBs1c1u
+set-current-plot-pen "CBs2-c1" plot	CBs2c1
+set-current-plot-pen "CBs2-c1l" plot	CBs2c1l  
+set-current-plot-pen "CBs2-c1u" plot	CBs2c1u  
+set-current-plot-pen "CBs3-c1" plot	CBs3c1
+set-current-plot-pen "CBs3-c1l" plot	CBs3c1l  
+set-current-plot-pen "CBs3-c1u" plot	CBs3c1u
+; Carbon balance for by cluster 2  
+let CBs0c2 mean [CB-hc-s0] of turtles with [ hclus = 2]
+  let CBs0c2-sd standard-deviation [CB-hc-s0] of turtles with [ hclus = 2]
+  let CBs0c2-se CBs0c2-sd / sqrt (count turtles with [ hclus = 2])
+  let CBs0c2-ci CBs0c2-se * 1.96 
+ let CBs0c2l CBs0c2 - CBs0c2-ci
+ let CBs0c2u CBs0c2 + CBs0c2-ci
+let CBs1c2 mean [CB-hc-s1] of turtles with [ hclus = 2]
+  let CBs1c2-sd standard-deviation [CB-hc-s1] of turtles with [ hclus = 2]
+  let CBs1c2-se CBs1c2-sd / sqrt (count turtles with [ hclus = 2])
+  let CBs1c2-ci CBs1c2-se * 1.96 
+ let CBs1c2l CBs1c2 - CBs1c2-ci
+ let CBs1c2u CBs1c2 + CBs1c2-ci
+let CBs2c2 mean [CB-hc-s2] of turtles with [ hclus = 2]
+  let CBs2c2-sd standard-deviation [CB-hc-s2] of turtles with [ hclus = 2]
+  let CBs2c2-se CBs2c2-sd / sqrt (count turtles with [ hclus = 2])
+  let CBs2c2-ci CBs2c2-se * 1.96 
+ let CBs2c2l CBs2c2 - CBs2c2-ci
+ let CBs2c2u CBs2c2 + CBs2c2-ci
+let CBs3c2 mean [CB-hc-s3] of turtles with [ hclus = 2]
+  let CBs3c2-sd standard-deviation [CB-hc-s3] of turtles with [ hclus = 2]
+  let CBs3c2-se CBs3c2-sd / sqrt (count turtles with [ hclus = 2])
+  let CBs3c2-ci CBs3c2-se * 1.96 
+ let CBs3c2l CBs3c2 - CBs3c2-ci
+ let CBs3c2u CBs3c2 + CBs3c2-ci
+
+set-current-plot "CB (fert-subsidy) farmtype2"  
+set-current-plot-pen "CBs0-c2" plot	CBs0c2
+set-current-plot-pen "CBs0-c2l" plot	CBs0c2l  
+set-current-plot-pen "CBs0-c2u" plot	CBs0c2u
+set-current-plot-pen "CBs1-c2" plot	CBs1c2
+set-current-plot-pen "CBs1-c2l" plot	CBs1c2l  
+set-current-plot-pen "CBs1-c2u" plot	CBs1c2u
+set-current-plot-pen "CBs2-c2" plot	CBs2c2
+set-current-plot-pen "CBs2-c2l" plot	CBs2c2l  
+set-current-plot-pen "CBs2-c2u" plot	CBs2c2u  
+set-current-plot-pen "CBs3-c2" plot	CBs3c2
+set-current-plot-pen "CBs3-c2l" plot	CBs3c2l  
+set-current-plot-pen "CBs3-c2u" plot	CBs3c2u
+ 
+  ; Carbon balance for cluster 3 
+let CBs0c3 mean [CB-hc-s0] of turtles with [ hclus = 3]
+  let CBs0c3-sd standard-deviation [CB-hc-s0] of turtles with [ hclus = 3]
+  let CBs0c3-se CBs0c3-sd / sqrt (count turtles with [ hclus = 3])
+  let CBs0c3-ci CBs0c3-se * 1.96 
+ let CBs0c3l CBs0c3 - CBs0c3-ci
+ let CBs0c3u CBs0c3 + CBs0c3-ci
+let CBs1c3 mean [CB-hc-s1] of turtles with [ hclus = 3]
+  let CBs1c3-sd standard-deviation [CB-hc-s1] of turtles with [ hclus = 3]
+  let CBs1c3-se CBs1c3-sd / sqrt (count turtles with [ hclus = 3])
+  let CBs1c3-ci CBs1c3-se * 1.96 
+ let CBs1c3l CBs1c3 - CBs1c3-ci
+ let CBs1c3u CBs1c3 + CBs1c3-ci
+let CBs2c3 mean [CB-hc-s2] of turtles with [ hclus = 3]
+  let CBs2c3-sd standard-deviation [CB-hc-s2] of turtles with [ hclus = 3]
+  let CBs2c3-se CBs2c3-sd / sqrt (count turtles with [ hclus = 3])
+  let CBs2c3-ci CBs2c3-se * 1.96 
+ let CBs2c3l CBs2c3 - CBs2c3-ci
+ let CBs2c3u CBs2c3 + CBs2c3-ci
+let CBs3c3 mean [CB-hc-s3] of turtles with [ hclus = 3]
+  let CBs3c3-sd standard-deviation [CB-hc-s3] of turtles with [ hclus = 3]
+  let CBs3c3-se CBs3c3-sd / sqrt (count turtles with [ hclus = 3])
+  let CBs3c3-ci CBs3c3-se * 1.96 
+ let CBs3c3l CBs3c3 - CBs3c3-ci
+ let CBs3c3u CBs3c3 + CBs3c3-ci
+
+set-current-plot "CB (fert-subsidy) farmtype3"  
+set-current-plot-pen "CBs0-c3" plot	CBs0c3
+set-current-plot-pen "CBs0-c3l" plot	CBs0c3l  
+set-current-plot-pen "CBs0-c3u" plot	CBs0c3u
+set-current-plot-pen "CBs1-c3" plot	CBs1c3
+set-current-plot-pen "CBs1-c3l" plot	CBs1c3l  
+set-current-plot-pen "CBs1-c3u" plot	CBs1c3u
+set-current-plot-pen "CBs2-c3" plot	CBs2c3
+set-current-plot-pen "CBs2-c3l" plot	CBs2c3l  
+set-current-plot-pen "CBs2-c3u" plot	CBs2c3u  
+set-current-plot-pen "CBs3-c3" plot	CBs3c3
+set-current-plot-pen "CBs3-c3l" plot	CBs3c3l  
+set-current-plot-pen "CBs3-c3u" plot	CBs3c3u  
+ ; ]
+End
+
+
+
+To P613.Economic 
+P6131.Product-value
+P6132.Expenses
+P6133.Benefit:Cost-ratio  
+End
+To P6131.Product-value
+;if elapsed-years > 0 [
+  ;product value for whole population
+let P$s0a mean [P$-S0] of turtles 
+  let P$s0-sd standard-deviation [P$-s0] of turtles 
+  let P$s0-se P$s0-sd / sqrt (count turtles )
+  let P$s0-ci P$s0-se * 1.96 
+ let P$s0Al P$s0a - P$s0-ci
+ let P$s0Au P$s0a + P$s0-ci
+let P$s1a mean [P$-S1] of turtles 
+  let P$s1-sd standard-deviation [P$-s1] of turtles 
+  let P$s1-se P$s1-sd / sqrt (count turtles )
+  let P$s1-ci P$s1-se * 1.96 
+ let P$s1Al P$s1a - P$s1-ci
+ let P$s1Au P$s1a + P$s1-ci
+let P$s2A mean [P$-S2] of turtles 
+ let P$s2-sd standard-deviation [P$-s2] of turtles 
+  let P$s2-se P$s2-sd / sqrt (count turtles )
+  let P$s2-ci P$s2-se * 1.96 
+ let P$s2Al P$s2a - P$s2-ci
+ let P$s2Au P$s2a + P$s2-ci
+let P$s3A mean [P$-S3] of turtles 
+ let P$s3-sd standard-deviation [P$-s3] of turtles 
+  let P$s3-se P$s3-sd / sqrt (count turtles )
+  let P$s3-ci P$s3-se * 1.96 
+ let P$s3Al P$s3a - P$s3-ci
+ let P$s3Au P$s3a + P$s3-ci
+set-current-plot "Product $ (fert-subsidy) population"  
+set-current-plot-pen "Zero-sub" plot	P$s0a
+set-current-plot-pen "P$s0l" plot	P$s0Al  
+set-current-plot-pen "P$s0u" plot	P$s0Au
+set-current-plot-pen "Current-sub" plot	P$s1a
+set-current-plot-pen "P$s1l" plot	P$s1Al  
+set-current-plot-pen "P$s1u" plot	P$s1Au
+set-current-plot-pen "Reduced-sub" plot	P$s2a
+set-current-plot-pen "P$s2l" plot	P$s2Al  
+set-current-plot-pen "P$s2u" plot	P$s2Au  
+set-current-plot-pen "Universal-sub" plot	P$s3a
+set-current-plot-pen "P$s3l" plot	P$s3Al  
+set-current-plot-pen "P$s3u" plot	P$s3Au
+
+;product value for farmtype1
+let P$s0c1 mean [P$-hc-S0] of turtles with [Hclus = 1 ]
+  let P$s0c1-sd standard-deviation [P$-hc-s0] of turtles with [Hclus = 1 ]
+  let P$s0c1-se P$s0c1-sd / sqrt (count turtles with [Hclus = 1 ])
+  let P$s0c1c1-ci P$s0c1-se * 1.96 
+ let P$s0c1l P$s0c1 - P$s0c1c1-ci
+ let P$s0c1u P$s0c1 + P$s0c1c1-ci
+let P$s1c1 mean [P$-hc-S1] of turtles with [Hclus = 1 ]
+  let P$s1c1-sd standard-deviation [P$-hc-s1] of turtles with [Hclus = 1 ]
+  let P$s1c1-se P$s1c1-sd / sqrt (count turtles with [Hclus = 1 ])
+  let P$s1c1-ci P$s1c1-se * 1.96 
+ let P$s1c1l P$s1c1 - P$s1c1-ci
+ let P$s1c1u P$s1c1 + P$s1c1-ci
+let P$s2c1 mean [P$-hc-S2] of turtles with [Hclus = 1 ]
+ let P$s2c1-sd standard-deviation [P$-hc-s2] of turtles with [Hclus = 1 ]
+  let P$s2c1c1-se P$s2c1-sd / sqrt (count turtles with [Hclus = 1 ])
+  let P$s2c1-ci P$s2c1c1-se * 1.96 
+ let P$s2c1l P$s2c1 - P$s2c1-ci
+ let P$s2c1u P$s2c1 + P$s2c1-ci
+let P$s3c1 mean [P$-hc-S3] of turtles with [Hclus = 1 ]
+ let P$s3c1-sd standard-deviation [P$-hc-s3] of turtles with [Hclus = 1 ]
+  let P$s3c1c1-se P$s3c1-sd / sqrt (count turtles with [Hclus = 1 ])
+  let P$s3c1-ci P$s3c1c1-se * 1.96 
+ let P$s3c1l P$s3c1 - P$s3c1-ci
+ let P$s3c1u P$s3c1 + P$s3c1-ci
+set-current-plot "Product $ (fert-subsidy) farmtype1"  
+set-current-plot-pen "Zero-sub" plot	P$s0c1
+set-current-plot-pen "P$s0l" plot	P$s0c1l  
+set-current-plot-pen "P$s0u" plot	P$s0c1u
+set-current-plot-pen "Current-sub" plot	P$s1c1
+set-current-plot-pen "P$s1l" plot	P$s1c1l  
+set-current-plot-pen "P$s1u" plot	P$s1c1u
+set-current-plot-pen "Reduced-sub" plot	P$s2c1
+set-current-plot-pen "P$s2l" plot	P$s2c1l  
+set-current-plot-pen "P$s2u" plot	P$s2c1u  
+set-current-plot-pen "Universal-sub" plot	P$s3c1
+set-current-plot-pen "P$s3l" plot	P$s3c1l  
+set-current-plot-pen "P$s3u" plot	P$s3c1u
+
+
+;product value for fartmtype2
+let P$s0c2 mean [P$-hc-S0] of turtles with [Hclus = 2 ]
+  let P$s0c2-sd standard-deviation [P$-hc-s0] of turtles with [Hclus = 2 ]
+  let P$s0c2-se P$s0c2-sd / sqrt (count turtles with [Hclus = 2 ])
+  let P$s0c2c2-ci P$s0c2-se * 1.96 
+ let P$s0c2l P$s0c2 - P$s0c2c2-ci
+ let P$s0c2u P$s0c2 + P$s0c2c2-ci
+let P$s1c2 mean [P$-hc-S1] of turtles with [Hclus = 2 ]
+  let P$s1c2-sd standard-deviation [P$-hc-s1] of turtles with [Hclus = 2 ]
+  let P$s1c2-se P$s1c2-sd / sqrt (count turtles with [Hclus = 2 ])
+  let P$s1c2-ci P$s1c2-se * 1.96 
+ let P$s1c2l P$s1c2 - P$s1c2-ci
+ let P$s1c2u P$s1c2 + P$s1c2-ci
+let P$s2c2 mean [P$-hc-S2] of turtles with [Hclus = 2 ]
+ let P$s2c2-sd standard-deviation [P$-hc-s2] of turtles with [Hclus = 2 ]
+  let P$s2c2c2-se P$s2c2-sd / sqrt (count turtles with [Hclus = 2 ])
+  let P$s2c2-ci P$s2c2c2-se * 1.96 
+ let P$s2c2l P$s2c2 - P$s2c2-ci
+ let P$s2c2u P$s2c2 + P$s2c2-ci
+let P$s3c2 mean [P$-hc-S3] of turtles with [Hclus = 2 ]
+ let P$s3c2-sd standard-deviation [P$-hc-s3] of turtles with [Hclus = 2 ]
+  let P$s3c2c2-se P$s3c2-sd / sqrt (count turtles with [Hclus = 2 ])
+  let P$s3c2-ci P$s3c2c2-se * 1.96 
+ let P$s3c2l P$s3c2 - P$s3c2-ci
+ let P$s3c2u P$s3c2 + P$s3c2-ci
+set-current-plot "Product $ (fert-subsidy) farmtype2"  
+set-current-plot-pen "Zero-sub" plot	P$s0c2
+set-current-plot-pen "P$s0l" plot	P$s0c2l  
+set-current-plot-pen "P$s0u" plot	P$s0c2u
+set-current-plot-pen "Current-sub" plot	P$s1c2
+set-current-plot-pen "P$s1l" plot	P$s1c2l  
+set-current-plot-pen "P$s1u" plot	P$s1c2u
+set-current-plot-pen "Reduced-sub" plot	P$s2c2
+set-current-plot-pen "P$s2l" plot	P$s2c2l  
+set-current-plot-pen "P$s2u" plot	P$s2c2u  
+set-current-plot-pen "Universal-sub" plot	P$s3c2
+set-current-plot-pen "P$s3l" plot	P$s3c2l  
+set-current-plot-pen "P$s3u" plot	P$s3c2u  
+
+
+;product value for fartm-type3
+let P$s0c3 mean [P$-hc-S0] of turtles with [Hclus = 3 ]
+  let P$s0c3-sd standard-deviation [P$-hc-s0] of turtles with [Hclus = 3 ]
+  let P$s0c3-se P$s0c3-sd / sqrt (count turtles with [Hclus = 3 ])
+  let P$s0c3c3-ci P$s0c3-se * 1.96 
+ let P$s0c3l P$s0c3 - P$s0c3c3-ci
+ let P$s0c3u P$s0c3 + P$s0c3c3-ci
+let P$s1c3 mean [P$-hc-S1] of turtles with [Hclus = 3 ]
+  let P$s1c3-sd standard-deviation [P$-hc-s1] of turtles with [Hclus = 3 ]
+  let P$s1c3-se P$s1c3-sd / sqrt (count turtles with [Hclus = 3 ])
+  let P$s1c3-ci P$s1c3-se * 1.96 
+ let P$s1c3l P$s1c3 - P$s1c3-ci
+ let P$s1c3u P$s1c3 + P$s1c3-ci
+let P$s2c3 mean [P$-hc-S2] of turtles with [Hclus = 3 ]
+ let P$s2c3-sd standard-deviation [P$-hc-s2] of turtles with [Hclus = 3 ]
+  let P$s2c3c3-se P$s2c3-sd / sqrt (count turtles with [Hclus = 3 ])
+  let P$s2c3-ci P$s2c3c3-se * 1.96 
+ let P$s2c3l P$s2c3 - P$s2c3-ci
+ let P$s2c3u P$s2c3 + P$s2c3-ci
+let P$s3c3 mean [P$-hc-S3] of turtles with [Hclus = 3 ]
+ let P$s3c3-sd standard-deviation [P$-hc-s3] of turtles with [Hclus = 3 ]
+  let P$s3c3c3-se P$s3c3-sd / sqrt (count turtles with [Hclus = 3 ])
+  let P$s3c3-ci P$s3c3c3-se * 1.96 
+ let P$s3c3l P$s3c3 - P$s3c3-ci
+ let P$s3c3u P$s3c3 + P$s3c3-ci
+set-current-plot "Product $ (fert-subsidy) farmtype3"  
+set-current-plot-pen "Zero-sub" plot	P$s0c3
+set-current-plot-pen "P$s0l" plot	P$s0c3l  
+set-current-plot-pen "P$s0u" plot	P$s0c3u
+set-current-plot-pen "Current-sub" plot	P$s1c3
+set-current-plot-pen "P$s1l" plot	P$s1c3l  
+set-current-plot-pen "P$s1u" plot	P$s1c3u
+set-current-plot-pen "Reduced-sub" plot	P$s2c3
+set-current-plot-pen "P$s2l" plot	P$s2c3l  
+set-current-plot-pen "P$s2u" plot	P$s2c3u  
+set-current-plot-pen "Universal-sub" plot	P$s3c3
+set-current-plot-pen "P$s3l" plot	P$s3c3l  
+set-current-plot-pen "P$s3u" plot	P$s3c3u
+ ; ]
+End
+ 
+
+To P6132.Expenses
+;if elapsed-years > 0 [
+  ;Expense for whole population
+let E$s0a mean [E$-S0] of turtles 
+  let E$s0-sd standard-deviation [E$-s0] of turtles 
+  let E$s0-se E$s0-sd / sqrt (count turtles )
+  let E$s0-ci E$s0-se * 1.96 
+ let E$s0Al E$s0a - E$s0-ci
+ let E$s0Au E$s0a + E$s0-ci
+let E$s1a mean [E$-S1] of turtles 
+  let E$s1-sd standard-deviation [E$-s1] of turtles 
+  let E$s1-se E$s1-sd / sqrt (count turtles )
+  let E$s1-ci E$s1-se * 1.96 
+ let E$s1Al E$s1a - E$s1-ci
+ let E$s1Au E$s1a + E$s1-ci
+let E$s2A mean [E$-S2] of turtles 
+ let E$s2-sd standard-deviation [E$-s2] of turtles 
+  let E$s2-se E$s2-sd / sqrt (count turtles )
+  let E$s2-ci E$s2-se * 1.96 
+ let E$s2Al E$s2a - E$s2-ci
+ let E$s2Au E$s2a + E$s2-ci
+let E$s3A mean [E$-S3] of turtles 
+ let E$s3-sd standard-deviation [E$-s3] of turtles 
+  let E$s3-se E$s3-sd / sqrt (count turtles )
+  let E$s3-ci E$s3-se * 1.96 
+ let E$s3Al E$s3a - E$s3-ci
+ let E$s3Au E$s3a + E$s3-ci
+set-current-plot "Expense $ (fert-subsidy) population"  
+set-current-plot-pen "Zero-sub" plot	E$s0a
+set-current-plot-pen "E$s0l" plot	E$s0Al  
+set-current-plot-pen "E$s0u" plot	E$s0Au
+set-current-plot-pen "Current-sub" plot	E$s1a
+set-current-plot-pen "E$s1l" plot	E$s1Al  
+set-current-plot-pen "E$s1u" plot	E$s1Au
+set-current-plot-pen "Reduced-sub" plot	E$s2a
+set-current-plot-pen "E$s2l" plot	E$s2Al  
+set-current-plot-pen "E$s2u" plot	E$s2Au  
+set-current-plot-pen "Universal-sub" plot	E$s3a
+set-current-plot-pen "E$s3l" plot	E$s3Al  
+set-current-plot-pen "E$s3u" plot	E$s3Au
+
+;Expense for farmtype1
+let E$s0c1 mean [E$-hc-S0] of turtles with [Hclus = 1 ]
+  let E$s0c1-sd standard-deviation [E$-hc-s0] of turtles with [Hclus = 1 ]
+  let E$s0c1-se E$s0c1-sd / sqrt (count turtles with [Hclus = 1 ])
+  let E$s0c1c1-ci E$s0c1-se * 1.96 
+ let E$s0c1l E$s0c1 - E$s0c1c1-ci
+ let E$s0c1u E$s0c1 + E$s0c1c1-ci
+let E$s1c1 mean [E$-hc-S1] of turtles with [Hclus = 1 ]
+  let E$s1c1-sd standard-deviation [E$-hc-s1] of turtles with [Hclus = 1 ]
+  let E$s1c1-se E$s1c1-sd / sqrt (count turtles with [Hclus = 1 ])
+  let E$s1c1-ci E$s1c1-se * 1.96 
+ let E$s1c1l E$s1c1 - E$s1c1-ci
+ let E$s1c1u E$s1c1 + E$s1c1-ci
+let E$s2c1 mean [E$-hc-S2] of turtles with [Hclus = 1 ]
+ let E$s2c1-sd standard-deviation [E$-hc-s2] of turtles with [Hclus = 1 ]
+  let E$s2c1c1-se E$s2c1-sd / sqrt (count turtles with [Hclus = 1 ])
+  let E$s2c1-ci E$s2c1c1-se * 1.96 
+ let E$s2c1l E$s2c1 - E$s2c1-ci
+ let E$s2c1u E$s2c1 + E$s2c1-ci
+let E$s3c1 mean [E$-hc-S3] of turtles with [Hclus = 1 ]
+ let E$s3c1-sd standard-deviation [E$-hc-s3] of turtles with [Hclus = 1 ]
+  let E$s3c1c1-se E$s3c1-sd / sqrt (count turtles with [Hclus = 1 ])
+  let E$s3c1-ci E$s3c1c1-se * 1.96 
+ let E$s3c1l E$s3c1 - E$s3c1-ci
+ let E$s3c1u E$s3c1 + E$s3c1-ci
+set-current-plot "Expense $ (fert-subsidy) farmtype1"  
+set-current-plot-pen "Zero-sub" plot	E$s0c1
+set-current-plot-pen "E$s0l" plot	E$s0c1l  
+set-current-plot-pen "E$s0u" plot	E$s0c1u
+set-current-plot-pen "Current-sub" plot	E$s1c1
+set-current-plot-pen "E$s1l" plot	E$s1c1l  
+set-current-plot-pen "E$s1u" plot	E$s1c1u
+set-current-plot-pen "Reduced-sub" plot	E$s2c1
+set-current-plot-pen "E$s2l" plot	E$s2c1l  
+set-current-plot-pen "E$s2u" plot	E$s2c1u  
+set-current-plot-pen "Universal-sub" plot	E$s3c1
+set-current-plot-pen "E$s3l" plot	E$s3c1l  
+set-current-plot-pen "E$s3u" plot	E$s3c1u
+
+
+;Expense for fartmtype2
+let E$s0c2 mean [E$-hc-S0] of turtles with [Hclus = 2 ]
+  let E$s0c2-sd standard-deviation [E$-hc-s0] of turtles with [Hclus = 2 ]
+  let E$s0c2-se E$s0c2-sd / sqrt (count turtles with [Hclus = 2 ])
+  let E$s0c2c2-ci E$s0c2-se * 1.96 
+ let E$s0c2l E$s0c2 - E$s0c2c2-ci
+ let E$s0c2u E$s0c2 + E$s0c2c2-ci
+let E$s1c2 mean [E$-hc-S1] of turtles with [Hclus = 2 ]
+  let E$s1c2-sd standard-deviation [E$-hc-s1] of turtles with [Hclus = 2 ]
+  let E$s1c2-se E$s1c2-sd / sqrt (count turtles with [Hclus = 2 ])
+  let E$s1c2-ci E$s1c2-se * 1.96 
+ let E$s1c2l E$s1c2 - E$s1c2-ci
+ let E$s1c2u E$s1c2 + E$s1c2-ci
+let E$s2c2 mean [E$-hc-S2] of turtles with [Hclus = 2 ]
+ let E$s2c2-sd standard-deviation [E$-hc-s2] of turtles with [Hclus = 2 ]
+  let E$s2c2c2-se E$s2c2-sd / sqrt (count turtles with [Hclus = 2 ])
+  let E$s2c2-ci E$s2c2c2-se * 1.96 
+ let E$s2c2l E$s2c2 - E$s2c2-ci
+ let E$s2c2u E$s2c2 + E$s2c2-ci
+let E$s3c2 mean [E$-hc-S3] of turtles with [Hclus = 2 ]
+ let E$s3c2-sd standard-deviation [E$-hc-s3] of turtles with [Hclus = 2 ]
+  let E$s3c2c2-se E$s3c2-sd / sqrt (count turtles with [Hclus = 2 ])
+  let E$s3c2-ci E$s3c2c2-se * 1.96 
+ let E$s3c2l E$s3c2 - E$s3c2-ci
+ let E$s3c2u E$s3c2 + E$s3c2-ci
+set-current-plot "Expense $ (fert-subsidy) farmtype2"  
+set-current-plot-pen "Zero-sub" plot	E$s0c2
+set-current-plot-pen "E$s0l" plot	E$s0c2l  
+set-current-plot-pen "E$s0u" plot	E$s0c2u
+set-current-plot-pen "Current-sub" plot	E$s1c2
+set-current-plot-pen "E$s1l" plot	E$s1c2l  
+set-current-plot-pen "E$s1u" plot	E$s1c2u
+set-current-plot-pen "Reduced-sub" plot	E$s2c2
+set-current-plot-pen "E$s2l" plot	E$s2c2l  
+set-current-plot-pen "E$s2u" plot	E$s2c2u  
+set-current-plot-pen "Universal-sub" plot	E$s3c2
+set-current-plot-pen "E$s3l" plot	E$s3c2l  
+set-current-plot-pen "E$s3u" plot	E$s3c2u  
+
+
+;Expense for fartm-type3
+let E$s0c3 mean [E$-hc-S0] of turtles with [Hclus = 3 ]
+  let E$s0c3-sd standard-deviation [E$-hc-s0] of turtles with [Hclus = 3 ]
+  let E$s0c3-se E$s0c3-sd / sqrt (count turtles with [Hclus = 3 ])
+  let E$s0c3c3-ci E$s0c3-se * 1.96 
+ let E$s0c3l E$s0c3 - E$s0c3c3-ci
+ let E$s0c3u E$s0c3 + E$s0c3c3-ci
+let E$s1c3 mean [E$-hc-S1] of turtles with [Hclus = 3 ]
+  let E$s1c3-sd standard-deviation [E$-hc-s1] of turtles with [Hclus = 3 ]
+  let E$s1c3-se E$s1c3-sd / sqrt (count turtles with [Hclus = 3 ])
+  let E$s1c3-ci E$s1c3-se * 1.96 
+ let E$s1c3l E$s1c3 - E$s1c3-ci
+ let E$s1c3u E$s1c3 + E$s1c3-ci
+let E$s2c3 mean [E$-hc-S2] of turtles with [Hclus = 3 ]
+ let E$s2c3-sd standard-deviation [E$-hc-s2] of turtles with [Hclus = 3 ]
+  let E$s2c3c3-se E$s2c3-sd / sqrt (count turtles with [Hclus = 3 ])
+  let E$s2c3-ci E$s2c3c3-se * 1.96 
+ let E$s2c3l E$s2c3 - E$s2c3-ci
+ let E$s2c3u E$s2c3 + E$s2c3-ci
+let E$s3c3 mean [E$-hc-S3] of turtles with [Hclus = 3 ]
+ let E$s3c3-sd standard-deviation [E$-hc-s3] of turtles with [Hclus = 3 ]
+  let E$s3c3c3-se E$s3c3-sd / sqrt (count turtles with [Hclus = 3 ])
+  let E$s3c3-ci E$s3c3c3-se * 1.96 
+ let E$s3c3l E$s3c3 - E$s3c3-ci
+ let E$s3c3u E$s3c3 + E$s3c3-ci
+set-current-plot "Expense $ (fert-subsidy) farmtype3"  
+set-current-plot-pen "Zero-sub" plot	E$s0c3
+set-current-plot-pen "E$s0l" plot	E$s0c3l  
+set-current-plot-pen "E$s0u" plot	E$s0c3u
+set-current-plot-pen "Current-sub" plot	E$s1c3
+set-current-plot-pen "E$s1l" plot	E$s1c3l  
+set-current-plot-pen "E$s1u" plot	E$s1c3u
+set-current-plot-pen "Reduced-sub" plot	E$s2c3
+set-current-plot-pen "E$s2l" plot	E$s2c3l  
+set-current-plot-pen "E$s2u" plot	E$s2c3u  
+set-current-plot-pen "Universal-sub" plot	E$s3c3
+set-current-plot-pen "E$s3l" plot	E$s3c3l  
+set-current-plot-pen "E$s3u" plot	E$s3c3u
+  ;]
+End
+
+To P6133.Benefit:Cost-ratio
+;B-C for whole population
+let B-C$s0a mean [B-C$-S0] of turtles 
+  let B-C$s0-sd standard-deviation [B-C$-s0] of turtles 
+  let B-C$s0-se B-C$s0-sd / sqrt (count turtles )
+  let B-C$s0-ci B-C$s0-se * 1.96 
+ let B-C$s0Al B-C$s0a - B-C$s0-ci
+ let B-C$s0Au B-C$s0a + B-C$s0-ci
+let B-C$s1a mean [B-C$-S1] of turtles 
+  let B-C$s1-sd standard-deviation [B-C$-s1] of turtles 
+  let B-C$s1-se B-C$s1-sd / sqrt (count turtles )
+  let B-C$s1-ci B-C$s1-se * 1.96 
+ let B-C$s1Al B-C$s1a - B-C$s1-ci
+ let B-C$s1Au B-C$s1a + B-C$s1-ci
+let B-C$s2A mean [B-C$-S2] of turtles 
+ let B-C$s2-sd standard-deviation [B-C$-s2] of turtles 
+  let B-C$s2-se B-C$s2-sd / sqrt (count turtles )
+  let B-C$s2-ci B-C$s2-se * 1.96 
+ let B-C$s2Al B-C$s2a - B-C$s2-ci
+ let B-C$s2Au B-C$s2a + B-C$s2-ci
+let B-C$s3A mean [B-C$-S3] of turtles 
+ let B-C$s3-sd standard-deviation [B-C$-s3] of turtles 
+  let B-C$s3-se B-C$s3-sd / sqrt (count turtles )
+  let B-C$s3-ci B-C$s3-se * 1.96 
+ let B-C$s3Al B-C$s3a - B-C$s3-ci
+ let B-C$s3Au B-C$s3a + B-C$s3-ci
+set-current-plot "Profit (fert-subsidy) population"  
+set-current-plot-pen "Zero-sub" plot	B-C$s0a
+set-current-plot-pen "B-C$s0l" plot	B-C$s0Al  
+set-current-plot-pen "B-C$s0u" plot	B-C$s0Au
+set-current-plot-pen "Current-sub" plot	B-C$s1a
+set-current-plot-pen "B-C$s1l" plot	B-C$s1Al  
+set-current-plot-pen "B-C$s1u" plot	B-C$s1Au
+set-current-plot-pen "Reduced-sub" plot	B-C$s2a
+set-current-plot-pen "B-C$s2l" plot	B-C$s2Al  
+set-current-plot-pen "B-C$s2u" plot	B-C$s2Au  
+set-current-plot-pen "Universal-sub" plot	B-C$s3a
+set-current-plot-pen "B-C$s3l" plot	B-C$s3Al  
+set-current-plot-pen "B-C$s3u" plot	B-C$s3Au
+
+;B-C for farmtype1
+let B-C$s0c1 mean [B-C$-hc-S0] of turtles with [Hclus = 1 ]
+  let B-C$s0c1-sd standard-deviation [B-C$-hc-s0] of turtles with [Hclus = 1 ]
+  let B-C$s0c1-se B-C$s0c1-sd / sqrt (count turtles with [Hclus = 1 ])
+  let B-C$s0c1c1-ci B-C$s0c1-se * 1.96 
+ let B-C$s0c1l B-C$s0c1 - B-C$s0c1c1-ci
+ let B-C$s0c1u B-C$s0c1 + B-C$s0c1c1-ci
+let B-C$s1c1 mean [B-C$-hc-S1] of turtles with [Hclus = 1 ]
+  let B-C$s1c1-sd standard-deviation [B-C$-hc-s1] of turtles with [Hclus = 1 ]
+  let B-C$s1c1-se B-C$s1c1-sd / sqrt (count turtles with [Hclus = 1 ])
+  let B-C$s1c1-ci B-C$s1c1-se * 1.96 
+ let B-C$s1c1l B-C$s1c1 - B-C$s1c1-ci
+ let B-C$s1c1u B-C$s1c1 + B-C$s1c1-ci
+let B-C$s2c1 mean [B-C$-hc-S2] of turtles with [Hclus = 1 ]
+ let B-C$s2c1-sd standard-deviation [B-C$-hc-s2] of turtles with [Hclus = 1 ]
+  let B-C$s2c1c1-se B-C$s2c1-sd / sqrt (count turtles with [Hclus = 1 ])
+  let B-C$s2c1-ci B-C$s2c1c1-se * 1.96 
+ let B-C$s2c1l B-C$s2c1 - B-C$s2c1-ci
+ let B-C$s2c1u B-C$s2c1 + B-C$s2c1-ci
+let B-C$s3c1 mean [B-C$-hc-S3] of turtles with [Hclus = 1 ]
+ let B-C$s3c1-sd standard-deviation [B-C$-hc-s3] of turtles with [Hclus = 1 ]
+  let B-C$s3c1c1-se B-C$s3c1-sd / sqrt (count turtles with [Hclus = 1 ])
+  let B-C$s3c1-ci B-C$s3c1c1-se * 1.96 
+ let B-C$s3c1l B-C$s3c1 - B-C$s3c1-ci
+ let B-C$s3c1u B-C$s3c1 + B-C$s3c1-ci
+set-current-plot "Profit (fert-subsidy) farmtype1"  
+set-current-plot-pen "Zero-sub" plot	B-C$s0c1
+set-current-plot-pen "B-C$s0l" plot	B-C$s0c1l  
+set-current-plot-pen "B-C$s0u" plot	B-C$s0c1u
+set-current-plot-pen "Current-sub" plot	B-C$s1c1
+set-current-plot-pen "B-C$s1l" plot	B-C$s1c1l  
+set-current-plot-pen "B-C$s1u" plot	B-C$s1c1u
+set-current-plot-pen "Reduced-sub" plot	B-C$s2c1
+set-current-plot-pen "B-C$s2l" plot	B-C$s2c1l  
+set-current-plot-pen "B-C$s2u" plot	B-C$s2c1u  
+set-current-plot-pen "Universal-sub" plot	B-C$s3c1
+set-current-plot-pen "B-C$s3l" plot	B-C$s3c1l  
+set-current-plot-pen "B-C$s3u" plot	B-C$s3c1u
+
+
+;B-C for fartmtype2
+let B-C$s0c2 mean [B-C$-hc-S0] of turtles with [Hclus = 2 ]
+  let B-C$s0c2-sd standard-deviation [B-C$-hc-s0] of turtles with [Hclus = 2 ]
+  let B-C$s0c2-se B-C$s0c2-sd / sqrt (count turtles with [Hclus = 2 ])
+  let B-C$s0c2c2-ci B-C$s0c2-se * 1.96 
+ let B-C$s0c2l B-C$s0c2 - B-C$s0c2c2-ci
+ let B-C$s0c2u B-C$s0c2 + B-C$s0c2c2-ci
+let B-C$s1c2 mean [B-C$-hc-S1] of turtles with [Hclus = 2 ]
+  let B-C$s1c2-sd standard-deviation [B-C$-hc-s1] of turtles with [Hclus = 2 ]
+  let B-C$s1c2-se B-C$s1c2-sd / sqrt (count turtles with [Hclus = 2 ])
+  let B-C$s1c2-ci B-C$s1c2-se * 1.96 
+ let B-C$s1c2l B-C$s1c2 - B-C$s1c2-ci
+ let B-C$s1c2u B-C$s1c2 + B-C$s1c2-ci
+let B-C$s2c2 mean [B-C$-hc-S2] of turtles with [Hclus = 2 ]
+ let B-C$s2c2-sd standard-deviation [B-C$-hc-s2] of turtles with [Hclus = 2 ]
+  let B-C$s2c2c2-se B-C$s2c2-sd / sqrt (count turtles with [Hclus = 2 ])
+  let B-C$s2c2-ci B-C$s2c2c2-se * 1.96 
+ let B-C$s2c2l B-C$s2c2 - B-C$s2c2-ci
+ let B-C$s2c2u B-C$s2c2 + B-C$s2c2-ci
+let B-C$s3c2 mean [B-C$-hc-S3] of turtles with [Hclus = 2 ]
+ let B-C$s3c2-sd standard-deviation [B-C$-hc-s3] of turtles with [Hclus = 2 ]
+  let B-C$s3c2c2-se B-C$s3c2-sd / sqrt (count turtles with [Hclus = 2 ])
+  let B-C$s3c2-ci B-C$s3c2c2-se * 1.96 
+ let B-C$s3c2l B-C$s3c2 - B-C$s3c2-ci
+ let B-C$s3c2u B-C$s3c2 + B-C$s3c2-ci
+set-current-plot "Profit (fert-subsidy) farmtype2"  
+set-current-plot-pen "Zero-sub" plot	B-C$s0c2
+set-current-plot-pen "B-C$s0l" plot	B-C$s0c2l  
+set-current-plot-pen "B-C$s0u" plot	B-C$s0c2u
+set-current-plot-pen "Current-sub" plot	B-C$s1c2
+set-current-plot-pen "B-C$s1l" plot	B-C$s1c2l  
+set-current-plot-pen "B-C$s1u" plot	B-C$s1c2u
+set-current-plot-pen "Reduced-sub" plot	B-C$s2c2
+set-current-plot-pen "B-C$s2l" plot	B-C$s2c2l  
+set-current-plot-pen "B-C$s2u" plot	B-C$s2c2u  
+set-current-plot-pen "Universal-sub" plot	B-C$s3c2
+set-current-plot-pen "B-C$s3l" plot	B-C$s3c2l  
+set-current-plot-pen "B-C$s3u" plot	B-C$s3c2u  
+
+
+;B-C for fartm-type3
+let B-C$s0c3 mean [B-C$-hc-S0] of turtles with [Hclus = 3 ]
+  let B-C$s0c3-sd standard-deviation [B-C$-hc-s0] of turtles with [Hclus = 3 ]
+  let B-C$s0c3-se B-C$s0c3-sd / sqrt (count turtles with [Hclus = 3 ])
+  let B-C$s0c3c3-ci B-C$s0c3-se * 1.96 
+ let B-C$s0c3l B-C$s0c3 - B-C$s0c3c3-ci
+ let B-C$s0c3u B-C$s0c3 + B-C$s0c3c3-ci
+let B-C$s1c3 mean [B-C$-hc-S1] of turtles with [Hclus = 3 ]
+  let B-C$s1c3-sd standard-deviation [B-C$-hc-s1] of turtles with [Hclus = 3 ]
+  let B-C$s1c3-se B-C$s1c3-sd / sqrt (count turtles with [Hclus = 3 ])
+  let B-C$s1c3-ci B-C$s1c3-se * 1.96 
+ let B-C$s1c3l B-C$s1c3 - B-C$s1c3-ci
+ let B-C$s1c3u B-C$s1c3 + B-C$s1c3-ci
+let B-C$s2c3 mean [B-C$-hc-S2] of turtles with [Hclus = 3 ]
+ let B-C$s2c3-sd standard-deviation [B-C$-hc-s2] of turtles with [Hclus = 3 ]
+  let B-C$s2c3c3-se B-C$s2c3-sd / sqrt (count turtles with [Hclus = 3 ])
+  let B-C$s2c3-ci B-C$s2c3c3-se * 1.96 
+ let B-C$s2c3l B-C$s2c3 - B-C$s2c3-ci
+ let B-C$s2c3u B-C$s2c3 + B-C$s2c3-ci
+let B-C$s3c3 mean [B-C$-hc-S3] of turtles with [Hclus = 3 ]
+ let B-C$s3c3-sd standard-deviation [B-C$-hc-s3] of turtles with [Hclus = 3 ]
+  let B-C$s3c3c3-se B-C$s3c3-sd / sqrt (count turtles with [Hclus = 3 ])
+  let B-C$s3c3-ci B-C$s3c3c3-se * 1.96 
+ let B-C$s3c3l B-C$s3c3 - B-C$s3c3-ci
+ let B-C$s3c3u B-C$s3c3 + B-C$s3c3-ci
+set-current-plot "Profit (fert-subsidy) farmtype3"  
+set-current-plot-pen "Zero-sub" plot	B-C$s0c3
+set-current-plot-pen "B-C$s0l" plot	B-C$s0c3l  
+set-current-plot-pen "B-C$s0u" plot	B-C$s0c3u
+set-current-plot-pen "Current-sub" plot	B-C$s1c3
+set-current-plot-pen "B-C$s1l" plot	B-C$s1c3l  
+set-current-plot-pen "B-C$s1u" plot	B-C$s1c3u
+set-current-plot-pen "Reduced-sub" plot	B-C$s2c3
+set-current-plot-pen "B-C$s2l" plot	B-C$s2c3l  
+set-current-plot-pen "B-C$s2u" plot	B-C$s2c3u  
+set-current-plot-pen "Universal-sub" plot	B-C$s3c3
+set-current-plot-pen "B-C$s3l" plot	B-C$s3c3l  
+set-current-plot-pen "B-C$s3u" plot	B-C$s3c3u
+End
+
+To P614.Social
+P6141.Nitrogen-Balance>0
+End
+To P6141.Nitrogen-Balance>0
+;NB+ whole population
+let NB>0s0a count turtles with [NB-s0 > 0] / count turtles * 100
+let NB>0s1a count turtles with [NB-S1 > 0] / count turtles * 100
+let NB>0s2A count turtles with [NB-S2 > 0] / count turtles * 100
+let NB>0s3A count turtles with [NB-S3 > 0] / count turtles * 100
+set-current-plot "NB+ (fert-subsidy) population"  
+set-current-plot-pen "Zero-sub" plot	NB>0s0a
+set-current-plot-pen "Current-sub" plot	NB>0s1a
+set-current-plot-pen "Reduced-sub" plot	NB>0s2a
+set-current-plot-pen "Universal-sub" plot	NB>0s3a
+
+;NB+ farmtype1
+let NB>0s0c1 count turtles with [Hclus = 1 and NB-hc-s0 > 0] / count turtles with [hclus = 1] * 100
+let NB>0s1c1 count turtles with [Hclus = 1 and NB-hc-S1 > 0] / count turtles with [hclus = 1] * 100
+let NB>0s2c1 count turtles with [Hclus = 1 and NB-hc-S2 > 0] / count turtles with [hclus = 1] * 100
+let NB>0s3c1 count turtles with [Hclus = 1 and NB-hc-S3 > 0] / count turtles with [hclus = 1] * 100
+set-current-plot "NB+ (fert-subsidy) farmtype1"  
+set-current-plot-pen "Zero-sub" plot	NB>0s0c1
+set-current-plot-pen "Current-sub" plot	NB>0s1c1
+set-current-plot-pen "Reduced-sub" plot	NB>0s2c1
+set-current-plot-pen "Universal-sub" plot	NB>0s3c1
+
+;NB+ fartmtype2
+let NB>0s0c2 count turtles with [Hclus = 2 and NB-hc-s0 > 0] / count turtles with [hclus = 2] * 100
+let NB>0s1c2 count turtles with [Hclus = 2 and NB-hc-S1 > 0] / count turtles with [hclus = 2] * 100
+let NB>0s2c2 count turtles with [Hclus = 2 and NB-hc-S2 > 0] / count turtles with [hclus = 2] * 100
+let NB>0s3c2 count turtles with [Hclus = 2 and NB-hc-S3 > 0] / count turtles with [hclus = 2] * 100
+set-current-plot "NB+ (fert-subsidy) farmtype2"  
+set-current-plot-pen "Zero-sub" plot	NB>0s0c2
+set-current-plot-pen "Current-sub" plot	NB>0s1c2
+set-current-plot-pen "Reduced-sub" plot	NB>0s2c2
+set-current-plot-pen "Universal-sub" plot	NB>0s3c2
+
+;NB+ fartm-type3
+let NB>0s0c3 count turtles with [Hclus = 3 and NB-hc-s0 > 0] / count turtles with [hclus = 3] * 100
+let NB>0s1c3 count turtles with [Hclus = 3 and NB-hc-S1 > 0] / count turtles with [hclus = 3] * 100
+let NB>0s2c3 count turtles with [Hclus = 3 and NB-hc-S2 > 0] / count turtles with [hclus = 3] * 100
+let NB>0s3c3 count turtles with [Hclus = 3 and NB-hc-S3 > 0] / count turtles with [hclus = 3] * 100
+set-current-plot "NB+ (fert-subsidy) farmtype3"  
+set-current-plot-pen "Zero-sub" plot	NB>0s0c3
+set-current-plot-pen "Current-sub" plot	NB>0s1c3
+set-current-plot-pen "Reduced-sub" plot	NB>0s2c3
+set-current-plot-pen "Universal-sub" plot	NB>0s3c3
+End
+
+
+To P62.Gender&labour-policies
+P621.Productivity
+P622.Ecological
+P623.Economic
+P624.Social 
+End
+To P621.Productivity
+P6211.Fertilizer-input
+P6212.Organic-manure-input
+End  
+To P622.Ecological
+
+End 
+To P623.Economic
+
+End
+To P624.Social
+
+End
+
+To P6211.Fertilizer-input
+  ;---------OTHER POLICIES---------------
+; ---BASELINE
+let fba mean [F-b] of turtles with [f-b > 0]
+  let fb-sd standard-deviation [F-b] of turtles with [f-b > 0]
+  let fb-se fb-sd / sqrt (count turtles with [f-b > 0])
+  let fb-ci fb-se * 1.96 
+ let fbAl fba - fb-ci
+ let fbAu fba + fb-ci
+ 
+ let fbc1 mean [f-hc-b] of turtles with [f-hc-b > 0 and hclus = 1]
+  let fbc1-sd standard-deviation [f-hc-b] of turtles with [f-hc-b > 0 and hclus = 1]
+  let fbc1-se fbc1-sd / sqrt (count turtles with [f-hc-b > 0 and hclus = 1])
+  let fbc1-ci fbc1-se * 1.96 
+ let fbc1l fbc1 - fbc1-ci
+ let fbc1u fbc1 + fbc1-ci
+ 
+ let fbc2 mean [f-hc-b] of turtles with [f-hc-b > 0 and hclus = 2]
+  let fbc2-sd standard-deviation [f-hc-b] of turtles with [f-hc-b > 0 and hclus = 2]
+  let fbc2-se fbc2-sd / sqrt (count turtles with [f-hc-b > 0 and hclus = 2])
+  let fbc2-ci fbc2-se * 1.96 
+ let fbc2l fbc2 - fbc2-ci
+ let fbc2u fbc2 + fbc2-ci
+ 
+ let fbc3 mean [f-hc-b] of turtles with [f-hc-b > 0 and hclus = 3]
+  let fbc3-sd standard-deviation [f-hc-b] of turtles with [f-hc-b > 0 and hclus = 3]
+  let fbc3-se fbc3-sd / sqrt (count turtles with [f-hc-b > 0 and hclus = 3])
+  let fbc3-ci fbc3-se * 1.96 
+ let fbc3l fbc3 - fbc3-ci
+ let fbc3u fbc3 + fbc3-ci
+ 
+ 
+; ----WOMEN EMPOWERMENT
+ 
+let fwa mean [F-w] of turtles with [f-w > 0]
+  let fw-sd standard-deviation [F-w] of turtles with [f-w > 0]
+  let fw-se fw-sd / sqrt (count turtles with [f-w > 0])
+  let fw-ci fw-se * 1.96 
+ let fwAl fwa - fw-ci
+ let fwAu fwa + fw-ci
+ 
+ let fwc1 mean [f-hc-w] of turtles with [f-hc-w > 0 and hclus = 1]
+  let fwc1-sd standard-deviation [f-hc-w] of turtles with [f-hc-w > 0 and hclus = 1]
+  let fwc1-se fwc1-sd / sqrt (count turtles with [f-hc-w > 0 and hclus = 1])
+  let fwc1-ci fwc1-se * 1.96 
+ let fwc1l fwc1 - fwc1-ci
+ let fwc1u fwc1 + fwc1-ci
+ 
+ let fwc2 mean [f-hc-w] of turtles with [f-hc-w > 0 and hclus = 2]
+  let fwc2-sd standard-deviation [f-hc-w] of turtles with [f-hc-w > 0 and hclus = 2]
+  let fwc2-se fwc2-sd / sqrt (count turtles with [f-hc-w > 0 and hclus = 2])
+  let fwc2-ci fwc2-se * 1.96 
+ let fwc2l fwc2 - fwc2-ci
+ let fwc2u fwc2 + fwc2-ci
+ 
+ let fwc3 mean [f-hc-w] of turtles with [f-hc-w > 0 and hclus = 3]
+  let fwc3-sd standard-deviation [f-hc-w] of turtles with [f-hc-w > 0 and hclus = 3]
+  let fwc3-se fwc3-sd / sqrt (count turtles with [f-hc-w > 0 and hclus = 3])
+  let fwc3-ci fwc3-se * 1.96 
+ let fwc3l fwc3 - fwc3-ci
+ let fwc3u fwc3 + fwc3-ci
+
+
+;---LABOUR
+let fLa mean [F-l] of turtles with [f-l > 0]
+  let fL-sd standard-deviation [F-l] of turtles with [f-l > 0]
+  let fL-se fL-sd / sqrt (count turtles with [f-l > 0])
+  let fL-ci fL-se * 1.96 
+ let fLAl fLa - fL-ci
+ let fLAu fLa + fL-ci
+ 
+ let fLc1 mean [f-hc-l] of turtles with [f-hc-l > 0 and hclus = 1]
+  let fLc1-sd standard-deviation [f-hc-l] of turtles with [f-hc-l > 0 and hclus = 1]
+  let fLc1-se fLc1-sd / sqrt (count turtles with [f-hc-l > 0 and hclus = 1])
+  let fLc1-ci fLc1-se * 1.96 
+ let fLc1l fLc1 - fLc1-ci
+ let fLc1u fLc1 + fLc1-ci
+ 
+ let fLc2 mean [f-hc-l] of turtles with [f-hc-l > 0 and hclus = 2]
+  let fLc2-sd standard-deviation [f-hc-l] of turtles with [f-hc-l > 0 and hclus = 2]
+  let fLc2-se fLc2-sd / sqrt (count turtles with [f-hc-l > 0 and hclus = 2])
+  let fLc2-ci fLc2-se * 1.96 
+ let fLc2l fLc2 - fLc2-ci
+ let fLc2u fLc2 + fLc2-ci
+ 
+ let fLc3 mean [f-hc-l] of turtles with [f-hc-l > 0 and hclus = 3]
+  let fLc3-sd standard-deviation [f-hc-l] of turtles with [f-hc-l > 0 and hclus = 3]
+  let fLc3-se fLc3-sd / sqrt (count turtles with [f-hc-l > 0 and hclus = 3])
+  let fLc3-ci fLc3-se * 1.96 
+ let fLc3l fLc3 - fLc3-ci
+ let fLc3u fLc3 + fLc3-ci
+ 
+ 
+  
+  ;---- DEPENDECY RATIO----
+let fda mean [F-d] of turtles with [f-d > 0]
+  let fd-sd standard-deviation [F-d] of turtles with [f-d > 0]
+  let fd-se fd-sd / sqrt (count turtles with [f-d > 0])
+  let fd-ci fd-se * 1.96 
+ let fdAl fda - fd-ci
+ let fdAu fda + fd-ci
+ 
+ let fdc1 mean [f-hc-d] of turtles with [f-hc-d > 0 and hclus = 1]
+  let fdc1-sd standard-deviation [f-hc-d] of turtles with [f-hc-d > 0 and hclus = 1]
+  let fdc1-se fdc1-sd / sqrt (count turtles with [f-hc-d > 0 and hclus = 1])
+  let fdc1-ci fdc1-se * 1.96 
+ let fdc1l fdc1 - fdc1-ci
+ let fdc1u fdc1 + fdc1-ci
+ 
+ let fdc2 mean [f-hc-d] of turtles with [f-hc-d > 0 and hclus = 2]
+  let fdc2-sd standard-deviation [f-hc-d] of turtles with [f-hc-d > 0 and hclus = 2]
+  let fdc2-se fdc2-sd / sqrt (count turtles with [f-hc-d > 0 and hclus = 2])
+  let fdc2-ci fdc2-se * 1.96 
+ let fdc2l fdc2 - fdc2-ci
+ let fdc2u fdc2 + fdc2-ci
+ 
+ let fdc3 mean [f-hc-d] of turtles with [f-hc-d > 0 and hclus = 3]
+  let fdc3-sd standard-deviation [f-hc-d] of turtles with [f-hc-d > 0 and hclus = 3]
+  let fdc3-se fdc3-sd / sqrt (count turtles with [f-hc-d > 0 and hclus = 3])
+  let fdc3-ci fdc3-se * 1.96 
+ let fdc3l fdc3 - fdc3-ci
+ let fdc3u fdc3 + fdc3-ci
+ 
+     set-current-plot "Fert (gender-labour) population"  
+set-current-plot-pen "baseline" plot	fba
+set-current-plot-pen "fbl" plot	fbAl  
+set-current-plot-pen "fbu" plot	fbAu
+set-current-plot-pen "weai-increase" plot	fwa
+set-current-plot-pen "fwl" plot	fwAl  
+set-current-plot-pen "fwu" plot	fwAu
+set-current-plot-pen "labour-decrease" plot	fLa
+set-current-plot-pen "fLl" plot	fLAl  
+set-current-plot-pen "fLu" plot	fLAu
+set-current-plot-pen "depend-decrease" plot	fda
+set-current-plot-pen "fdl" plot	fdAl  
+set-current-plot-pen "fdu" plot	fdAu  
+  
+ set-current-plot "Fert (gender-labour) farmtype-1"  
+set-current-plot-pen "baseline" plot	fbc1
+set-current-plot-pen "fb-c1l" plot	fbc1l  
+set-current-plot-pen "fb-c1u" plot	fbc1u
+set-current-plot-pen "weai-incr" plot	fwc1
+set-current-plot-pen "fw-c1l" plot	fwc1l  
+set-current-plot-pen "fw-c1u" plot	fwc1u  
+set-current-plot-pen "labour-decr" plot	fLc1
+set-current-plot-pen "fL-c1l" plot	fLc1l  
+set-current-plot-pen "fL-c1u" plot	fLc1u
+set-current-plot-pen "depend-decr" plot	fdc1
+set-current-plot-pen "fd-c1l" plot	fdc1l  
+set-current-plot-pen "fd-c1u" plot	fdc1u
+  
+  set-current-plot "Fert (gender-labour) farmtype-2"    
+set-current-plot-pen "baseline" plot	fbc2
+set-current-plot-pen "fb-c2l" plot	fbc2l  
+set-current-plot-pen "fb-c2u" plot	fbc2u
+set-current-plot-pen "weai-incr" plot	fwc2
+set-current-plot-pen "fw-c2l" plot	fwc2l  
+set-current-plot-pen "fw-c2u" plot	fwc2u  
+set-current-plot-pen "labour-decr" plot	fLc2
+set-current-plot-pen "fL-c2l" plot	fLc2l  
+set-current-plot-pen "fL-c2u" plot	fLc2u
+set-current-plot-pen "depend-decr" plot	fdc2  
+set-current-plot-pen "fd-c2l" plot	fdc2l  
+set-current-plot-pen "fd-c2u" plot	fdc2u
+  
+set-current-plot "Fert (gender-labour) farmtype-3"  
+set-current-plot-pen "baseline" plot	fbc3
+set-current-plot-pen "fb-c3l" plot	fbc3l  
+set-current-plot-pen "fb-c3u" plot	fbc3u
+set-current-plot-pen "weai-incr" plot	fwc3
+set-current-plot-pen "fw-c3l" plot	fwc3l  
+set-current-plot-pen "fw-c3u" plot	fwc3u  
+set-current-plot-pen "labour-decr" plot	fLc3
+set-current-plot-pen "fL-c3l" plot	fLc3l  
+set-current-plot-pen "fL-c3u" plot	fLc3u  
+set-current-plot-pen "depend-decr" plot	fdc3
+set-current-plot-pen "fd-c3l" plot	fdc3l  
+set-current-plot-pen "fd-c3u" plot	fdc3u  
+
+End
+To P6212.Organic-manure-input
+
+  ;---------OTHER POLICIES---------------
+; ---BASELINE
+let oba mean [o-b] of turtles with [o-b > 0]
+  let ob-sd standard-deviation [o-b] of turtles with [o-b > 0]
+  let ob-se ob-sd / sqrt (count turtles with [o-b > 0])
+  let ob-ci ob-se * 1.96 
+ let obAl oba - ob-ci
+ let obAu oba + ob-ci
+ 
+ let obc1 mean [o-hc-b] of turtles with [o-hc-b > 0 and hclus = 1]
+  let obc1-sd standard-deviation [o-hc-b] of turtles with [o-hc-b > 0 and hclus = 1]
+  let obc1-se obc1-sd / sqrt (count turtles with [o-hc-b > 0 and hclus = 1])
+  let obc1-ci obc1-se * 1.96 
+ let obc1l obc1 - obc1-ci
+ let obc1u obc1 + obc1-ci
+ 
+ let obc2 mean [o-hc-b] of turtles with [o-hc-b > 0 and hclus = 2]
+  let obc2-sd standard-deviation [o-hc-b] of turtles with [o-hc-b > 0 and hclus = 2]
+  let obc2-se obc2-sd / sqrt (count turtles with [o-hc-b > 0 and hclus = 2])
+  let obc2-ci obc2-se * 1.96 
+ let obc2l obc2 - obc2-ci
+ let obc2u obc2 + obc2-ci
+ 
+ let obc3 mean [o-hc-b] of turtles with [o-hc-b > 0 and hclus = 3]
+  let obc3-sd standard-deviation [o-hc-b] of turtles with [o-hc-b > 0 and hclus = 3]
+  let obc3-se obc3-sd / sqrt (count turtles with [o-hc-b > 0 and hclus = 3])
+  let obc3-ci obc3-se * 1.96 
+ let obc3l obc3 - obc3-ci
+ let obc3u obc3 + obc3-ci
+ 
+ 
+; ----WOMEN EMPOWERMENT
+ 
+let owa mean [o-w] of turtles with [o-w > 0]
+  let ow-sd standard-deviation [o-w] of turtles with [o-w > 0]
+  let ow-se ow-sd / sqrt (count turtles with [o-w > 0])
+  let ow-ci ow-se * 1.96 
+ let owAl owa - ow-ci
+ let owAu owa + ow-ci
+ 
+ let owc1 mean [o-hc-w] of turtles with [o-hc-w > 0 and hclus = 1]
+  let owc1-sd standard-deviation [o-hc-w] of turtles with [o-hc-w > 0 and hclus = 1]
+  let owc1-se owc1-sd / sqrt (count turtles with [o-hc-w > 0 and hclus = 1])
+  let owc1-ci owc1-se * 1.96 
+ let owc1l owc1 - owc1-ci
+ let owc1u owc1 + owc1-ci
+ 
+ let owc2 mean [o-hc-w] of turtles with [o-hc-w > 0 and hclus = 2]
+  let owc2-sd standard-deviation [o-hc-w] of turtles with [o-hc-w > 0 and hclus = 2]
+  let owc2-se owc2-sd / sqrt (count turtles with [o-hc-w > 0 and hclus = 2])
+  let owc2-ci owc2-se * 1.96 
+ let owc2l owc2 - owc2-ci
+ let owc2u owc2 + owc2-ci
+ 
+ let owc3 mean [o-hc-w] of turtles with [o-hc-w > 0 and hclus = 3]
+  let owc3-sd standard-deviation [o-hc-w] of turtles with [o-hc-w > 0 and hclus = 3]
+  let owc3-se owc3-sd / sqrt (count turtles with [o-hc-w > 0 and hclus = 3])
+  let owc3-ci owc3-se * 1.96 
+ let owc3l owc3 - owc3-ci
+ let owc3u owc3 + owc3-ci
+
+
+;---LABOUR
+let oLa mean [o-l] of turtles with [o-l > 0]
+  let oL-sd standard-deviation [o-l] of turtles with [o-l > 0]
+  let oL-se oL-sd / sqrt (count turtles with [o-l > 0])
+  let oL-ci oL-se * 1.96 
+ let oLAl oLa - oL-ci
+ let oLAu oLa + oL-ci
+ 
+ let oLc1 mean [o-hc-l] of turtles with [o-hc-l > 0 and hclus = 1]
+  let oLc1-sd standard-deviation [o-hc-l] of turtles with [o-hc-l > 0 and hclus = 1]
+  let oLc1-se oLc1-sd / sqrt (count turtles with [o-hc-l > 0 and hclus = 1])
+  let oLc1-ci oLc1-se * 1.96 
+ let oLc1l oLc1 - oLc1-ci
+ let oLc1u oLc1 + oLc1-ci
+ 
+ let oLc2 mean [o-hc-l] of turtles with [o-hc-l > 0 and hclus = 2]
+  let oLc2-sd standard-deviation [o-hc-l] of turtles with [o-hc-l > 0 and hclus = 2]
+  let oLc2-se oLc2-sd / sqrt (count turtles with [o-hc-l > 0 and hclus = 2])
+  let oLc2-ci oLc2-se * 1.96 
+ let oLc2l oLc2 - oLc2-ci
+ let oLc2u oLc2 + oLc2-ci
+ 
+ let oLc3 mean [o-hc-l] of turtles with [o-hc-l > 0 and hclus = 3]
+  let oLc3-sd standard-deviation [o-hc-l] of turtles with [o-hc-l > 0 and hclus = 3]
+  let oLc3-se oLc3-sd / sqrt (count turtles with [o-hc-l > 0 and hclus = 3])
+  let oLc3-ci oLc3-se * 1.96 
+ let oLc3l oLc3 - oLc3-ci
+ let oLc3u oLc3 + oLc3-ci
+ 
+ 
+  
+  ;---- DEPENDECY RATIO----
+let oda mean [o-d] of turtles with [o-d > 0]
+  let od-sd standard-deviation [o-d] of turtles with [o-d > 0]
+  let od-se od-sd / sqrt (count turtles with [o-d > 0])
+  let od-ci od-se * 1.96 
+ let odAl oda - od-ci
+ let odAu oda + od-ci
+ 
+ let odc1 mean [o-hc-d] of turtles with [o-hc-d > 0 and hclus = 1]
+  let odc1-sd standard-deviation [o-hc-d] of turtles with [o-hc-d > 0 and hclus = 1]
+  let odc1-se odc1-sd / sqrt (count turtles with [o-hc-d > 0 and hclus = 1])
+  let odc1-ci odc1-se * 1.96 
+ let odc1l odc1 - odc1-ci
+ let odc1u odc1 + odc1-ci
+ 
+ let odc2 mean [o-hc-d] of turtles with [o-hc-d > 0 and hclus = 2]
+  let odc2-sd standard-deviation [o-hc-d] of turtles with [o-hc-d > 0 and hclus = 2]
+  let odc2-se odc2-sd / sqrt (count turtles with [o-hc-d > 0 and hclus = 2])
+  let odc2-ci odc2-se * 1.96 
+ let odc2l odc2 - odc2-ci
+ let odc2u odc2 + odc2-ci
+ 
+ let odc3 mean [o-hc-d] of turtles with [o-hc-d > 0 and hclus = 3]
+  let odc3-sd standard-deviation [o-hc-d] of turtles with [o-hc-d > 0 and hclus = 3]
+  let odc3-se odc3-sd / sqrt (count turtles with [o-hc-d > 0 and hclus = 3])
+  let odc3-ci odc3-se * 1.96 
+ let odc3l odc3 - odc3-ci
+ let odc3u odc3 + odc3-ci
+ 
+set-current-plot "OM (gender-labour) population"  
+set-current-plot-pen "baseline" plot	oba
+set-current-plot-pen "obl" plot	obAl  
+set-current-plot-pen "obu" plot	obAu
+set-current-plot-pen "weai-increase" plot	owa
+set-current-plot-pen "owl" plot	owAl  
+set-current-plot-pen "owu" plot	owAu
+set-current-plot-pen "labour-decrease" plot	oLa
+set-current-plot-pen "oLl" plot	oLAl  
+set-current-plot-pen "oLu" plot	oLAu
+set-current-plot-pen "depend-decrease" plot	oda
+set-current-plot-pen "odl" plot	odAl  
+set-current-plot-pen "odu" plot	odAu  
+  
+ set-current-plot "OM (gender-labour) farmtype-1"  
+set-current-plot-pen "baseline" plot	obc1
+set-current-plot-pen "ob-c1l" plot	obc1l  
+set-current-plot-pen "ob-c1u" plot	obc1u
+set-current-plot-pen "weai-incr" plot	owc1
+set-current-plot-pen "ow-c1l" plot	owc1l  
+set-current-plot-pen "ow-c1u" plot	owc1u  
+set-current-plot-pen "labour-decr" plot	oLc1
+set-current-plot-pen "oL-c1l" plot	oLc1l  
+set-current-plot-pen "oL-c1u" plot	oLc1u
+set-current-plot-pen "depend-decr" plot	odc1
+set-current-plot-pen "od-c1l" plot	odc1l  
+set-current-plot-pen "od-c1u" plot	odc1u
+  
+set-current-plot "OM (gender-labour) farmtype-2"    
+set-current-plot-pen "baseline" plot	obc2
+set-current-plot-pen "ob-c2l" plot	obc2l  
+set-current-plot-pen "ob-c2u" plot	obc2u
+set-current-plot-pen "weai-incr" plot	owc2
+set-current-plot-pen "ow-c2l" plot	owc2l  
+set-current-plot-pen "ow-c2u" plot	owc2u  
+set-current-plot-pen "labour-decr" plot	oLc2
+set-current-plot-pen "oL-c2l" plot	oLc2l  
+set-current-plot-pen "oL-c2u" plot	oLc2u
+set-current-plot-pen "depend-decr" plot	odc2  
+set-current-plot-pen "od-c2l" plot	odc2l  
+set-current-plot-pen "od-c2u" plot	odc2u
+  
+set-current-plot "OM (gender-labour) farmtype-3"  
+set-current-plot-pen "baseline" plot	obc3
+set-current-plot-pen "ob-c3l" plot	obc3l  
+set-current-plot-pen "ob-c3u" plot	obc3u
+set-current-plot-pen "weai-incr" plot	owc3
+set-current-plot-pen "ow-c3l" plot	owc3l  
+set-current-plot-pen "ow-c3u" plot	owc3u  
+set-current-plot-pen "labour-decr" plot	oLc3
+set-current-plot-pen "oL-c3l" plot	oLc3l  
+set-current-plot-pen "oL-c3u" plot	oLc3u  
+set-current-plot-pen "depend-decr" plot	odc3
+set-current-plot-pen "od-c3l" plot	odc3l  
+set-current-plot-pen "od-c3u" plot	odc3u  
+End

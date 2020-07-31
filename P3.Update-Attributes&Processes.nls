@@ -1,0 +1,1602 @@
+
+To P311.Update-policy&dynamic-factors
+    if elapsed-years > 0 [
+  ask turtles with [PH_ID != 0]
+   [if progressive = true [
+    if H_ageh      > 70   [set H_ageh    18             + random (35 - 18)     ] 
+                           set H_ageh     H_ageh        + 1 
+      ;life expectancy for malawi as of 2016 was 63 and maximum age of the sample was 85, 
+      ;For old people at age 70, their grand children will take over as heads
+      ; The youth inherit land and according to the African youth Charter 2006 the youth category is 15-35 
+      ;and legal age when one can marry and set up a home in Malawi is 18.                         
+;Update cultivation period 
+                           set P_cultyrs P_cultyrs + elapsed-years 
+;Update Communication
+  ifelse H_comm    = 0    [set H_comm  random-float 0.1] [set H_comm H_comm  * 1.05]
+;Update transportation    
+  ifelse H_tran    = 0    [set H_tran  random-float 0.1] [set H_tran H_tran  * 1.05]
+      ]]
+]
+End
+To P32.Update-Inputs
+P321a.Update-Fertilizer-choice
+P321b.Update-Fertilizer-intensity
+P322a.Update-Manure-choice
+P322b.Update-Manure-intensity
+P323.Update-legume-Input-choice
+Update-cropping-system&farmtypes  
+End
+To P33.Update-Outputs
+P331.Update-Crop-Yield
+;P332.Update-Residue-Yield
+;P333.Update-Erosion
+P3331.update.tree-on-farm
+End
+
+To P321a.Update-Fertilizer-choice  ; for disadoption or re-adoption hence invoked after 3 years
+
+
+ask turtles with [HP_ID != 0] [
+	let	b-fertd-all-h_labour	-0.260	+ random-float (	0.142	-	-0.260	)
+	let	b-fertd-all-h_depr	-0.172	+ random-float (	0.129	-	-0.172	)
+	let	b-fertd-all-h_weai2	-0.733	+ random-float (	0.651	-	-0.733	)
+	let	b-fertd-all-h_genh	-0.016	+ random-float (	0.906	-	-0.016	)
+	let	b-fertd-all-h_edui	-0.185	+ random-float (	0.372	-	-0.185	)
+	let	b-fertd-all-h_comm	0.024	+ random-float (	1.012	-	0.024	)
+	let	b-fertd-all-h_gmem	-0.126	+ random-float (	0.772	-	-0.126	)
+	let	b-fertd-all-h_tran	-2.043	+ random-float (	-0.376	-	-2.043	)
+	let	b-fertd-all-h_hect	-0.689	+ random-float (	0.045	-	-0.689	)
+	let	b-fertd-all-p_hectare	0.535	+ random-float (	2.385	-	0.535	)
+	let	b-fertd-all-p_ctyr	-0.001	+ random-float (	0.012	-	-0.001	)
+	let	b-fertd-all-p_leguD	-1.126	+ random-float (	-0.183	-	-1.126	)
+	let	b-fertd-all-p_orgaD	-0.169	+ random-float (	0.764	-	-0.169	)
+	let	b-fertd-all-p_tree10D	-0.639	+ random-float (	0.372	-	-0.639	)
+	let	b-fertd-all-p_tnper	-42.224	+ random-float (	26.769	-	-42.224	)
+	let	b-fertd-all-p_socper	-0.825	+ random-float (	2.254	-	-0.825	)
+	let	b-fertd-all-p_spi	-0.043	+ random-float (	0.088	-	-0.043	)
+	let	b-fertd-all-p_elev	-0.005	+ random-float (	0.005	-	-0.005	)
+	let	b0-fertd-all	-5.364	+ random-float (	6.043	-	-5.364	)
+    
+    set	fertD-all (						
+		b-fertd-all-h_labour	*	h_labour	+			
+		b-fertd-all-h_depr	*	h_depr	+			
+		b-fertd-all-h_weai2	*	h_weai2	+			
+		b-fertd-all-h_genh	*	h_genh	+			
+		b-fertd-all-h_edui	*	h_edui	+			
+		b-fertd-all-h_comm	*	h_gmem	+			
+		b-fertd-all-h_gmem	*	h_comm	+			
+		b-fertd-all-h_tran	*	h_tran	+			
+		b-fertd-all-h_hect	*	h_hect	+			
+		b-fertd-all-p_hectare	*	p_hect	+			
+		b-fertd-all-p_ctyr	*	p_cultyrs	+			
+		b-fertd-all-p_leguD	*	P_leguD	+			
+		b-fertd-all-p_orgaD	*	p_orgad	+			
+		b-fertd-all-p_tree10D	*	p_tree10d	+			
+		b-fertd-all-p_tnper	 * [	P_Nitrogen%	] of patch-here +			
+		b-fertd-all-p_socper	 * [	p_soc%	] of patch-here +			
+		b-fertd-all-p_spi	 * [	p_spi	] of patch-here +			
+		b-fertd-all-p_elev	 * [	p_elevation	] of patch-here +			
+		b0-fertd-all						
+		)]	
+  					
+		ask turtles with [HCLUS = 1] [						
+  let	b-hc-fd-h_labour	-0.682	+ random-float (	1.008	-	-0.682	)
+	let	b-hc-fd-h_depr	-0.193	+ random-float (	0.686	-	-0.193	)
+	let	b-hc-fd-h_weai2	-0.491	+ random-float (	3.125	-	-0.491	)
+	let	b-hc-fd-h_genh	-0.125	+ random-float (	2.697	-	-0.125	)
+	let	b-hc-fd-h_edui	-0.412	+ random-float (	1.569	-	-0.412	)
+	let	b-hc-fd-h_gmem	-0.435	+ random-float (	2.572	-	-0.435	)
+	let	b-hc-fd-h_comm	-1.438	+ random-float (	0.834	-	-1.438	)
+	let	b-hc-fd-h_tran	-7.398	+ random-float (	0.998	-	-7.398	)
+	let	b-hc-fd-h_hect	-1.006	+ random-float (	0.031	-	-1.006	)
+	let	b-hc-fd-p_hectare	-0.945	+ random-float (	4.483	-	-0.945	)
+	let	b-hc-fd-p_ctyr	-0.006	+ random-float (	0.032	-	-0.006	)
+	let	b-hc-fd-p_leguD	-2.191	+ random-float (	0.272	-	-2.191	)
+	let	b-hc-fd-p_orgaD	-1.170	+ random-float (	1.493	-	-1.170	)
+	let	b-hc-fd-p_tree10D	-2.404	+ random-float (	0.740	-	-2.404	)
+	let	b-hc-fd-p_tnper	-133.277	+ random-float (	28.005	-	-133.277	)
+	let	b-hc-fd-p_socper	1.980	+ random-float (	10.813	-	1.980	)
+	let	b-hc-fd-p_spi	-0.442	+ random-float (	-0.069	-	-0.442	)
+	let	b-hc-fd-p_elev	0.017	+ random-float (	0.082	-	0.017	)
+	let	b0-hclus-fertd	-76.248	+ random-float (	-13.511	-	-76.248	)
+	set	fertD-hc (						
+		b-hc-fd-h_labour	*	h_labour	+			
+		b-hc-fd-h_depr	*	h_depr	+			
+		b-hc-fd-h_weai2	*	h_weai2	+			
+		b-hc-fd-h_genh	*	h_genh	+			
+		b-hc-fd-h_edui	*	h_edui	+			
+		b-hc-fd-h_gmem	*	h_gmem	+			
+		b-hc-fd-h_comm	*	h_comm	+			
+		b-hc-fd-h_tran	*	h_tran	+			
+		b-hc-fd-h_hect	*	h_hect	+			
+		b-hc-fd-p_hectare	*	p_hect	+			
+		b-hc-fd-p_ctyr	*	p_cultyrs	+			
+		b-hc-fd-p_leguD	*	P_leguD	+			
+		b-hc-fd-p_orgaD	*	p_orgad	+			
+		b-hc-fd-p_tree10D	*	p_tree10d	+			
+		b-hc-fd-p_tnper	 * [	P_Nitrogen%	] of patch-here +			
+		b-hc-fd-p_socper	 * [	p_soc%	] of patch-here +			
+		b-hc-fd-p_spi	 * [	p_spi	] of patch-here +			
+		b-hc-fd-p_elev	 * [	p_elevation	] of patch-here +			
+		b0-hclus-fertd						
+		)]						
+		ask turtles with [HCLUS = 2]  [						
+	let	b-hc-fd-h_labour	-0.429	+ random-float (	0.130	-	-0.429	)
+	let	b-hc-fd-h_depr	-0.406	+ random-float (	0.119	-	-0.406	)
+	let	b-hc-fd-h_weai2	-1.259	+ random-float (	0.975	-	-1.259	)
+	let	b-hc-fd-h_genh	0.003	+ random-float (	1.688	-	0.003	)
+	let	b-hc-fd-h_edui	-0.364	+ random-float (	0.442	-	-0.364	)
+	let	b-hc-fd-h_gmem	-0.016	+ random-float (	1.659	-	-0.016	)
+	let	b-hc-fd-h_comm	-0.784	+ random-float (	1.048	-	-0.784	)
+	let	b-hc-fd-h_tran	-3.895	+ random-float (	1.127	-	-3.895	)
+	let	b-hc-fd-h_hect	-0.990	+ random-float (	0.338	-	-0.990	)
+	let	b-hc-fd-p_hectare	0.181	+ random-float (	2.675	-	0.181	)
+	let	b-hc-fd-p_ctyr	0.002	+ random-float (	0.022	-	0.002	)
+	let	b-hc-fd-p_leguD	-1.499	+ random-float (	0.081	-	-1.499	)
+	let	b-hc-fd-p_orgaD	-0.252	+ random-float (	1.337	-	-0.252	)
+	let	b-hc-fd-p_tree10D	-0.630	+ random-float (	1.072	-	-0.630	)
+	let	b-hc-fd-p_tnper	-68.649	+ random-float (	35.890	-	-68.649	)
+	let	b-hc-fd-p_socper	-2.227	+ random-float (	1.842	-	-2.227	)
+	let	b-hc-fd-p_spi	0.035	+ random-float (	0.270	-	0.035	)
+	let	b-hc-fd-p_elev	-0.013	+ random-float (	0.004	-	-0.013	)
+	let	b0-hclus-fertd	-2.931	+ random-float (	15.251	-	-2.931	)
+	set	fertD-hc (						
+		b-hc-fd-h_labour	*	h_labour	+			
+		b-hc-fd-h_depr	*	h_depr	+			
+		b-hc-fd-h_weai2	*	h_weai2	+			
+		b-hc-fd-h_genh	*	h_genh	+			
+		b-hc-fd-h_edui	*	h_edui	+			
+		b-hc-fd-h_gmem	*	h_gmem	+			
+		b-hc-fd-h_comm	*	h_comm	+			
+		b-hc-fd-h_tran	*	h_tran	+			
+		b-hc-fd-h_hect	*	h_hect	+			
+		b-hc-fd-p_hectare	*	p_hect	+			
+		b-hc-fd-p_ctyr	*	p_cultyrs	+			
+		b-hc-fd-p_leguD	*	P_leguD	+			
+		b-hc-fd-p_orgaD	*	p_orgad	+			
+		b-hc-fd-p_tree10D	*	p_tree10d	+			
+		b-hc-fd-p_tnper	 * [	P_Nitrogen%	] of patch-here +			
+		b-hc-fd-p_socper	 * [	p_soc%	] of patch-here +			
+		b-hc-fd-p_spi	 * [	p_spi	] of patch-here +			
+		b-hc-fd-p_elev	 * [	p_elevation	] of patch-here +			
+		b0-hclus-fertd						
+		)]						
+		ask turtles with [HCLUS = 3]  [						
+	let	b-hc-fd-h_labour	-0.880	+ random-float (	0.460	-	-0.880	)
+	let	b-hc-fd-h_depr	-0.475	+ random-float (	0.406	-	-0.475	)
+	let	b-hc-fd-h_weai2	-1.762	+ random-float (	1.259	-	-1.762	)
+	let	b-hc-fd-h_genh	-0.612	+ random-float (	1.341	-	-0.612	)
+	let	b-hc-fd-h_edui	-0.440	+ random-float (	0.881	-	-0.440	)
+	let	b-hc-fd-h_gmem	-0.622	+ random-float (	1.545	-	-0.622	)
+	let	b-hc-fd-h_comm	-0.446	+ random-float (	1.994	-	-0.446	)
+	let	b-hc-fd-h_tran	-2.230	+ random-float (	0.110	-	-2.230	)
+	let	b-hc-fd-h_hect	-2.339	+ random-float (	0.278	-	-2.339	)
+	let	b-hc-fd-p_hectare	0.526	+ random-float (	5.168	-	0.526	)
+	let	b-hc-fd-p_ctyr	-0.012	+ random-float (	0.014	-	-0.012	)
+	let	b-hc-fd-p_leguD	-1.729	+ random-float (	-0.097	-	-1.729	)
+	let	b-hc-fd-p_orgaD	-0.633	+ random-float (	1.117	-	-0.633	)
+	let	b-hc-fd-p_tree10D	-1.150	+ random-float (	0.926	-	-1.150	)
+	let	b-hc-fd-p_tnper	-65.265	+ random-float (	54.699	-	-65.265	)
+	let	b-hc-fd-p_socper	-1.428	+ random-float (	4.949	-	-1.428	)
+	let	b-hc-fd-p_spi	-0.138	+ random-float (	0.069	-	-0.138	)
+	let	b-hc-fd-p_elev	-0.009	+ random-float (	0.011	-	-0.009	)
+	let	b0-hclus-fertd	-11.453	+ random-float (	8.790	-	-11.453	)
+   	set	fertD-hc (						
+		b-hc-fd-h_labour	*	h_labour	+			
+		b-hc-fd-h_depr	*	h_depr	+			
+		b-hc-fd-h_weai2	*	h_weai2	+			
+		b-hc-fd-h_genh	*	h_genh	+			
+		b-hc-fd-h_edui	*	h_edui	+			
+		b-hc-fd-h_gmem	*	h_gmem	+			
+		b-hc-fd-h_comm	*	h_comm	+			
+		b-hc-fd-h_tran	*	h_tran	+			
+		b-hc-fd-h_hect	*	h_hect	+			
+		b-hc-fd-p_hectare	*	p_hect	+			
+		b-hc-fd-p_ctyr	*	p_cultyrs	+			
+		b-hc-fd-p_leguD	*	P_leguD	+			
+		b-hc-fd-p_orgaD	*	p_orgad	+			
+		b-hc-fd-p_tree10D	*	p_tree10d	+			
+		b-hc-fd-p_tnper	 * [	P_Nitrogen%	] of patch-here +			
+		b-hc-fd-p_socper	 * [	p_soc%	] of patch-here +			
+		b-hc-fd-p_spi	 * [	p_spi	] of patch-here +			
+		b-hc-fd-p_elev	 * [	p_elevation	] of patch-here +			
+		b0-hclus-fertd						
+		)]						
+ask turtles with [HCLUS > 0]
+    [
+ let efertD-all 0 let pfertD-all 0
+ set efertD-all exp fertD-all set pfertD-all efertD-all / (1 + efertD-all)
+ ifelse pfertD-all > 0.1  [set dfertD-all 1] [set  dfertD-all 0]
+  ]
+;============="Updating fert input c1"
+ask turtles with [HCLUS = 1] 
+[let efertD-c1	0  let pfertD-c1	0 
+ set efertD-c1 exp fertD-hc set pfertD-c1 efertD-c1 / (1 + efertD-c1)
+ ifelse pfertD-c1 > 0.1 [set  dfertD-hc 1] [set dfertD-hc 0]]   
+;============="Updating fert input c2"
+ask turtles with [HCLUS = 2] 
+[let efertD-c2	0  let pfertD-c2	0 
+ set efertD-c2 exp fertD-hc set pfertD-c2 efertD-c2 / (1 + efertD-c2)
+ ifelse pfertD-c2 > 0.1 [set  dfertD-hc 1] [set dfertD-hc 0]]
+;============="Updating fert input c3"
+ask turtles with [ HCLUS = 3] 
+[let efertD-c3	0  let pfertD-c3	0 
+set efertD-c3 exp fertD-hc set pfertD-c3 efertD-c3 / (1 + efertD-c3)
+ifelse pfertD-c3 > 0.1 [set  dfertD-hc 1] [set dfertD-hc 0]
+]
+  ;show (word "all = " (count turtles with [dfertD-all = 1] / count turtles))
+  ; show (word "hclus = " (count turtles with [dfertD-hc = 1] / count turtles))
+    
+
+End
+
+;======================================================================================================================
+To P321b.Update-Fertilizer-intensity
+					
+	ask turtles with [dfertD-all = 1] [						
+let	b-fertA-all-h_weai2	-0.00523	+ random-float (	0.55204	-	-0.00523	)
+let	b-fertA-all-h_labour	-0.06119	+ random-float (	0.07772	-	-0.06119	)
+let	b-fertA-all-h_depr	-0.07194	+ random-float (	0.05947	-	-0.07194	)
+let	b-fertA-all-h_fertsub	-0.91618	+ random-float (	-0.21077	-	-0.91618	)
+let	b-fertA-all-h_edui	-0.16868	+ random-float (	0.04955	-	-0.16868	)
+let	b-fertA-all-h_inms	-0.00034	+ random-float (	0.00014	-	-0.00034	)
+let	b-fertA-all-h_tran	-0.44956	+ random-float (	0.39882	-	-0.44956	)
+let	b-fertA-all-p_hect	-0.94426	+ random-float (	-0.61504	-	-0.94426	)
+let	b-fertA-all-p_ctyr	-0.00067	+ random-float (	0.00505	-	-0.00067	)
+let	b-fertA-all-p_leguD	-0.30524	+ random-float (	0.08251	-	-0.30524	)
+let	b-fertA-all-p_orgaD	-0.45366	+ random-float (	-0.05975	-	-0.45366	)
+let	b-fertA-all-p_man_ha	0.00011	+ random-float (	0.00028	-	0.00011	)
+let	b-fertA-all-p_sand	-0.00764	+ random-float (	0.01347	-	-0.00764	)
+let	b-fertA-all-p_tnper	-15.35840	+ random-float (	0.93082	-	-15.35840	)
+let	b-fertA-all-p_K	-0.00507	+ random-float (	0.00068	-	-0.00507	)
+let	b-fertA-all-p_flowacc	0.00016	+ random-float (	0.00075	-	0.00016	)
+let	b0-fertA-all	5.42007	+ random-float (	7.49107	-	5.42007	)
+  set	fertA-all (						
+	b-fertA-all-h_weai2	*	h_weai2	+			
+	b-fertA-all-h_labour	*	h_labour	+			
+	b-fertA-all-h_depr	*	h_depr	+			
+	b-fertA-all-h_fertsub	*	p_fertsubsidy	+			
+	b-fertA-all-h_edui	*	h_edui	+			
+	b-fertA-all-h_inms	*	h_inms	+			
+	b-fertA-all-h_tran	*	h_tran	+			
+	b-fertA-all-p_hect	*	p_hect	+			
+	b-fertA-all-p_ctyr	*	p_cultyrs	+			
+	b-fertA-all-p_leguD	*	P_leguD	+			
+	b-fertA-all-p_orgaD	*	P_orgaD	+			
+	b-fertA-all-p_man_ha	*	Org_ha	+			
+	b-fertA-all-p_sand	* [	P_Sand%	] of patch-here +			
+	b-fertA-all-p_tnper	* [	P_Nitrogen%	] of patch-here +			
+	b-fertA-all-p_K	 * [	P_Potassium_soil	] of patch-here +			
+	b-fertA-all-p_flowacc	 * [	P_flowacc	] of patch-here +			
+	b0-fertA-all						
+	)						
+
+]							
+	ask turtles with [HCLUS = 1 and dfertD-hc = 1] [						
+let	b-fertA-c-h_weai2	-0.14909	+ random-float (	0.88113	-	-0.14909	)
+let	b-fertA-c-h_labour	-0.27290	+ random-float (	0.33740	-	-0.27290	)
+let	b-fertA-c-h_depr	-0.16016	+ random-float (	0.06636	-	-0.16016	)
+let	b-fertA-c-h_fertsub	-1.41235	+ random-float (	-0.18391	-	-1.41235	)
+let	b-fertA-c-h_edui	-0.44088	+ random-float (	0.16879	-	-0.44088	)
+let	b-fertA-c-h_inms	-0.00043	+ random-float (	0.00084	-	-0.00043	)
+let	b-fertA-c-h_tran	-0.33384	+ random-float (	1.95927	-	-0.33384	)
+let	b-fertA-c-p_hect	-0.67197	+ random-float (	-0.38673	-	-0.67197	)
+let	b-fertA-c-p_ctyr	-0.00726	+ random-float (	0.00272	-	-0.00726	)
+let	b-fertA-c-p_leguD	-0.49143	+ random-float (	0.30906	-	-0.49143	)
+let	b-fertA-c-p_orgaD	-0.64117	+ random-float (	0.34434	-	-0.64117	)
+let	b-fertA-c-p_man_ha	0.00009	+ random-float (	0.00081	-	0.00009	)
+let	b-fertA-c-p_sand	-0.00041	+ random-float (	0.04446	-	-0.00041	)
+let	b-fertA-c-p_tnper	-4.20249	+ random-float (	29.83095	-	-4.20249	)
+let	b-fertA-c-p_K	-0.00948	+ random-float (	0.00135	-	-0.00948	)
+let	b-fertA-c-p_flowacc	-0.00202	+ random-float (	0.00040	-	-0.00202	)
+let	b0-hclus-fertA	1.66739	+ random-float (	6.19349	-	1.66739	)
+set	fertA-hc (						
+	b-fertA-c-h_weai2	*	h_weai2	+			
+	b-fertA-c-h_labour	*	h_labour	+			
+	b-fertA-c-h_depr	*	h_depr	+			
+	b-fertA-c-h_fertsub	*	p_fertsubsidy	+			
+	b-fertA-c-h_edui	*	h_edui	+			
+	b-fertA-c-h_inms	*	h_inms	+			
+	b-fertA-c-h_tran	*	h_tran	+			
+	b-fertA-c-p_hect	*	p_hect	+			
+	b-fertA-c-p_ctyr	*	p_cultyrs	+			
+	b-fertA-c-p_leguD	*	P_leguD	+			
+	b-fertA-c-p_orgaD	*	P_orgaD	+			
+	b-fertA-c-p_man_ha	*	Org_ha	+			
+	b-fertA-c-p_sand	* [	P_Sand%	] of patch-here +			
+	b-fertA-c-p_tnper	* [	P_Nitrogen%	] of patch-here +			
+	b-fertA-c-p_K	 * [	P_Potassium_soil	] of patch-here +			
+	b-fertA-c-p_flowacc	 * [	P_flowacc	] of patch-here +			
+	b0-hclus-fertA						
+	)						
+  ]							
+	ask turtles with [HCLUS = 2 and dfertD-hc = 1] [						
+let	b-fertA-c-h_weai2	0.17631	+ random-float (	0.85128	-	0.17631	)
+let	b-fertA-c-h_labour	-0.10377	+ random-float (	0.07010	-	-0.10377	)
+let	b-fertA-c-h_depr	-0.08491	+ random-float (	0.07902	-	-0.08491	)
+let	b-fertA-c-h_fertsub	-1.34496	+ random-float (	-0.32557	-	-1.34496	)
+let	b-fertA-c-h_edui	-0.11594	+ random-float (	0.11433	-	-0.11594	)
+let	b-fertA-c-h_inms	-0.00032	+ random-float (	0.00021	-	-0.00032	)
+let	b-fertA-c-h_tran	-0.49471	+ random-float (	0.40695	-	-0.49471	)
+let	b-fertA-c-p_hect	-1.65502	+ random-float (	-1.09623	-	-1.65502	)
+let	b-fertA-c-p_ctyr	-0.00430	+ random-float (	0.00330	-	-0.00430	)
+let	b-fertA-c-p_leguD	-0.21402	+ random-float (	0.29771	-	-0.21402	)
+let	b-fertA-c-p_orgaD	-0.62057	+ random-float (	-0.05881	-	-0.62057	)
+let	b-fertA-c-p_man_ha	0.00003	+ random-float (	0.00058	-	0.00003	)
+let	b-fertA-c-p_sand	-0.01393	+ random-float (	0.01014	-	-0.01393	)
+let	b-fertA-c-p_tnper	-19.98554	+ random-float (	3.08020	-	-19.98554	)
+let	b-fertA-c-p_K	-0.00449	+ random-float (	0.00270	-	-0.00449	)
+let	b-fertA-c-p_flowacc	0.00035	+ random-float (	0.00096	-	0.00035	)
+let	b0-hclus-fertA	5.59361	+ random-float (	8.31530	-	5.59361	)
+set	fertA-hc (						
+	b-fertA-c-h_weai2	*	h_weai2	+			
+	b-fertA-c-h_labour	*	h_labour	+			
+	b-fertA-c-h_depr	*	h_depr	+			
+	b-fertA-c-h_fertsub	*	p_fertsubsidy	+			
+	b-fertA-c-h_edui	*	h_edui	+			
+	b-fertA-c-h_inms	*	h_inms	+			
+	b-fertA-c-h_tran	*	h_tran	+			
+	b-fertA-c-p_hect	*	p_hect	+			
+	b-fertA-c-p_ctyr	*	p_cultyrs	+			
+	b-fertA-c-p_leguD	*	P_leguD	+			
+	b-fertA-c-p_orgaD	*	P_orgaD	+			
+	b-fertA-c-p_man_ha	*	Org_ha	+			
+	b-fertA-c-p_sand	* [	P_Sand%	] of patch-here +			
+	b-fertA-c-p_tnper	* [	P_Nitrogen%	] of patch-here +			
+	b-fertA-c-p_K	 * [	P_Potassium_soil	] of patch-here +			
+	b-fertA-c-p_flowacc	 * [	P_flowacc	] of patch-here +			
+	b0-hclus-fertA						
+	)						
+  ]							
+	ask turtles with [HCLUS = 3 and dfertD-hc = 1]  [						
+let	b-fertA-c-h_weai2	-0.45246	+ random-float (	0.54429	-	-0.45246	)
+let	b-fertA-c-h_labour	-0.18392	+ random-float (	0.17257	-	-0.18392	)
+let	b-fertA-c-h_depr	-0.16048	+ random-float (	0.05592	-	-0.16048	)
+let	b-fertA-c-h_fertsub	-0.85765	+ random-float (	0.42546	-	-0.85765	)
+let	b-fertA-c-h_edui	-0.17111	+ random-float (	0.17432	-	-0.17111	)
+let	b-fertA-c-h_inms	-0.00058	+ random-float (	0.00058	-	-0.00058	)
+let	b-fertA-c-h_tran	-1.74050	+ random-float (	0.38364	-	-1.74050	)
+let	b-fertA-c-p_hect	-2.84421	+ random-float (	-1.61780	-	-2.84421	)
+let	b-fertA-c-p_ctyr	-0.00199	+ random-float (	0.00634	-	-0.00199	)
+let	b-fertA-c-p_leguD	-0.28242	+ random-float (	0.32696	-	-0.28242	)
+let	b-fertA-c-p_orgaD	-0.51729	+ random-float (	0.21175	-	-0.51729	)
+let	b-fertA-c-p_man_ha	0.00002	+ random-float (	0.00027	-	0.00002	)
+let	b-fertA-c-p_sand	-0.01323	+ random-float (	0.02523	-	-0.01323	)
+let	b-fertA-c-p_tnper	-24.13904	+ random-float (	2.29568	-	-24.13904	)
+let	b-fertA-c-p_K	-0.00584	+ random-float (	0.00453	-	-0.00584	)
+let	b-fertA-c-p_flowacc	-0.01332	+ random-float (	0.00604	-	-0.01332	)
+let	b0-hclus-fertA	5.06625	+ random-float (	8.64899	-	5.06625	)
+set	fertA-hc (						
+	b-fertA-c-h_weai2	*	h_weai2	+			
+	b-fertA-c-h_labour	*	h_labour	+			
+	b-fertA-c-h_depr	*	h_depr	+			
+	b-fertA-c-h_fertsub	*	p_fertsubsidy	+			
+	b-fertA-c-h_edui	*	h_edui	+			
+	b-fertA-c-h_inms	*	h_inms	+			
+	b-fertA-c-h_tran	*	h_tran	+			
+	b-fertA-c-p_hect	*	p_hect	+			
+	b-fertA-c-p_ctyr	*	p_cultyrs	+			
+	b-fertA-c-p_leguD	*	P_leguD	+			
+	b-fertA-c-p_orgaD	*	P_orgaD	+			
+	b-fertA-c-p_man_ha	*	Org_ha	+			
+	b-fertA-c-p_sand	* [	P_Sand%	] of patch-here +			
+	b-fertA-c-p_tnper	* [	P_Nitrogen%	] of patch-here +			
+	b-fertA-c-p_K	 * [P_Potassium_soil] of patch-here +			
+	b-fertA-c-p_flowacc	 * [	P_flowacc	] of patch-here +			
+	b0-hclus-fertA						
+	)						
+
+  ]							
+;; ; correct outliers by winzolisation
+   ask turtles with [dfertD-all = 1]
+  [let fa-u 6.14   
+    let f1-u 5.70     
+    let f2-u 6.19     
+    let f3-u 6.24 
+   if fertA-all > fa-u [set fertA-all fa-u + (fertA-all / max [fertA-all] of turtles) ]  
+   if fertA-all <= -1 [set fertA-all 1 + -1 / fertA-all]
+   if fertA-all <= 0 and fertA-all > -1 [set fertA-all 2]   
+   set fert_ha exp fertA-all  
+    if hclus = 1 and fertA-hc > f1-u [set fertA-hc f1-u + (fertA-hc / max [fertA-hc] of turtles with [hclus = 1] ) ] 
+    if hclus = 2 and fertA-hc > f2-u [set fertA-hc f2-u + (fertA-hc / max [fertA-hc] of turtles with [hclus = 2] ) ]
+    if hclus = 3 and fertA-hc > f3-u [set fertA-hc f3-u + (fertA-hc / max [fertA-hc] of turtles with [hclus = 3] ) ]
+    if hclus = 1 and fertA-hc < -1 [set fertA-hc 2 + -1 / fertA-hc] 
+    if hclus = 1 and fertA-hc <= 0 and fertA-hc > -1 [set fertA-hc 2] 
+    if hclus = 2 and fertA-hc < -1 [set fertA-hc 2 + -1 / fertA-hc] 
+    if hclus = 2 and fertA-hc <= 0 and fertA-hc > -1 [set fertA-hc 2] 
+    if hclus = 3 and fertA-hc < -1 [set fertA-hc 2 + -1 / fertA-hc] 
+    if hclus = 3 and fertA-hc <= 0 and fertA-hc > -1 [set fertA-hc 2] 
+    set	fert_ha-hc	exp	fertA-hc				
+    
+      ]
+    fert-drift	
+;P321c.Fertilizer-input-summary
+End
+
+
+To P322a.Update-Manure-choice
+
+  ask turtles with [HP_ID != 0]  [						
+let	b-orgaD-all-h_labour	-0.124	+ random-float (	0.192	  -	-0.124	)
+let	b-orgaD-all-h_depr	  -0.274	+ random-float (	-0.016	-	-0.274	)
+let	b-orgaD-all-h_weai2	  -1.091	+ random-float (	0.127	 -	-1.091	)
+let	b-orgaD-all-h_fertsub	-0.626	+ random-float (	1.141	 -	-0.626	)
+let	b-orgaD-all-h_tlun	  -0.017	+ random-float (	0.236	 -	-0.017	)
+let	b-orgaD-all-h_edui	  -0.345	+ random-float (	0.168	 -	-0.345	)
+let	b-orgaD-all-h_comm	  -0.552	+ random-float (	0.129	 -	-0.552	)
+let	b-orgaD-all-p_hectare	-0.034	+ random-float (	0.767	 -	-0.034	)
+let	b-orgaD-all-p_leguD	  -0.054	+ random-float (	0.761	 -	-0.054	)
+let	b-orgaD-all-p_fertD	  -0.207	+ random-float (	0.736	 -	-0.207	)
+let	b-orgaD-all-p_tree10D	-0.421	+ random-float (	0.457	 -	-0.421	)
+let	b-orgaD-all-p_sand	  -0.034	+ random-float (	0.014	 -	-0.034	)
+let	b-orgaD-all-p_slope	  -0.031	+ random-float (	0.053	 -	-0.031	)
+let	b0-orgaD-all	        -1.392	+ random-float (	1.121	 -	-1.392	)
+							
+							
+							
+							
+							
+set	orgaD-all (						
+	b-orgaD-all-h_labour	*	h_labour	    +			
+	b-orgaD-all-h_depr	  *	h_depr	      +			
+	b-orgaD-all-h_weai2	  *	h_weai2	      +			
+	b-orgaD-all-h_fertsub	*	p_fertsubsidy	+			
+	b-orgaD-all-h_tlun	  *	h_tlun	      +			
+	b-orgaD-all-h_edui	  *	h_edui	      +			
+	b-orgaD-all-h_comm	  *	h_comm	      +			
+	b-orgaD-all-p_hectare	*	p_hect	      +			
+	b-orgaD-all-p_leguD	  *	P_leguD	      +			
+	b-orgaD-all-p_fertD	  *	p_fertD	      +			
+	b-orgaD-all-p_tree10D	*	p_tree10d	    +			
+	b-orgaD-all-p_sand	  * [	p_sand%	] of patch-here +			
+	b-orgaD-all-p_slope	  * [	p_slope	] of patch-here +			
+	b0-orgaD-all						
+	)]						
+							
+							
+							
+							
+							
+	ask turtles with [HCLUS = 1]  [						
+let	b-hc-od-h_labour	-0.890	+ random-float (	0.436	-	-0.890	)
+let	b-hc-od-h_depr	-0.732	+ random-float (	0.034	-	-0.732	)
+let	b-hc-od-h_weai2	-1.783	+ random-float (	1.699	-	-1.783	)
+let	b-hc-od-h_pfertsub	-2.375	+ random-float (	2.311	-	-2.375	)
+let	b-hc-od-h_tlun	-0.277	+ random-float (	0.961	-	-0.277	)
+let	b-hc-od-h_edui	-0.320	+ random-float (	1.315	-	-0.320	)
+let	b-hc-od-h_comm	-0.795	+ random-float (	0.680	-	-0.795	)
+let	b-hc-od-p_hectare	0.032	+ random-float (	0.855	-	0.032	)
+let	b-hc-od-p_leguD	-2.127	+ random-float (	0.282	-	-2.127	)
+let	b-hc-od-p_fertD	-0.856	+ random-float (	1.577	-	-0.856	)
+let	b-hc-od-p_tree10D	-0.107	+ random-float (	2.277	-	-0.107	)
+let	b-hc-od-p_sand	-0.061	+ random-float (	0.084	-	-0.061	)
+let	b-hc-od-p_slope	-0.148	+ random-float (	0.083	-	-0.148	)
+let	b0-hclus-orgaD	-5.017	+ random-float (	3.094	-	-5.017	)
+							
+							
+							
+							
+							
+set	orgaD-hc (						
+	b-hc-od-h_labour	*	h_labour	+			
+	b-hc-od-h_depr	*	h_depr	+			
+	b-hc-od-h_weai2	*	h_weai2	+			
+	b-hc-od-h_pfertsub	*	p_fertsubsidy	+			
+	b-hc-od-h_tlun	*	h_tlun	+			
+	b-hc-od-h_edui	*	h_edui	+			
+	b-hc-od-h_comm	*	h_comm	+			
+	b-hc-od-p_hectare	*	p_hect	+			
+	b-hc-od-p_leguD	*	P_leguD	+			
+	b-hc-od-p_fertD	*	p_fertD	+			
+	b-hc-od-p_tree10D	*	p_tree10d	+			
+	b-hc-od-p_sand	 * [	p_sand%	] of patch-here +			
+	b-hc-od-p_slope	 * [	p_slope	] of patch-here +			
+	b0-hclus-orgaD						
+	)]						
+							
+							
+							
+							
+							
+	ask turtles with [HCLUS = 2]  [						
+let	b-hc-od-h_labour	-0.076	+ random-float (	0.382	-	-0.076	)
+let	b-hc-od-h_depr	-0.286	+ random-float (	0.118	-	-0.286	)
+let	b-hc-od-h_weai2	-1.859	+ random-float (	0.196	-	-1.859	)
+let	b-hc-od-h_pfertsub	-2.592	+ random-float (	0.458	-	-2.592	)
+let	b-hc-od-h_tlun	0.019	+ random-float (	0.356	-	0.019	)
+let	b-hc-od-h_edui	-0.652	+ random-float (	0.113	-	-0.652	)
+let	b-hc-od-h_comm	-1.174	+ random-float (	0.151	-	-1.174	)
+let	b-hc-od-p_hectare	-0.343	+ random-float (	1.347	-	-0.343	)
+let	b-hc-od-p_leguD	0.058	+ random-float (	1.338	-	0.058	)
+let	b-hc-od-p_fertD	-0.017	+ random-float (	1.513	-	-0.017	)
+let	b-hc-od-p_tree10D	-1.639	+ random-float (	-0.052	-	-1.639	)
+let	b-hc-od-p_sand	-0.040	+ random-float (	0.029	-	-0.040	)
+let	b-hc-od-p_slope	-0.098	+ random-float (	0.057	-	-0.098	)
+let	b0-hclus-orgaD	-2.512	+ random-float (	1.072	-	-2.512	)
+							
+							
+							
+							
+							
+set	orgaD-hc (						
+	b-hc-od-h_labour	*	h_labour	+			
+	b-hc-od-h_depr	*	h_depr	+			
+	b-hc-od-h_weai2	*	h_weai2	+			
+	b-hc-od-h_pfertsub	*	p_fertsubsidy	+			
+	b-hc-od-h_tlun	*	h_tlun	+			
+	b-hc-od-h_edui	*	h_edui	+			
+	b-hc-od-h_comm	*	h_comm	+			
+	b-hc-od-p_hectare	*	p_hect	+			
+	b-hc-od-p_leguD	*	P_leguD	+			
+	b-hc-od-p_fertD	*	p_fertD	+			
+	b-hc-od-p_tree10D	*	p_tree10d	+			
+	b-hc-od-p_sand	 * [	p_sand%	] of patch-here +			
+	b-hc-od-p_slope	 * [	p_slope	] of patch-here +			
+	b0-hclus-orgaD						
+	)]						
+							
+							
+							
+							
+							
+	ask turtles with [HCLUS = 3]  [						
+let	b-hc-od-h_labour	-0.459	+ random-float (	0.460	-	-0.459	)
+let	b-hc-od-h_depr	-0.476	+ random-float (	0.102	-	-0.476	)
+let	b-hc-od-h_weai2	-1.373	+ random-float (	1.051	-	-1.373	)
+let	b-hc-od-h_pfertsub	0.944	+ random-float (	4.401	-	0.944	)
+let	b-hc-od-h_tlun	-0.089	+ random-float (	0.511	-	-0.089	)
+let	b-hc-od-h_edui	-0.308	+ random-float (	0.700	-	-0.308	)
+let	b-hc-od-h_comm	-1.132	+ random-float (	0.303	-	-1.132	)
+let	b-hc-od-p_hectare	-0.445	+ random-float (	2.612	-	-0.445	)
+let	b-hc-od-p_leguD	-0.820	+ random-float (	0.767	-	-0.820	)
+let	b-hc-od-p_fertD	-1.243	+ random-float (	0.495	-	-1.243	)
+let	b-hc-od-p_tree10D	-0.220	+ random-float (	1.339	-	-0.220	)
+let	b-hc-od-p_sand	-0.075	+ random-float (	0.025	-	-0.075	)
+let	b-hc-od-p_slope	-0.040	+ random-float (	0.108	-	-0.040	)
+let	b0-hclus-orgaD	-2.175	+ random-float (	3.004	-	-2.175	)
+							
+							
+							
+							
+							
+set	orgaD-hc (						
+	b-hc-od-h_labour	*	h_labour	+			
+	b-hc-od-h_depr	*	h_depr	+			
+	b-hc-od-h_weai2	*	h_weai2	+			
+	b-hc-od-h_pfertsub	*	p_fertsubsidy	+			
+	b-hc-od-h_tlun	*	h_tlun	+			
+	b-hc-od-h_edui	*	h_edui	+			
+	b-hc-od-h_comm	*	h_comm	+			
+	b-hc-od-p_hectare	*	p_hect	+			
+	b-hc-od-p_leguD	*	P_leguD	+			
+	b-hc-od-p_fertD	*	p_fertD	+			
+	b-hc-od-p_tree10D	*	p_tree10d	+			
+	b-hc-od-p_sand	 * [	p_sand%	] of patch-here +			
+	b-hc-od-p_slope	 * [	p_slope	] of patch-here +			
+	b0-hclus-orgaD						
+	)]						
+  		
+Discrete-orgaD-choice
+End
+
+To Discrete-orgaD-choice
+;show (word "--------------Dicrete orga Choice")
+ ; show "Updating orga input all"
+let min-a min [orgaD-all] of turtles with [HCLUS > 0]
+let max-a max [orgaD-all] of turtles 
+ ; show (word "min-orga-a =" min-a ", max-orga-a = " max-a)
+let max-1 precision (max [orgaD-hc] of turtles) 3 
+let min-1 precision (min [orgaD-hc] of turtles with [HCLUS = 1]) 3
+  ;show (word "min-orga-1 =" min-1 ", max-orga-1 = " max-1)
+let max-2 precision (max [orgaD-hc] of turtles) 3 
+let min-2 precision (min [orgaD-hc] of turtles with [HCLUS = 2]) 3
+   ; show (word "min-orga-2 =" min-2 ", max-orga-2 = " max-2)
+let max-3 precision (max [orgaD-hc] of turtles) 3 
+let min-3 precision (min [orgaD-hc] of turtles with [HCLUS = 3]) 3
+    ;show (word "min-orga-3 =" min-3 ", max-orga-3 = " max-3)  
+ 
+ask turtles with [HCLUS > 0]
+  [if orgaD-all > 500 [set orgaD-all 500]
+    if orgaD-hc > 500 [set orgaD-hc 500]
+    if orgaD-all < -500 [set orgaD-all -500 ]
+    if orgaD-hc < -500 [set orgaD-hc -500 ]
+ let eorgaD-all 0 let porgaD-all 0
+ set eorgaD-all exp orgaD-all set porgaD-all eorgaD-all / (1 + eorgaD-all)
+ifelse porgaD-all > 0.5  [set dorgaD-all 1] [set  dorgaD-all 0]
+  
+    
+    set P_orgaD dorgaD-all
+  ]
+  ;============"Updating orga input c1"
+ask turtles with [HCLUS = 1] 
+[let eorgaD-c1 0 let porgaD-c1 0
+ set eorgaD-c1 exp orgaD-hc set porgaD-c1 eorgaD-c1 / (1 + eorgaD-c1)
+ifelse porgaD-c1 > 0.5 [set  dorgaD-hc 1] [set dorgaD-hc 0]]   
+;=============="Updating orga input c2"
+ask turtles with [HCLUS = 2] 
+  [let eorgaD-c2 0 let porgaD-c2 0
+   set eorgaD-c2 exp orgaD-hc set porgaD-c2 eorgaD-c2 / (1 + eorgaD-c2)
+ifelse porgaD-c2 > 0.5 [set  dorgaD-hc 1] [set dorgaD-hc 0]]
+;=============="Updating orga input c3"
+ask turtles with [ HCLUS = 3] 
+  [let eorgaD-c3 0 let porgaD-c3 0
+   set eorgaD-c3 exp orgaD-hc set porgaD-c3 eorgaD-c3 / (1 + eorgaD-c3)
+ifelse porgaD-c3 > 0.5 [set  dorgaD-hc 1] [set dorgaD-hc 0]
+]
+
+End
+
+
+To P322b.Update-Manure-intensity
+	
+	ask turtles with [HCLUS = 1 and dorgaD-hc = 1]  [						
+let	b-orgaA-c-h_weai2	-1.18597	+ random-float (	0.08211	-	-1.18597	)
+let	b-orgaA-c-h_labour	0.08688	+ random-float (	0.84391	-	0.08688	)
+let	b-orgaA-c-h_depr	-0.19092	+ random-float (	0.08727	-	-0.19092	)
+let	b-orgaA-c-h_edui	-1.16030	+ random-float (	-0.37435	-	-1.16030	)
+let	b-orgaA-c-h_incc	-0.01321	+ random-float (	0.00270	-	-0.01321	)
+let	b-orgaA-c-h_incl	0.00001	+ random-float (	0.01223	-	0.00001	)
+let	b-orgaA-c-h_p-hect	-0.71537	+ random-float (	-0.49110	-	-0.71537	)
+let	b-orgaA-c-p_leguD	0.32218	+ random-float (	1.37002	-	0.32218	)
+let	b-orgaA-c-p_SOC	-0.21080	+ random-float (	2.20159	-	-0.21080	)
+let	b-orgaA-c-p_sand	-0.05020	+ random-float (	0.01255	-	-0.05020	)
+let	b-orgaA-c-p_fertsub	-1.97567	+ random-float (	1.05359	-	-1.97567	)
+let	b-orgaA-c-p_fert_ha	0.00115	+ random-float (	0.00473	-	0.00115	)
+let	b0-hclus-orgaA	3.30454	+ random-float (	7.23950	-	3.30454	)
+
+set	orgaA-hc (						
+	b-orgaA-c-h_weai2	*	h_weai2	+
+b-orgaA-c-h_labour	*	h_labour	+
+b-orgaA-c-h_depr	*	h_depr	+
+b-orgaA-c-h_edui	*	h_edui	+
+b-orgaA-c-h_incc	*	h_incc	+
+b-orgaA-c-h_incl	*	h_incl	+
+b-orgaA-c-h_p-hect	*	p_hect	+
+b-orgaA-c-p_leguD	*	P_leguD	+
+b-orgaA-c-p_SOC	* [	P_soc%	] of patch-here +
+b-orgaA-c-p_sand	* [	P_sand%	] of patch-here +
+b-orgaA-c-p_fertsub	*	p_fertsubsidy	+
+b-orgaA-c-p_fert_ha	*	fert_ha-hc	+
+b0-hclus-orgaA	)		
+
+	
+]							
+	ask turtles with [HCLUS = 2 and dorgaD-hc = 1]  [						
+let	b-orgaA-c-h_weai2	-0.98074	+ random-float (	0.24297	-	-0.98074	)
+let	b-orgaA-c-h_labour	0.18492	+ random-float (	0.38201	-	0.18492	)
+let	b-orgaA-c-h_depr	-0.09047	+ random-float (	0.13502	-	-0.09047	)
+let	b-orgaA-c-h_edui	-0.43508	+ random-float (	-0.07392	-	-0.43508	)
+let	b-orgaA-c-h_incc	-0.00178	+ random-float (	0.00083	-	-0.00178	)
+let	b-orgaA-c-h_incl	0.00144	+ random-float (	0.01605	-	0.00144	)
+let	b-orgaA-c-h_p-hect	-1.96348	+ random-float (	-1.07493	-	-1.96348	)
+let	b-orgaA-c-p_leguD	-0.33175	+ random-float (	0.36212	-	-0.33175	)
+let	b-orgaA-c-p_SOC	-0.57377	+ random-float (	1.24157	-	-0.57377	)
+let	b-orgaA-c-p_sand	-0.03028	+ random-float (	0.00744	-	-0.03028	)
+let	b-orgaA-c-p_fertsub	-1.28947	+ random-float (	0.01298	-	-1.28947	)
+let	b-orgaA-c-p_fert_ha	-0.00029	+ random-float (	0.00067	-	-0.00029	)
+let	b0-hclus-orgaA	5.09656	+ random-float (	7.42157	-	5.09656	)
+
+set	orgaA-hc (						
+b-orgaA-c-h_weai2	*	h_weai2	+
+b-orgaA-c-h_labour	*	h_labour	+
+b-orgaA-c-h_depr	*	h_depr	+
+b-orgaA-c-h_edui	*	h_edui	+
+b-orgaA-c-h_incc	*	h_incc	+
+b-orgaA-c-h_incl	*	h_incl	+
+b-orgaA-c-h_p-hect	*	p_hect	+
+b-orgaA-c-p_leguD	*	P_leguD	+
+b-orgaA-c-p_SOC	* [	P_soc%	] of patch-here +
+b-orgaA-c-p_sand	* [	P_sand%	] of patch-here +
+b-orgaA-c-p_fertsub	*	p_fertsubsidy	+
+b-orgaA-c-p_fert_ha	*	fert_ha-hc	+
+b0-hclus-orgaA	)		
+
+  ]							
+	ask turtles with [HCLUS = 3 and dorgaD-hc = 1]  [						
+let	b-orgaA-c-h_weai2	-0.78910	+ random-float (	1.43270	-	-0.78910	)
+let	b-orgaA-c-h_labour	-0.37416	+ random-float (	0.23421	-	-0.37416	)
+let	b-orgaA-c-h_depr	-0.23244	+ random-float (	0.14394	-	-0.23244	)
+let	b-orgaA-c-h_edui	-0.14497	+ random-float (	0.39965	-	-0.14497	)
+let	b-orgaA-c-h_incc	-0.00163	+ random-float (	0.00200	-	-0.00163	)
+let	b-orgaA-c-h_incl	-0.02863	+ random-float (	-0.00013	-	-0.02863	)
+let	b-orgaA-c-h_p-hect	-1.78336	+ random-float (	-0.06723	-	-1.78336	)
+let	b-orgaA-c-p_leguD	-0.53175	+ random-float (	0.77275	-	-0.53175	)
+let	b-orgaA-c-p_SOC	-1.86914	+ random-float (	0.75410	-	-1.86914	)
+let	b-orgaA-c-p_sand	-0.02475	+ random-float (	0.06313	-	-0.02475	)
+let	b-orgaA-c-p_fertsub	-0.90584	+ random-float (	0.81695	-	-0.90584	)
+let	b-orgaA-c-p_fert_ha	0.00023	+ random-float (	0.00214	-	0.00023	)
+let	b0-hclus-orgaA	3.67117	+ random-float (	9.82956	-	3.67117	)
+						
+set	orgaA-hc (						
+	b-orgaA-c-h_weai2	*	h_weai2	+
+b-orgaA-c-h_labour	*	h_labour	+
+b-orgaA-c-h_depr	*	h_depr	+
+b-orgaA-c-h_edui	*	h_edui	+
+b-orgaA-c-h_incc	*	h_incc	+
+b-orgaA-c-h_incl	*	h_incl	+
+b-orgaA-c-h_p-hect	*	p_hect	+
+b-orgaA-c-p_leguD	*	P_leguD	+
+b-orgaA-c-p_SOC	* [	P_soc%	] of patch-here +
+b-orgaA-c-p_sand	* [	P_sand%	] of patch-here +
+b-orgaA-c-p_fertsub	*	p_fertsubsidy	+
+b-orgaA-c-p_fert_ha	*	fert_ha-hc	+
+b0-hclus-orgaA	)		
+  ]	
+  
+  ask turtles with [dorgaD-all = 1]  [						
+let	b-orgaA-all-h_weai2	-0.52697	+ random-float (	0.88193	-	-0.52697	)
+let	b-orgaA-all-h_labour	-0.06017	+ random-float (	0.14361	-	-0.06017	)
+let	b-orgaA-all-h_depr	-0.19003	+ random-float (	0.06258	-	-0.19003	)
+let	b-orgaA-all-h_edui	-0.12468	+ random-float (	0.15878	-	-0.12468	)
+let	b-orgaA-all-h_incc	-0.00129	+ random-float (	0.00037	-	-0.00129	)
+let	b-orgaA-all-h_incl	-0.00538	+ random-float (	0.00391	-	-0.00538	)
+let	b-orgaA-all-h_p-hect	-0.95864	+ random-float (	-0.68338	-	-0.95864	)
+let	b-orgaA-all-p_leguD	-0.30755	+ random-float (	0.51276	-	-0.30755	)
+let	b-orgaA-all-p_SOC	-0.75690	+ random-float (	0.75975	-	-0.75690	)
+let	b-orgaA-all-p_sand	-0.02589	+ random-float (	0.02097	-	-0.02589	)
+let	b-orgaA-all-p_fertsub	-0.78861	+ random-float (	0.54158	-	-0.78861	)
+let	b-orgaA-all-p_fert_ha	0.00035	+ random-float (	0.00181	-	0.00035	)
+let	b0-_orgaA-all	5.22444	+ random-float (	8.16946	-	5.22444	)
+
+set	orgaA-all (						
+b-orgaA-all-h_weai2	*	h_weai2	+
+b-orgaA-all-h_labour	*	h_labour	+
+b-orgaA-all-h_depr	*	h_depr	+
+b-orgaA-all-h_edui	*	h_edui	+
+b-orgaA-all-h_incc	*	h_incc	+
+b-orgaA-all-h_incl	*	h_incl	+
+b-orgaA-all-h_p-hect	*	p_hect	+
+b-orgaA-all-p_leguD	*	P_leguD	+
+b-orgaA-all-p_SOC	* [	P_soc%	] of patch-here +
+b-orgaA-all-p_sand	* [	P_sand%	] of patch-here +
+b-orgaA-all-p_fertsub	*	p_fertsubsidy	+
+b-orgaA-all-p_fert_ha	*	fert_ha	+
+b0-_orgaA-all	)		
+
+    
+]													
+  
+  ask turtles with [HCLUS > 0]
+  [;correct outliers by winzolisation
+   let oa-u 7.25 
+   let o1-u 6.81 
+   let o2-u 7.12 
+   let o3-u 7.44
+    
+   
+   if orgaA-all > oa-u [set orgaA-all oa-u + ( orgaA-all / max [orgaA-all] of turtles )] 
+   if orgaA-all <= -1 [set orgaA-all -1 / orgaA-all]
+   if orgaA-all <= 0 and orgaA-all > -1 [set orgaA-all 2]   
+   set	org_ha	(exp	orgaA-all) * 0.511 
+  
+    if hclus = 1 and orgaA-hc > o3-u [set orgaA-hc o1-u + (orgaA-hc / max [orgaA-hc] of turtles with [hclus = 1] ) ] 
+    if hclus = 2 and orgaA-hc > o3-u [set orgaA-hc o2-u + (orgaA-hc / max [orgaA-hc] of turtles with [hclus = 2] ) ]
+    if hclus = 3 and orgaA-hc > o3-u [set orgaA-hc o3-u + (orgaA-hc / max [orgaA-hc] of turtles with [hclus = 3] ) ]
+    if hclus = 1 and orgaA-hc < -1 [set orgaA-hc 2 + -1 / orgaA-hc] 
+    if hclus = 1 and orgaA-hc <= 0 and orgaA-hc > -1 [set orgaA-hc 2] 
+    if hclus = 2 and orgaA-hc < -1 [set orgaA-hc 2 + -1 / orgaA-hc] 
+    if hclus = 2 and orgaA-hc <= 0 and orgaA-hc > -1 [set orgaA-hc 2] 
+    if hclus = 3 and orgaA-hc < -1 [set orgaA-hc 2 + -1 / orgaA-hc] 
+    if hclus = 3 and orgaA-hc <= 0 and orgaA-hc > -1 [set orgaA-hc 2] 
+    
+    
+    set	orgaA-hc	exp	orgaA-hc
+    set orga_ha-hc orgaA-hc
+    if hclus = 1 [set  orga_ha-hc orga_ha-hc * 0.382] if hclus = 2 [set  orga_ha-hc orga_ha-hc * 0.355] if hclus = 3 [set  orga_ha-hc orga_ha-hc * 0.482] 
+  ]
+  
+  ;P322c.manure-input-summary
+End
+
+To P323.Update-legume-Input-choice
+
+  	ask turtles with [HP_ID != 0] [						
+let	b-leguD-all-h_labour	-0.274	+ random-float (	0.112	-	-0.274	)
+let	b-leguD-all-h_depr	-0.165	+ random-float (	0.110	-	-0.165	)
+let	b-leguD-all-h_weia	-0.091	+ random-float (	1.219	-	-0.091	)
+let	b-leguD-all-p_fertsub	-0.732	+ random-float (	1.273	-	-0.732	)
+let	b-leguD-all-h_edui	0.008	+ random-float (	0.607	-	0.008	)
+let	b-leguD-all-h_comm	-0.359	+ random-float (	0.422	-	-0.359	)
+let	b-leguD-all-h_gmem	-0.845	+ random-float (	0.013	-	-0.845	)
+let	b-leguD-all-p_hectare	0.655	+ random-float (	1.979	-	0.655	)
+let	b-leguD-all-p_ctyr	0.004	+ random-float (	0.015	-	0.004	)
+let	b-leguD-all-p_fertD	-1.156	+ random-float (	-0.166	-	-1.156	)
+let	b-leguD-all-p_orgaD	-0.087	+ random-float (	0.741	-	-0.087	)
+let	b-leguD-all-p_tree10D	-0.710	+ random-float (	0.206	-	-0.710	)
+let	b-leguD-all-p_sand	-0.015	+ random-float (	0.037	-	-0.015	)
+let	b-leguD-all-p_socper	-1.148	+ random-float (	0.700	-	-1.148	)
+let	b-leguD-all-p_slope	-0.048	+ random-float (	0.043	-	-0.048	)
+let	b0-leguD-all	-3.359	+ random-float (	-0.082	-	-3.359	)
+							
+							
+							
+set	leguD-all (						
+	b-leguD-all-h_labour	*	h_labour	+			
+	b-leguD-all-h_depr	*	h_depr	+			
+	b-leguD-all-h_weia	*	h_weai2	+			
+	b-leguD-all-p_fertsub	*	p_fertsubsidy	+			
+	b-leguD-all-h_edui	*	h_edui	+			
+	b-leguD-all-h_comm	*	h_comm	+			
+	b-leguD-all-h_gmem	*	h_gmem	+			
+	b-leguD-all-p_hectare	*	p_hect	+			
+	b-leguD-all-p_ctyr	*	p_cultyrs	+			
+	b-leguD-all-p_fertD	*	p_fertD	+			
+	b-leguD-all-p_orgaD	*	p_orgad	+			
+	b-leguD-all-p_tree10D	*	p_tree10d	+			
+	b-leguD-all-p_sand	* [	p_sand%	] of patch-here  +			
+	b-leguD-all-p_socper	* [	p_soc%	] of patch-here  +			
+	b-leguD-all-p_slope	* [	p_slope	] of patch-here  +			
+	b0-leguD-all						
+	)]						
+							
+							
+							
+	ask turtles with [HCLUS = 1]  [						
+let	b-hc-ld-h_labour	-1.424	+ random-float (	-0.009	-	-1.424	)
+let	b-hc-ld-h_depr	-0.730	+ random-float (	-0.010	-	-0.730	)
+let	b-hc-ld-h_weia	-1.138	+ random-float (	2.594	-	-1.138	)
+let	b-hc-ld-p_fertsub	-5.121	+ random-float (	0.270	-	-5.121	)
+let	b-hc-ld-h_edui	0.039	+ random-float (	2.094	-	0.039	)
+let	b-hc-ld-h_comm	-0.264	+ random-float (	1.329	-	-0.264	)
+let	b-hc-ld-h_gmem	-1.696	+ random-float (	0.854	-	-1.696	)
+let	b-hc-ld-p_hectare	0.188	+ random-float (	1.269	-	0.188	)
+let	b-hc-ld-p_ctyr	0.011	+ random-float (	0.043	-	0.011	)
+let	b-hc-ld-p_fertD	-1.467	+ random-float (	1.149	-	-1.467	)
+let	b-hc-ld-p_orgaD	-2.526	+ random-float (	-0.019	-	-2.526	)
+let	b-hc-ld-p_tree10D	-0.919	+ random-float (	1.777	-	-0.919	)
+let	b-hc-ld-p_sand	-0.016	+ random-float (	0.142	-	-0.016	)
+let	b-hc-ld-p_socper	-2.226	+ random-float (	1.746	-	-2.226	)
+let	b-hc-ld-p_slope	-0.161	+ random-float (	0.066	-	-0.161	)
+let	b0--hcluss-leguD	-7.754	+ random-float (	1.425	-	-7.754	)
+							
+							
+							
+set	leguD-hc (						
+	b-hc-ld-h_labour	*	h_labour	+			
+	b-hc-ld-h_depr	*	h_depr	+			
+	b-hc-ld-h_weia	*	h_weai2	+			
+	b-hc-ld-p_fertsub	*	p_fertsubsidy	+			
+	b-hc-ld-h_edui	*	h_edui	+			
+	b-hc-ld-h_comm	*	h_comm	+			
+	b-hc-ld-h_gmem	*	h_gmem	+			
+	b-hc-ld-p_hectare	*	p_hect	+			
+	b-hc-ld-p_ctyr	*	p_cultyrs	+			
+	b-hc-ld-p_fertD	*	p_fertD	+			
+	b-hc-ld-p_orgaD	*	p_orgad	+			
+	b-hc-ld-p_tree10D	*	p_tree10d	+			
+	b-hc-ld-p_sand	* [	p_sand%	] of patch-here  +			
+	b-hc-ld-p_socper	* [	p_soc%	] of patch-here  +			
+	b-hc-ld-p_slope	* [	p_slope	] of patch-here  +			
+	b0--hcluss-leguD						
+	)]						
+							
+							
+							
+	ask turtles with [HCLUS = 2]  [						
+let	b-hc-ld-h_labour	-0.365	+ random-float (	0.142	-	-0.365	)
+let	b-hc-ld-h_depr	-0.278	+ random-float (	0.197	-	-0.278	)
+let	b-hc-ld-h_weia	-0.231	+ random-float (	1.792	-	-0.231	)
+let	b-hc-ld-p_fertsub	-1.669	+ random-float (	1.710	-	-1.669	)
+let	b-hc-ld-h_edui	-0.079	+ random-float (	0.733	-	-0.079	)
+let	b-hc-ld-h_comm	-0.643	+ random-float (	0.695	-	-0.643	)
+let	b-hc-ld-h_gmem	-1.086	+ random-float (	0.279	-	-1.086	)
+let	b-hc-ld-p_hectare	0.310	+ random-float (	2.250	-	0.310	)
+let	b-hc-ld-p_ctyr	-0.004	+ random-float (	0.014	-	-0.004	)
+let	b-hc-ld-p_fertD	-1.497	+ random-float (	0.061	-	-1.497	)
+let	b-hc-ld-p_orgaD	0.086	+ random-float (	1.366	-	0.086	)
+let	b-hc-ld-p_tree10D	-1.586	+ random-float (	-0.051	-	-1.586	)
+let	b-hc-ld-p_sand	-0.015	+ random-float (	0.058	-	-0.015	)
+let	b-hc-ld-p_socper	-1.625	+ random-float (	1.274	-	-1.625	)
+let	b-hc-ld-p_slope	-0.043	+ random-float (	0.103	-	-0.043	)
+let	b0--hcluss-leguD	-4.660	+ random-float (	0.656	-	-4.660	)
+							
+							
+							
+set	leguD-hc (						
+	b-hc-ld-h_labour	*	h_labour	+			
+	b-hc-ld-h_depr	*	h_depr	+			
+	b-hc-ld-h_weia	*	h_weai2	+			
+	b-hc-ld-p_fertsub	*	p_fertsubsidy	+			
+	b-hc-ld-h_edui	*	h_edui	+			
+	b-hc-ld-h_comm	*	h_comm	+			
+	b-hc-ld-h_gmem	*	h_gmem	+			
+	b-hc-ld-p_hectare	*	p_hect	+			
+	b-hc-ld-p_ctyr	*	p_cultyrs	+			
+	b-hc-ld-p_fertD	*	p_fertD	+			
+	b-hc-ld-p_orgaD	*	p_orgad	+			
+	b-hc-ld-p_tree10D	*	p_tree10d	+			
+	b-hc-ld-p_sand	* [	p_sand%	] of patch-here  +			
+	b-hc-ld-p_socper	* [	p_soc%	] of patch-here  +			
+	b-hc-ld-p_slope	* [	p_slope	] of patch-here  +			
+	b0--hcluss-leguD						
+	)]						
+							
+							
+							
+	ask turtles with [HCLUS = 3]  [						
+let	b-hc-ld-h_labour	-0.862	+ random-float (	0.316	-	-0.862	)
+let	b-hc-ld-h_depr	-0.159	+ random-float (	0.398	-	-0.159	)
+let	b-hc-ld-h_weia	-0.557	+ random-float (	2.069	-	-0.557	)
+let	b-hc-ld-p_fertsub	0.310	+ random-float (	3.848	-	0.310	)
+let	b-hc-ld-h_edui	-0.139	+ random-float (	1.115	-	-0.139	)
+let	b-hc-ld-h_comm	-1.067	+ random-float (	0.540	-	-1.067	)
+let	b-hc-ld-h_gmem	-1.290	+ random-float (	0.332	-	-1.290	)
+let	b-hc-ld-p_hectare	1.718	+ random-float (	4.878	-	1.718	)
+let	b-hc-ld-p_ctyr	0.005	+ random-float (	0.024	-	0.005	)
+let	b-hc-ld-p_fertD	-2.207	+ random-float (	-0.275	-	-2.207	)
+let	b-hc-ld-p_orgaD	-1.047	+ random-float (	0.588	-	-1.047	)
+let	b-hc-ld-p_tree10D	-0.604	+ random-float (	1.041	-	-0.604	)
+let	b-hc-ld-p_sand	-0.088	+ random-float (	0.021	-	-0.088	)
+let	b-hc-ld-p_socper	-1.209	+ random-float (	2.407	-	-1.209	)
+let	b-hc-ld-p_slope	-0.092	+ random-float (	0.074	-	-0.092	)
+let	b0--hcluss-leguD	-4.208	+ random-float (	2.109	-	-4.208	)
+							
+							
+							
+set	leguD-hc (						
+	b-hc-ld-h_labour	*	h_labour	+			
+	b-hc-ld-h_depr	*	h_depr	+			
+	b-hc-ld-h_weia	*	h_weai2	+			
+	b-hc-ld-p_fertsub	*	p_fertsubsidy	+			
+	b-hc-ld-h_edui	*	h_edui	+			
+	b-hc-ld-h_comm	*	h_comm	+			
+	b-hc-ld-h_gmem	*	h_gmem	+			
+	b-hc-ld-p_hectare	*	p_hect	+			
+	b-hc-ld-p_ctyr	*	p_cultyrs	+			
+	b-hc-ld-p_fertD	*	p_fertD	+			
+	b-hc-ld-p_orgaD	*	p_orgad	+			
+	b-hc-ld-p_tree10D	*	p_tree10d	+			
+	b-hc-ld-p_sand	* [	p_sand%	] of patch-here  +			
+	b-hc-ld-p_socper	* [	p_soc%	] of patch-here  +			
+	b-hc-ld-p_slope	* [	p_slope	] of patch-here  +			
+	b0--hcluss-leguD						
+	)]						
+  
+Discrete-leguD-choice
+End
+To Discrete-leguD-choice
+  ;show (word "--------------Dicrete legu Choice")
+  ;show "Updating legu input all"
+let min-a min [leguD-all] of turtles with [HCLUS > 0]
+let max-a max [leguD-all] of turtles 
+ ; show (word "min-legu-a =" min-a ", max-legu-a = " max-a)
+let max-1 precision (max [leguD-hc] of turtles) 3 
+let min-1 precision (min [leguD-hc] of turtles with [HCLUS = 1]) 3
+;  show (word "min-legu-1 =" min-1 ", max-legu-1 = " max-1)
+let max-2 precision (max [leguD-hc] of turtles) 3 
+let min-2 precision (min [leguD-hc] of turtles with [HCLUS = 2]) 3
+;    show (word "min-legu-2 =" min-2 ", max-legu-2 = " max-2)
+let max-3 precision (max [leguD-hc] of turtles) 3 
+let min-3 precision (min [leguD-hc] of turtles with [HCLUS = 3]) 3
+ ;   show (word "min-legu-3 =" min-3 ", max-legu-3 = " max-3)  
+ 
+ask turtles with [HCLUS > 0]
+[if leguD-all > 500 [set leguD-all 500]
+ if leguD-hc > 500 [set leguD-hc 500] 
+ if leguD-all < -500 [set leguD-all -500] 
+ if leguD-hc < -500 [set leguD-hc -500]   
+ let eleguD-all 0 let pleguD-all 0
+ set eleguD-all exp leguD-all set pleguD-all eleguD-all / (1 + eleguD-all)
+ifelse pleguD-all > 0.5  [set dleguD-all 1] [set  dleguD-all 0]
+  
+set P_leguD dleguD-all
+  ]
+  ;============="Updating legu input c1"
+ask turtles with [HCLUS = 1] 
+[let eleguD-c1 0 let pleguD-c1 0
+ set eleguD-c1 exp leguD-hc set pleguD-c1 eleguD-c1 / (1 + eleguD-c1)
+ifelse pleguD-c1 > 0.5 [set  dleguD-hc 1] [set dleguD-hc 0]]   
+;=============="Updating legu input c2"
+ask turtles with [HCLUS = 2] 
+  [let eleguD-c2 0 let pleguD-c2 0
+   set eleguD-c2 exp leguD-hc set pleguD-c2 eleguD-c2 / (1 + eleguD-c2)
+ifelse pleguD-c2 > 0.5 [set  dleguD-hc 1] [set dleguD-hc 0]]
+;=============="Updating legu input c3"
+ask turtles with [ HCLUS = 3] 
+  [let eleguD-c3 0 let pleguD-c3 0
+   set eleguD-c3 exp leguD-hc set pleguD-c3 eleguD-c3 / (1 + eleguD-c3)
+ifelse pleguD-c3 > 0.5 [set  dleguD-hc 1] [set dleguD-hc 0]
+]
+;legume-cropping-stats
+end
+;=============
+
+To P3331.update.tree-on-farm  
+  	ask turtles with [HP_ID != 0] [						
+let	b-treeD-all-h_labour	-0.478	+ random-float (	-0.063	-	-0.478	)
+let	b-treeD-all-h_depr	0.010	+ random-float (	0.294	-	0.010	)
+let	b-treeD-all-h_weai2	-1.257	+ random-float (	0.095	-	-1.257	)
+let	b-treeD-all-p_fertsub	-1.077	+ random-float (	0.886	-	-1.077	)
+let	b-treeD-all-h_edui	0.017	+ random-float (	0.573	-	0.017	)
+let	b-treeD-all-h_tlun	0.087	+ random-float (	0.318	-	0.087	)
+let	b-treeD-all-p_hect	-0.081	+ random-float (	0.715	-	-0.081	)
+let	b-treeD-all-p_cultyrs	-0.008	+ random-float (	0.004	-	-0.008	)
+let	b-treeD-all-p_cropd	-0.850	+ random-float (	0.121	-	-0.850	)
+let	b-treeD-all-p_fertD	-0.546	+ random-float (	0.507	-	-0.546	)
+let	b-treeD-all-p_orgad	-0.358	+ random-float (	0.522	-	-0.358	)
+let	b-treeD-all-p_soc%	-0.196	+ random-float (	1.580	-	-0.196	)
+let	b-treeD-all-p_elev	0.003	+ random-float (	0.012	-	0.003	)
+let	b0-treeD-all	-12.430	+ random-float (	-3.845	-	-12.430	)
+							
+set	tree10D-all (						
+	b-treeD-all-h_labour	*	h_labour	+			
+	b-treeD-all-h_depr	*	h_depr	+			
+	b-treeD-all-h_weai2	*	h_weai2	+			
+	b-treeD-all-p_fertsub	*	p_fertsubsidy	+			
+	b-treeD-all-h_edui	*	h_edui	+			
+	b-treeD-all-h_tlun	*	h_tlun	+			
+	b-treeD-all-p_hect	*	p_hect	+			
+	b-treeD-all-p_cultyrs	*	p_cultyrs	+			
+	b-treeD-all-p_cropd	*	P_leguD	+			
+	b-treeD-all-p_fertD	*	P_fertD	+			
+	b-treeD-all-p_orgad	*	p_orgad	+			
+	b-treeD-all-p_soc%	* [	p_soc%	] of patch-here +			
+	b-treeD-all-p_elev	* [	p_elevation	] of patch-here +			
+	b0-treeD-all						
+	)]						
+							
+	ask turtles with [HCLUS = 1]  [						
+let	b-treeD-hc-h_labour	-0.361	+ random-float (	1.184	-	-0.361	)
+let	b-treeD-hc-h_depr	-0.208	+ random-float (	0.457	-	-0.208	)
+let	b-treeD-hc-h_weai2	-2.754	+ random-float (	0.204	-	-2.754	)
+let	b-treeD-hc-p_fertsub	-4.659	+ random-float (	0.942	-	-4.659	)
+let	b-treeD-hc-h_edui	-1.836	+ random-float (	0.334	-	-1.836	)
+let	b-treeD-hc-h_tlun	-0.934	+ random-float (	1.943	-	-0.934	)
+let	b-treeD-hc-p_hect	-0.478	+ random-float (	0.508	-	-0.478	)
+let	b-treeD-hc-p_cultyrs	-0.013	+ random-float (	0.015	-	-0.013	)
+let	b-treeD-hc-p_cropd	-0.932	+ random-float (	2.038	-	-0.932	)
+let	b-treeD-hc-p_fertD	-1.222	+ random-float (	1.210	-	-1.222	)
+let	b-treeD-hc-p_orgad	-0.436	+ random-float (	2.242	-	-0.436	)
+let	b-treeD-hc-p_soc%	-1.520	+ random-float (	3.503	-	-1.520	)
+let	b-treeD-hc-p_elev	-0.074	+ random-float (	-0.001	-	-0.074	)
+let	b0-treeD-hc	-2.290	+ random-float (	60.536	-	-2.290	)
+							
+set	tree10D-hc (						
+	b-treeD-hc-h_labour	*	h_labour	+			
+	b-treeD-hc-h_depr	*	h_depr	+			
+	b-treeD-hc-h_weai2	*	h_weai2	+			
+	b-treeD-hc-p_fertsub	*	p_fertsubsidy	+			
+	b-treeD-hc-h_edui	*	h_edui	+			
+	b-treeD-hc-h_tlun	*	h_tlun	+			
+	b-treeD-hc-p_hect	*	p_hect	+			
+	b-treeD-hc-p_cultyrs	*	p_cultyrs	+			
+	b-treeD-hc-p_cropd	*	P_leguD	+			
+	b-treeD-hc-p_fertD	*	P_fertD	+			
+	b-treeD-hc-p_orgad	*	p_orgad	+			
+	b-treeD-hc-p_soc%	* [	p_soc%	] of patch-here +			
+	b-treeD-hc-p_elev	* [	p_elevation	] of patch-here +			
+	b0-treeD-hc						
+	)]						
+								
+	ask turtles with [HCLUS = 2]  [						
+let	b-treeD-hc-h_labour	-0.611	+ random-float (	0.002	-	-0.611	)
+let	b-treeD-hc-h_depr	-0.073	+ random-float (	0.437	-	-0.073	)
+let	b-treeD-hc-h_weai2	-2.012	+ random-float (	0.452	-	-2.012	)
+let	b-treeD-hc-p_fertsub	-2.134	+ random-float (	1.209	-	-2.134	)
+let	b-treeD-hc-h_edui	0.115	+ random-float (	0.893	-	0.115	)
+let	b-treeD-hc-h_tlun	0.118	+ random-float (	0.430	-	0.118	)
+let	b-treeD-hc-p_hect	-0.354	+ random-float (	1.643	-	-0.354	)
+let	b-treeD-hc-p_cultyrs	-0.019	+ random-float (	0.003	-	-0.019	)
+let	b-treeD-hc-p_cropd	-2.063	+ random-float (	-0.273	-	-2.063	)
+let	b-treeD-hc-p_fertD	-0.460	+ random-float (	1.306	-	-0.460	)
+let	b-treeD-hc-p_orgad	-1.647	+ random-float (	-0.109	-	-1.647	)
+let	b-treeD-hc-p_soc%	-0.794	+ random-float (	2.340	-	-0.794	)
+let	b-treeD-hc-p_elev	0.002	+ random-float (	0.018	-	0.002	)
+let	b0-treeD-hc	-17.308	+ random-float (	-3.072	-	-17.308	)
+
+    set	tree10D-hc (						
+	b-treeD-hc-h_labour	*	h_labour	+			
+	b-treeD-hc-h_depr	*	h_depr	+			
+	b-treeD-hc-h_weai2	*	h_weai2	+			
+	b-treeD-hc-p_fertsub	*	p_fertsubsidy	+			
+	b-treeD-hc-h_edui	*	h_edui	+			
+	b-treeD-hc-h_tlun	*	h_tlun	+			
+	b-treeD-hc-p_hect	*	p_hect	+			
+	b-treeD-hc-p_cultyrs	*	p_cultyrs	+			
+	b-treeD-hc-p_cropd	*	P_leguD	+			
+	b-treeD-hc-p_fertD	*	P_fertD	+			
+	b-treeD-hc-p_orgad	*	p_orgad	+			
+	b-treeD-hc-p_soc%	* [	p_soc%	] of patch-here +			
+	b-treeD-hc-p_elev	* [	p_elevation	] of patch-here +			
+	b0-treeD-hc						
+	)]						
+							
+	ask turtles with [HCLUS = 3]  [						
+let	b-treeD-hc-h_labour	-1.325	+ random-float (	-0.099	-	-1.325	)
+let	b-treeD-hc-h_depr	0.025	+ random-float (	0.600	-	0.025	)
+let	b-treeD-hc-h_weai2	-0.975	+ random-float (	1.535	-	-0.975	)
+let	b-treeD-hc-p_fertsub	-1.656	+ random-float (	1.895	-	-1.656	)
+let	b-treeD-hc-h_edui	-0.523	+ random-float (	0.911	-	-0.523	)
+let	b-treeD-hc-h_tlun	-0.321	+ random-float (	0.517	-	-0.321	)
+let	b-treeD-hc-p_hect	-0.158	+ random-float (	3.401	-	-0.158	)
+let	b-treeD-hc-p_cultyrs	-0.013	+ random-float (	0.008	-	-0.013	)
+let	b-treeD-hc-p_cropd	-0.837	+ random-float (	0.844	-	-0.837	)
+let	b-treeD-hc-p_fertD	-1.193	+ random-float (	0.902	-	-1.193	)
+let	b-treeD-hc-p_orgad	-0.018	+ random-float (	1.596	-	-0.018	)
+let	b-treeD-hc-p_soc%	-2.028	+ random-float (	1.648	-	-2.028	)
+let	b-treeD-hc-p_elev	0.003	+ random-float (	0.018	-	0.003	)
+let	b0-treeD-hc	-16.883	+ random-float (	-2.371	-	-16.883	)
+					
+							
+set	tree10D-hc (						
+	b-treeD-hc-h_labour	*	h_labour	+			
+	b-treeD-hc-h_depr	*	h_depr	+			
+	b-treeD-hc-h_weai2	*	h_weai2	+			
+	b-treeD-hc-p_fertsub	*	p_fertsubsidy	+			
+	b-treeD-hc-h_edui	*	h_edui	+			
+	b-treeD-hc-h_tlun	*	h_tlun	+			
+	b-treeD-hc-p_hect	*	p_hect	+			
+	b-treeD-hc-p_cultyrs	*	p_cultyrs	+			
+	b-treeD-hc-p_cropd	*	P_leguD	+			
+	b-treeD-hc-p_fertD	*	P_fertD	+			
+	b-treeD-hc-p_orgad	*	p_orgad	+			
+	b-treeD-hc-p_soc%	* [	p_soc%	] of patch-here +			
+	b-treeD-hc-p_elev	* [	p_elevation	] of patch-here +			
+	b0-treeD-hc						
+	)]						
+
+Discrete-tree10D-choice
+End
+To Discrete-tree10D-choice
+;show (word "--------------Dicrete tree10 Choice")
+;  show "Updating tree10 input all"
+let min-a min [tree10D-all] of turtles with [HCLUS > 0]
+let max-a max [tree10D-all] of turtles 
+ ; show (word "min-tree10-a =" min-a ", max-tree10-a = " max-a)
+let max-1 precision (max [tree10D-hc] of turtles) 3 
+let min-1 precision (min [tree10D-hc] of turtles with [HCLUS = 1]) 3
+  ;show (word "min-tree10-1 =" min-1 ", max-tree10-1 = " max-1)
+let max-2 precision (max [tree10D-hc] of turtles) 3 
+let min-2 precision (min [tree10D-hc] of turtles with [HCLUS = 2]) 3
+  ;  show (word "min-tree10-2 =" min-2 ", max-tree10-2 = " max-2)
+let max-3 precision (max [tree10D-hc] of turtles) 3 
+let min-3 precision (min [tree10D-hc] of turtles with [HCLUS = 3]) 3
+  ;  show (word "min-tree10-3 =" min-3 ", max-tree10-3 = " max-3)  
+ 
+ask turtles with [HCLUS > 0]
+[if tree10D-all > 500  [set tree10D-all  500]
+ if tree10D-hc  > 500  [set tree10D-hc   500]
+ if tree10D-all < -500 [set tree10D-all -500]
+ if tree10D-hc  < -500 [set tree10D-hc  -500]   
+ let etree10D-all 0 let ptree10D-all 0
+ set etree10D-all exp tree10D-all set ptree10D-all etree10D-all / (1 + etree10D-all)
+ifelse ptree10D-all > 0.5  [set dtree10D-all 1] [set  dtree10D-all 0]
+    set P_tree10D dtree10D-all
+  ]
+  ;============="Updating tree10 input c1"
+ask turtles with [HCLUS = 1] 
+[let etree10D-c1 0 let ptree10D-c1 0
+ set etree10D-c1 exp tree10D-hc set ptree10D-c1 etree10D-c1 / (1 + etree10D-c1)
+ifelse ptree10D-c1 > 0.5 [set  dtree10D-hc 1] [set dtree10D-hc 0]]   
+;=============="Updating tree10 input c2"
+ask turtles with [HCLUS = 2] 
+  [let etree10D-c2 0 let ptree10D-c2 0
+   set etree10D-c2 exp tree10D-hc set ptree10D-c2 etree10D-c2 / (1 + etree10D-c2)
+ifelse ptree10D-c2 > 0.5 [set  dtree10D-hc 1] [set dtree10D-hc 0]]
+;=============="Updating tree10 input c3"
+ask turtles with [ HCLUS = 3] 
+  [let etree10D-c3 0 let ptree10D-c3 0
+   set etree10D-c3 exp tree10D-hc set ptree10D-c3 etree10D-c3 / (1 + etree10D-c3)
+ifelse ptree10D-c3 > 0.5 [set  dtree10D-hc 1] [set dtree10D-hc 0]
+]
+;tree-coverage-stats
+end
+To P331.Update-Crop-Yield
+P3311-Update-Maize-Yield
+P3312-Update-legume-yield
+End
+To P3311-Update-Maize-Yield
+
+  ask	turtles with [HP_ID != 0] [						
+let	bA-mzkg-fert_ha	-0.00125360	+ random-float (	0.00028310	-	-0.00125360	)
+let	bA-mzkg-pfert2	-0.00000020	+ random-float (	0.00000096	-	-0.00000020	)
+let	bA-mzkg-man_ha	0.00002750	+ random-float (	0.00058750	-	0.00002750	)
+let	bA-mzkg-pmanure2	-0.00000006	+ random-float (	0.00000001	-	-0.00000006	)
+let	bA-mzkg-p_labourt	-0.00261820	+ random-float (	0.00128610	-	-0.00261820	)
+let	bA-mzkg-plabor2	-0.00000112	+ random-float (	0.00000682	-	-0.00000112	)
+let	bA-mzkg-p_hect	-0.79782630	+ random-float (	-0.32187550	-	-0.79782630	)
+let	bA-mzkg-p_cultyrs	-0.00365100	+ random-float (	0.00087430	-	-0.00365100	)
+let	bA-mzkg-p_fertsubsidy	-0.55903350	+ random-float (	0.46556960	-	-0.55903350	)
+let	bA-mzkg-P_leguD	-0.42417430	+ random-float (	-0.07041690	-	-0.42417430	)
+let	bA-mzkg-tree10_25D	-0.14265430	+ random-float (	0.29158720	-	-0.14265430	)
+let	bA-mzkg-kmgkg	-0.00187950	+ random-float (	0.00278950	-	-0.00187950	)
+let	bA-mzkg-p_socper	-0.23970630	+ random-float (	0.60625700	-	-0.23970630	)
+let	bA-mzkg-p_sand	-0.00620320	+ random-float (	0.02235430	-	-0.00620320	)
+let	bA-mzkg-p_coarseper2	-0.07674570	+ random-float (	-0.01310270	-	-0.07674570	)
+let	bA-mzkg-p_elev	-0.00021600	+ random-float (	0.00360500	-	-0.00021600	)
+let	bA-mzkg-flowacc	-0.00083100	+ random-float (	0.00025430	-	-0.00083100	)
+let	bA-mzkg-h_depr	-0.05073850	+ random-float (	0.08999540	-	-0.05073850	)
+let	bA-mzkg-h_elhi	-0.09463280	+ random-float (	0.17039540	-	-0.09463280	)
+let	bA-mzkg-h_gmem	-0.15489390	+ random-float (	0.21519230	-	-0.15489390	)
+let	bA-mzkg-h_weai2	-0.06144260	+ random-float (	0.52853220	-	-0.06144260	)
+let	bA-mzkg-_cons	3.81412300	+ random-float (	7.97114300	-	3.81412300	)
+let	pfert2	fert_ha ^ 2					
+let	porg2	org_ha ^ 2					
+let	plabor2	p_labourt ^ 2					
+set	Mzkg-all (						
+	bA-mzkg-fert_ha	*	fert_ha	  +			
+	bA-mzkg-pfert2	*	pfert2	  +			
+	bA-mzkg-man_ha	*	org_ha	  +			
+	bA-mzkg-pmanure2	*	porg2	  +			
+	bA-mzkg-p_labourt	*	p_labourt	  +			
+	bA-mzkg-plabor2	*	plabor2	  +			
+	bA-mzkg-p_hect	*	p_hect	  +			
+	bA-mzkg-p_cultyrs	*	p_cultyrs	  +			
+	bA-mzkg-p_fertsubsidy	*	p_fertsubsidy	  +			
+	bA-mzkg-P_leguD	*	P_leguD	  +			
+	bA-mzkg-tree10_25D	*	P_tree10D	  +			
+	bA-mzkg-kmgkg	 * [	P_Potassium_soil	] of patch-here  +			
+	bA-mzkg-p_socper	 * [	p_soc%	] of patch-here  +			
+	bA-mzkg-p_sand	 * [	P_sand%	] of patch-here  +			
+	bA-mzkg-p_coarseper2	 * [	p_coarseper	] of patch-here  +			
+	bA-mzkg-p_elev	 * [	p_elevation	] of patch-here  +			
+	bA-mzkg-flowacc	 * [	P_flowacc	] of patch-here  +			
+	bA-mzkg-h_depr	*	h_depr	  +			
+	bA-mzkg-h_elhi	*	h_elhi	  +			
+	bA-mzkg-h_gmem	*	h_gmem	  +			
+	bA-mzkg-h_weai2	*	h_weai2	  +			
+	bA-mzkg-_cons						
+)						
+]							
+
+		
+					
+	ask turtles with [Hclus = 1 ] [						
+let	bHC-mzkg-fert_ha	-0.00305940	+ random-float (	0.00118160	-	-0.00305940	)
+let	bHC-mzkg-pfert2	-0.00000012	+ random-float (	0.00000358	-	-0.00000012	)
+let	bHC-mzkg-man_ha	-0.00072250	+ random-float (	0.00155410	-	-0.00072250	)
+let	bHC-mzkg-pmanure2	-0.00000063	+ random-float (	0.00000015	-	-0.00000063	)
+let	bHC-mzkg-p_labourt	-0.00750010	+ random-float (	0.00107480	-	-0.00750010	)
+let	bHC-mzkg-plabor2	0.00000297	+ random-float (	0.00001260	-	0.00000297	)
+let	bHC-mzkg-p_hect	-0.90739470	+ random-float (	-0.46310330	-	-0.90739470	)
+let	bHC-mzkg-p_cultyrs	-0.00711810	+ random-float (	0.00289210	-	-0.00711810	)
+let	bHC-mzkg-p_fertsubsidy	-0.77316360	+ random-float (	1.32182600	-	-0.77316360	)
+let	bHC-mzkg-P_leguD	-0.42240450	+ random-float (	0.30963230	-	-0.42240450	)
+let	bHC-mzkg-tree10_25D	-1.14596300	+ random-float (	-0.38924870	-	-1.14596300	)
+let	bHC-mzkg-kmgkg	-0.00365170	+ random-float (	0.00643900	-	-0.00365170	)
+let	bHC-mzkg-p_socper	0.03041750	+ random-float (	2.01107800	-	0.03041750	)
+let	bHC-mzkg-p_sand	-0.00242260	+ random-float (	0.04220050	-	-0.00242260	)
+let	bHC-mzkg-p_coarseper2	-0.09732120	+ random-float (	0.00456280	-	-0.09732120	)
+let	bHC-mzkg-p_elev	-0.00100070	+ random-float (	0.01132960	-	-0.00100070	)
+let	bHC-mzkg-flowacc	-0.00210890	+ random-float (	0.00141650	-	-0.00210890	)
+let	bHC-mzkg-h_depr	-0.08072930	+ random-float (	0.12049870	-	-0.08072930	)
+let	bHC-mzkg-h_elhi	-0.02062040	+ random-float (	0.60768480	-	-0.02062040	)
+let	bHC-mzkg-h_gmem	-0.01833790	+ random-float (	0.73534530	-	-0.01833790	)
+let	bHC-mzkg-h_weai2	-0.44664740	+ random-float (	0.61649130	-	-0.44664740	)
+let	bHC-mzkg-_cons	-5.09632300	+ random-float (	7.68261700	-	-5.09632300	)
+let	pfert2	fert_ha-hc ^ 2					
+let	porg2	orga_ha-hc ^ 2					
+let	plabor2	p_labourt ^ 2					
+set	Mzkg-hc (						
+	bHC-mzkg-fert_ha	*	fert_ha-hc	  +			
+	bHC-mzkg-pfert2	*	pfert2	  +			
+	bHC-mzkg-man_ha	*	orga_ha-hc	  +			
+	bHC-mzkg-pmanure2	*	porg2	  +			
+	bHC-mzkg-p_labourt	*	p_labourt	  +			
+	bHC-mzkg-plabor2	*	plabor2	  +			
+	bHC-mzkg-p_hect	*	p_hect	  +			
+	bHC-mzkg-p_cultyrs	*	p_cultyrs	  +			
+	bHC-mzkg-p_fertsubsidy	*	p_fertsubsidy	  +			
+	bHC-mzkg-P_leguD	*	P_leguD	  +			
+	bHC-mzkg-tree10_25D	*	P_tree10D	  +			
+	bHC-mzkg-kmgkg	 * [	P_Potassium_soil	] of patch-here  +			
+	bHC-mzkg-p_socper	 * [	p_soc%	] of patch-here  +			
+	bHC-mzkg-p_sand	 * [	P_sand%	] of patch-here  +			
+	bHC-mzkg-p_coarseper2	 * [	p_coarseper	] of patch-here  +			
+	bHC-mzkg-p_elev	 * [	p_elevation	] of patch-here  +			
+	bHC-mzkg-flowacc	 * [	P_flowacc	] of patch-here  +			
+	bHC-mzkg-h_depr	*	h_depr	  +			
+	bHC-mzkg-h_elhi	*	h_elhi	  +			
+	bHC-mzkg-h_gmem	*	h_gmem	  +			
+	bHC-mzkg-h_weai2	*	h_weai2	  +			
+	bHC-mzkg-_cons						
+)							
+]							
+						
+		
+	ask turtles with [Hclus = 2 ] [						
+let	bHC-mzkg-fert_ha	-0.00083710	+ random-float (	0.00130550	-	-0.00083710	)
+let	bHC-mzkg-pfert2	-0.00000130	+ random-float (	0.00000051	-	-0.00000130	)
+let	bHC-mzkg-man_ha	0.00074830	+ random-float (	0.00201360	-	0.00074830	)
+let	bHC-mzkg-pmanure2	-0.00000058	+ random-float (	-0.00000017	-	-0.00000058	)
+let	bHC-mzkg-p_labourt	-0.00294970	+ random-float (	0.00309230	-	-0.00294970	)
+let	bHC-mzkg-plabor2	-0.00000460	+ random-float (	0.00000792	-	-0.00000460	)
+let	bHC-mzkg-p_hect	-0.90621450	+ random-float (	-0.20735230	-	-0.90621450	)
+let	bHC-mzkg-p_cultyrs	-0.00359780	+ random-float (	0.00224390	-	-0.00359780	)
+let	bHC-mzkg-p_fertsubsidy	-0.87409320	+ random-float (	0.13079610	-	-0.87409320	)
+let	bHC-mzkg-P_leguD	-0.51421210	+ random-float (	0.03563630	-	-0.51421210	)
+let	bHC-mzkg-tree10_25D	0.08987520	+ random-float (	0.67298530	-	0.08987520	)
+let	bHC-mzkg-kmgkg	-0.00249760	+ random-float (	0.00295970	-	-0.00249760	)
+let	bHC-mzkg-p_socper	-0.34912680	+ random-float (	0.49465610	-	-0.34912680	)
+let	bHC-mzkg-p_sand	-0.01121140	+ random-float (	0.01657050	-	-0.01121140	)
+let	bHC-mzkg-p_coarseper2	-0.07164370	+ random-float (	0.00337920	-	-0.07164370	)
+let	bHC-mzkg-p_elev	-0.00074450	+ random-float (	0.00439030	-	-0.00074450	)
+let	bHC-mzkg-flowacc	-0.00071220	+ random-float (	0.00034680	-	-0.00071220	)
+let	bHC-mzkg-h_depr	-0.09869720	+ random-float (	0.04430130	-	-0.09869720	)
+let	bHC-mzkg-h_elhi	-0.18154830	+ random-float (	0.11081010	-	-0.18154830	)
+let	bHC-mzkg-h_gmem	-0.42023400	+ random-float (	0.06414590	-	-0.42023400	)
+let	bHC-mzkg-h_weai2	-0.11939390	+ random-float (	0.58459340	-	-0.11939390	)
+let	bHC-mzkg-_cons	3.31547100	+ random-float (	8.42984000	-	3.31547100	)
+let	pfert2	fert_ha-hc ^ 2					
+let	porg2	orga_ha-hc ^ 2					
+let	plabor2	p_labourt ^ 2					
+set	Mzkg-hc (						
+	bHC-mzkg-fert_ha	*	fert_ha-hc	  +			
+	bHC-mzkg-pfert2	*	pfert2	  +			
+	bHC-mzkg-man_ha	*	orga_ha-hc	  +			
+	bHC-mzkg-pmanure2	*	porg2	  +			
+	bHC-mzkg-p_labourt	*	p_labourt	  +			
+	bHC-mzkg-plabor2	*	plabor2	  +			
+	bHC-mzkg-p_hect	*	p_hect	  +			
+	bHC-mzkg-p_cultyrs	*	p_cultyrs	  +			
+	bHC-mzkg-p_fertsubsidy	*	p_fertsubsidy	  +			
+	bHC-mzkg-P_leguD	*	P_leguD	  +			
+	bHC-mzkg-tree10_25D	*	P_tree10D	  +			
+	bHC-mzkg-kmgkg	 * [	P_Potassium_soil	] of patch-here  +			
+	bHC-mzkg-p_socper	 * [	p_soc%	] of patch-here  +			
+	bHC-mzkg-p_sand	 * [	P_sand%	] of patch-here  +			
+	bHC-mzkg-p_coarseper2	 * [	p_coarseper	] of patch-here  +			
+	bHC-mzkg-p_elev	 * [	p_elevation	] of patch-here  +			
+	bHC-mzkg-flowacc	 * [	P_flowacc	] of patch-here  +			
+	bHC-mzkg-h_depr	*	h_depr	  +			
+	bHC-mzkg-h_elhi	*	h_elhi	  +			
+	bHC-mzkg-h_gmem	*	h_gmem	  +			
+	bHC-mzkg-h_weai2	*	h_weai2	  +			
+	bHC-mzkg-_cons						
+)							
+]							
+			
+	ask turtles with [Hclus = 3] [						
+let	bHC-mzkg-fert_ha	-0.00185790	+ random-float (	0.00062410	-	-0.00185790	)
+let	bHC-mzkg-pfert2	-0.00000039	+ random-float (	0.00000103	-	-0.00000039	)
+let	bHC-mzkg-man_ha	-0.00032500	+ random-float (	0.00017150	-	-0.00032500	)
+let	bHC-mzkg-pmanure2	-0.00000001	+ random-float (	0.00000006	-	-0.00000001	)
+let	bHC-mzkg-p_labourt	-0.00362210	+ random-float (	0.00324110	-	-0.00362210	)
+let	bHC-mzkg-plabor2	-0.00000348	+ random-float (	0.00000380	-	-0.00000348	)
+let	bHC-mzkg-p_hect	-1.28807000	+ random-float (	-0.08599830	-	-1.28807000	)
+let	bHC-mzkg-p_cultyrs	-0.00478970	+ random-float (	0.00141860	-	-0.00478970	)
+let	bHC-mzkg-p_fertsubsidy	-0.51201090	+ random-float (	0.52665530	-	-0.51201090	)
+let	bHC-mzkg-P_leguD	-0.62415980	+ random-float (	-0.03440160	-	-0.62415980	)
+let	bHC-mzkg-tree10_25D	-0.14490180	+ random-float (	0.40983210	-	-0.14490180	)
+let	bHC-mzkg-kmgkg	-0.00102820	+ random-float (	0.00663960	-	-0.00102820	)
+let	bHC-mzkg-p_socper	-0.52937400	+ random-float (	0.60239320	-	-0.52937400	)
+let	bHC-mzkg-p_sand	-0.00742780	+ random-float (	0.04225800	-	-0.00742780	)
+let	bHC-mzkg-p_coarseper2	-0.08316810	+ random-float (	0.03403660	-	-0.08316810	)
+let	bHC-mzkg-p_elev	-0.00195240	+ random-float (	0.00388230	-	-0.00195240	)
+let	bHC-mzkg-flowacc	-0.00315260	+ random-float (	-0.00011500	-	-0.00315260	)
+let	bHC-mzkg-h_depr	-0.08990260	+ random-float (	0.20000290	-	-0.08990260	)
+let	bHC-mzkg-h_elhi	-0.13730180	+ random-float (	0.30883360	-	-0.13730180	)
+let	bHC-mzkg-h_gmem	-0.23079060	+ random-float (	0.30398230	-	-0.23079060	)
+let	bHC-mzkg-h_weai2	-0.15294140	+ random-float (	0.85973680	-	-0.15294140	)
+let	bHC-mzkg-_cons	2.51121200	+ random-float (	9.03507800	-	2.51121200	)
+let	pfert2	fert_ha-hc ^ 2					
+let	porg2	orga_ha-hc ^ 2					
+let	plabor2	p_labourt ^ 2					
+set	Mzkg-hc (						
+	bHC-mzkg-fert_ha	*	fert_ha-hc	  +			
+	bHC-mzkg-pfert2	*	pfert2	  +			
+	bHC-mzkg-man_ha	*	orga_ha-hc	  +			
+	bHC-mzkg-pmanure2	*	porg2	  +			
+	bHC-mzkg-p_labourt	*	p_labourt	  +			
+	bHC-mzkg-plabor2	*	plabor2	  +			
+	bHC-mzkg-p_hect	*	p_hect	  +			
+	bHC-mzkg-p_cultyrs	*	p_cultyrs	  +			
+	bHC-mzkg-p_fertsubsidy	*	p_fertsubsidy	  +			
+	bHC-mzkg-P_leguD	*	P_leguD	  +			
+	bHC-mzkg-tree10_25D	*	P_tree10D	  +			
+	bHC-mzkg-kmgkg	 * [	P_Potassium_soil	] of patch-here  +			
+	bHC-mzkg-p_socper	 * [	p_soc%	] of patch-here  +			
+	bHC-mzkg-p_sand	 * [	P_sand%	] of patch-here  +			
+	bHC-mzkg-p_coarseper2	 * [	p_coarseper	] of patch-here  +			
+	bHC-mzkg-p_elev	 * [	p_elevation	] of patch-here  +			
+	bHC-mzkg-flowacc	 * [	P_flowacc	] of patch-here  +			
+	bHC-mzkg-h_depr	*	h_depr	  +			
+	bHC-mzkg-h_elhi	*	h_elhi	  +			
+	bHC-mzkg-h_gmem	*	h_gmem	  +			
+	bHC-mzkg-h_weai2	*	h_weai2	  +			
+	bHC-mzkg-_cons						
+)	
+]	
+;show (word "Outlier maize yield whole ="     count turtles with [mzkg-all > 8])
+;show (word "Outlier maize yield farmtype = " count turtles with [mzkg-hc  > 8])
+  ;show (word "mean maize yield estimate ft = " mean [mzkg-hc] of turtles with  [Hclus = 3])
+  ask turtles with [HCLUS > 0] 
+  [; ; correct outliers by winzolisation
+   let ma-u 7.54
+   let m1-u 8.06
+   let m2-u 8.02 
+   let m3-u 8.20 
+       
+   if mzkg-all > ma-u [set mzkg-all ma-u + (mzkg-all / max [mzkg-all] of turtles ) ]  
+   if mzkg-all <= -1 [set mzkg-all -1 / mzkg-all]
+   if mzkg-all <= 0 and mzkg-all > -1 [set mzkg-all 2]
+   set mzkg-all	(exp	mzkg-all) * 1.362
+    set P_mzkg  mzkg-all 
+   
+    if hclus = 1 and mzkg-hc > m1-u [set mzkg-hc m1-u + (mzkg-hc / max [mzkg-hc] of turtles with [hclus = 1] ) ] 
+    if hclus = 2 and mzkg-hc > m2-u [set mzkg-hc m2-u + (mzkg-hc / max [mzkg-hc] of turtles with [hclus = 2] ) ]
+    if hclus = 3 and mzkg-hc > m3-u [set mzkg-hc m3-u + (mzkg-hc / max [mzkg-hc] of turtles with [hclus = 3] ) ]
+    if hclus = 1 and mzkg-hc < -1 [set mzkg-hc 2 + -1 / mzkg-hc  ] 
+    if hclus = 1 and mzkg-hc <= 0 and mzkg-hc > -1 [set mzkg-hc 2] 
+    if hclus = 2 and mzkg-hc < -1 [set mzkg-hc 2 + -1 / mzkg-hc  ] 
+    if hclus = 2 and mzkg-hc <= 0 and mzkg-hc > -1 [set mzkg-hc 2] 
+    if hclus = 3 and mzkg-hc < -1 [set mzkg-hc 2 + -1 / mzkg-hc  ] 
+    if hclus = 3 and mzkg-hc <= 0 and mzkg-hc > -1 [set mzkg-hc 2] 
+    set	Mzkg-hc	 exp	 Mzkg-hc
+   if hclus = 1 [set   Mzkg-hc Mzkg-hc * 0.941] if hclus = 2 [set   Mzkg-hc Mzkg-hc * 0.856] if hclus = 3 [set   Mzkg-hc Mzkg-hc * 1.036]
+  ]
+;maize-output-statistics  
+End
+
+To P3312-Update-legume-yield
+	
+  	ask turtles with [HP_ID != 0 and dleguD-all = 1] [						
+let	b-legutha-fert_ha	-0.00085160	+ random-float (	0.00047990	-	-0.00085160	)
+let	b-legutha-man_ha	0.00002230	+ random-float (	0.00023770	-	0.00002230	)
+let	b-legutha-p_labourt	-0.00132330	+ random-float (	0.00157220	-	-0.00132330	)
+let	b-legutha-p_hect	-2.16911000	+ random-float (	-0.86988430	-	-2.16911000	)
+let	b-legutha-phect2	0.03484130	+ random-float (	0.22116250	-	0.03484130	)
+let	b-legutha-p_fertsubsidy	-0.76554310	+ random-float (	1.09488500	-	-0.76554310	)
+let	b-legutha-p_cultyrs	-0.00326120	+ random-float (	0.00677770	-	-0.00326120	)
+let	b-legutha-pmgkg	-0.00162420	+ random-float (	0.01421230	-	-0.00162420	)
+let	b-legutha-p_elev	-0.00836330	+ random-float (	0.00148880	-	-0.00836330	)
+let	b-legutha-h_depr	-0.10747030	+ random-float (	0.11774110	-	-0.10747030	)
+let	b-legutha-h_weai2	-0.38087550	+ random-float (	0.58744340	-	-0.38087550	)
+let	b-legutha-h_elhi	-0.01848110	+ random-float (	0.42872540	-	-0.01848110	)
+let	b-legutha-h_gmem	-0.02295050	+ random-float (	0.77898580	-	-0.02295050	)
+let	b-legutha-_cons	4.87085000	+ random-float (	13.24105000	-	4.87085000	)
+let	phect2		p_hect	^	2		
+	set legukg-all (						
+	b-legutha-fert_ha	*	fert_ha	+			
+	b-legutha-man_ha	*	org_ha	+			
+	b-legutha-p_labourt	*	p_labourt	+			
+	b-legutha-p_hect	*	p_hect	+			
+	b-legutha-phect2	*	phect2	+			
+	b-legutha-p_fertsubsidy	*	p_fertsubsidy	+			
+	b-legutha-p_cultyrs	*	p_cultyrs	+			
+	b-legutha-pmgkg	* [	p_phosphorus_soil	] of patch-here  +			
+	b-legutha-p_elev	* [	p_elevation	] of patch-here  +			
+	b-legutha-h_depr	*	h_depr	+			
+	b-legutha-h_weai2	*	h_weai2	+			
+	b-legutha-h_elhi	*	h_elhi	+			
+	b-legutha-h_gmem	*	h_gmem	+			
+	b-legutha-_cons						
+	)
+      ;correct outliars by winzolisation
+    let la-u 6.39 
+   if legukg-all > la-u [set legukg-all la-u + (legukg-all / max [legukg-all] of turtles) ]  
+    if legukg-all < -1 [set legukg-all 1 +  -1 / legukg-all ]
+    if legukg-all <= -1 [set legukg-all 1 + -1 / legukg-all]
+   if legukg-all <= 0 and legukg-all > -1 [set legukg-all 2]
+       
+   set	p_legukg	(exp 	legukg-all) * 0.65
+   set	legukg-hc	p_legukg 
+  	]
+ ; legume-yield-statistics
+End
+
+To Update-cropping-system&farmtypes
+; farming systems    
+
+ask turtles [
+if p_mzkg     > 0 and elapsed-years > 0 [set cereal-vs-integration 1 ] ; sole cereal
+if dleguD-all = 1 and elapsed-years > 0 [set cereal-vs-integration 2 ] ; legume integration
+;farm type specific
+if mzkg-hc   > 0  and elapsed-years > 0 [set cereal-vs-integration-hc 1] ; sole cereal
+if dleguD-hc = 1  and elapsed-years > 0 [set cereal-vs-integration-hc 2] ; legume integration  
+   
+  ]
+;show (word "sole-cereal ="        count turtles with [cereal-vs-integration = 1])
+;show (word "legume-integration =" count turtles with [cereal-vs-integration = 2])
+;show "HOUSEHOLD ATTRIBUTES UPDATED"
+   ; re-categozize of household type Hclus 
+End
+To Update-household-clusters
+  ask turtles with [H_id > 0 ]
+[; Set the centroids of groups 
+let	H_AGEH1	50.05		let	H_COMM1	0.48		let	H_ORGA1	72.42
+let	H_AGEH2	52.63		let	H_COMM2	0.39		let	H_ORGA2	135.44
+let	H_AGEH3	40.2		let	H_COMM3	0.56		let	H_ORGA3	294.73
+let	H_LABA1	2.2		  let	WileF1	0.48		let	H_FERT1	60.86
+let	H_LABA2	3.79		let	WileF2	0.39		let	H_FERT2	139.17
+let	H_LABA3	2.58		let	WileF3	0.24		let	H_FERT3	79.44
+let	H_INCL1	13.2		let	HSWCn1	0.91				
+let	H_INCL2	5.53		let	HSWCn2	0.78				
+let	H_INCL3	3.95		let	HSWCn3	1.39				
+				
+ ; The Squared Chi-Squared Distance of household clusters 1, 2, and 3, respectively.
+let Dhclus1 0        let Dhclus2 0       let Dhclus3 0  
+
+set H_FERT sum [fert_ha-hc] of myself
+set H_ORGA sum [orga_ha-hc] of myself    
+
+; Calculate D_hclus1 for every household
+set	Dhclus1	((((	H_AGEH	-	H_AGEH1	) ^ 2) / (	H_AGEH	+	H_AGEH1	)) +
+		(((	H_LABOUR	-	H_LABA1	) ^ 2) / (	H_LABOUR	+	H_LABA1	)) +
+		(((	H_INCL	-	H_INCL1	) ^ 2) / (	H_INCL	+	H_INCL1	)) +
+		(((	H_COMM	-	H_COMM1	) ^ 2) / (	H_COMM	+	H_COMM1	)) +
+		(((	WileF	-	WileF1	) ^ 2) / (	WileF	+	WileF1	)) +
+		(((	HSWCn	-	HSWCn1	) ^ 2) / (	HSWCn	+	HSWCn1	)) +
+		(((	H_ORGA	-	H_ORGA1	) ^ 2) / (	H_ORGA	+	H_ORGA1	)) +
+		(((	H_FERT	-	H_FERT1	) ^ 2) / (	H_FERT	+	H_FERT1	)))
+; Calculate D_hclus1 for every household
+set	Dhclus2	((((	H_AGEH	-	H_AGEH2	) ^ 2) / (	H_AGEH	+	H_AGEH2	)) +
+		(((	H_LABOUR	-	H_LABA2	) ^ 2) / (	H_LABOUR	+	H_LABA2	)) +
+		(((	H_INCL	-	H_INCL2	) ^ 2) / (	H_INCL	+	H_INCL2	)) +
+		(((	H_COMM	-	H_COMM2	) ^ 2) / (	H_COMM	+	H_COMM2	)) +
+		(((	WileF	-	WileF2	) ^ 2) / (	WileF	+	WileF2	)) +
+		(((	HSWCn	-	HSWCn2	) ^ 2) / (	HSWCn	+	HSWCn2	)) +
+		(((	H_ORGA	-	H_ORGA2	) ^ 2) / (	H_ORGA	+	H_ORGA2	)) +
+		(((	H_FERT	-	H_FERT2	) ^ 2) / (	H_FERT	+	H_FERT2	)))
+; Calculate D_hclus1 for every household
+set	Dhclus3	((((	H_AGEH	-	H_AGEH3	) ^ 2) / (	H_AGEH	+	H_AGEH3	)) +
+		(((	H_LABOUR	-	H_LABA3	) ^ 2) / (	H_LABOUR	+	H_LABA3	)) +
+		(((	H_INCL	-	H_INCL3	) ^ 2) / (	H_INCL	+	H_INCL3	)) +
+		(((	H_COMM	-	H_COMM3	) ^ 2) / (	H_COMM	+	H_COMM3	)) +
+		(((	WileF	-	WileF3	) ^ 2) / (	WileF	+	WileF3	)) +
+		(((	HSWCn	-	HSWCn3	) ^ 2) / (	HSWCn	+	HSWCn3	)) +
+		(((	H_ORGA	-	H_ORGA3	) ^ 2) / (	H_ORGA	+	H_ORGA3	)) +
+		(((	H_FERT	-	H_FERT3	) ^ 2) / (	H_FERT	+	H_FERT3	)))
+
+ ; Now, to categorize the household h by resetting the group membership H_g of the household
+if Dhclus1 = min(list Dhclus1 Dhclus2 Dhclus3) 
+   [set HCLUS 1]
+if Dhclus2 = min(list Dhclus1 Dhclus2 Dhclus3) 
+   [set HCLUS 2]
+if Dhclus3 = min(list Dhclus1 Dhclus2 Dhclus3) 
+   [set HCLUS 3]
+] 
+;show "UPDATE-AGENT-CATEGORISER-DONE"
+End
+
+
+To P333.Update-Erosion                                                              
+  ask patches with [P_elevation > 0]
+  [if p_bound = 1 and p_cult != 1 and elapsed-years > 0  [set C-factor C-factor - (C-factor - 0.006 ) / stop-when]   
+    ; C-factor from unmanaged grassland after first year (0.04)
+    ; indigenous forest (0.006) achieved after 20 years (Chidumayo)
+   if [cereal-vs-integration] of myself = 1 [set C-factor 0.1 + random-float 0.07]
+   if [cereal-vs-integration] of myself = 2 [set C-factor 0.15]
+    if p_bound = 1 and p_cult != 1 and elapsed-years > 0 [set P-factor P-factor - (0.5 - P-factor) / stop-when]
+    ; P of 0.5 is for protected area hence, assuming the growth rate estiimated by Chidumayo in miombo of Zambia 
+    ; the full protection P-factor of 0.5 for protected area can be achieved after 20 years. 
+   ;if P_slope > 15 and P_slope < 30 [set P-factor 0.6]             ; teraccing cultivated sleep slopes
+
+set K_texture-SOM 2.77 * (10 ^ -5) * M ^ 1.14 * (12 - p_SOC% * 1.72)
+if K_texture-SOM > 0  [set K-factor K_texture-SOM + (0.043 * (S - 2) + 0.033 * ( Q - 3))]
+ 
+  ]
+End
+To P332.estimate-economic-benefit
+ask turtles [
+; Economic indicators
+ ;--crop product value ($/ha)
+   let mz-price   7500 / 730 / 50
+   let legu-price 2000 / 730 / 50
+   set p_maize$        p_mzkg      * mz-price
+   set p_maize$-hc     mzkg-hc     * mz-price
+   set p_legu$         p_legukg    * legu-price
+   set Product-$_ha    p_maize$    + p_legu$ 
+   set Product-$_ha-hc p_maize$-hc + p_legu$  
+ ;--Capital intensity
+   let fert-prize_kg  23000 / 50 / 730 * (1 - p_fertsubsidy) ; market price for NP and N fertilizers in Malawi
+   let orga-price_kg 750   / 50 / 730 ; the manure price as sold by poultry farms 
+   let daily-wage    962  / 1  / 730 ; daily wage is the government minimum wage
+   set P_fert$          fert_ha      * fert-prize_kg
+   set P_fert$-hc       fert_ha-hc   * fert-prize_kg
+   set P_orga$          org_ha       * orga-price_kg
+   set P_orga$-hc       orga_ha-hc   * orga-price_kg
+   set p_labour$        p_labourT / 8  / P_hect  * daily-wage ; eight hours working day.
+   
+   let land-price (23.6 * 27 + 42.7 + 33.8 + 21.9 + 20.03) / 6 
+   
+   let land-value land-price * [productivity-INDEX] of patch-here
+   set Expenses-$_ha    P_fert$      + P_orga$       + p_labour$ + land-value
+   set Expenses-$_ha-hc P_fert$-hc   + P_orga$-hc    + p_labour$ + land-value
+ ;--profitability
+   set B-C$-ha    Product-$_ha     - Expenses-$_ha
+   set B-C$-ha-hc Product-$_ha-hc  - Expenses-$_ha-hc
+
+  ]
+End
+

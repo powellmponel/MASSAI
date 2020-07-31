@@ -1,0 +1,581 @@
+To P22.Nutrient-Stocks&Flows
+;show "estimating intial nutrient stocks"
+P221.Estimate-nutrient-stocks
+;show "estimating nutrient inputs"
+P222.Estimate-nutrient-input
+;show "estimating nutrient outputs"
+P223.Estimate-nutrient-output
+;show "nutrient-balance-estimated"
+P224.Estimate-nutrient-balance-turtle
+;p225.Update-soil-nutrient-turtle
+End
+;=======================To estimate nutrient input=============================================
+To P222.Estimate-nutrient-input
+  ;show "estimating IN1"
+  P2221.IN1-inorganic-fertilizer
+  ;show "estimating IN2"
+  P2222.IN2-organic-manure
+  ;show "estimating IN3"
+  P2223.IN3-nitrogen-fixation
+  ;P2224.IN4-sedimentation  ;****Estimated after erosion
+  ;show "estimating IN5"
+  P2225.IN5-atmospheric-deposition
+End
+;=======================To estimate nutrient output=============================================
+To P223.Estimate-nutrient-output
+;show "estimating crop yield"
+P2231.OUT1-crop-yield
+P2232.OUT2-crop-residues
+;show "estimating erosion"
+P2233.OUT3-soil-erosion
+;show "estimating IN4"
+P2224.IN4-sedimentation
+;show "estimating leaching"
+P2234.OUT4-leaching
+;show "estimating gaseous losse"
+P2235.OUT5-gaseous
+End
+
+To P221.Estimate-nutrient-stocks ; kg/ha
+  ask patches with [P_bound = 1]
+  [
+   set P_SOC P_SOC% *  BD-G-D ; kg C / ha
+   set P_N P_Nitrogen%  * BD-G-D ; kg N / ha
+   set P_P P_Phosphorus_soil / 10000 * BD-G-D ; kg P / ha
+   set P_K P_Potassium_soil / 10000 * BD-G-D ; kg K / ha
+   set C:N P_SOC / P_N
+   set C:P P_SOC / P_P
+   set StI 100 * (1.72 * P_SOC%)  / (P_clay% + P_silt%)
+ ]
+;map-P_SOC  map-P_N  map-P_P  map-P_K  map-StI map-C:N map-C:P
+End
+
+To P2221.IN1-inorganic-fertilizer
+  ask turtles with [fert_ha > 0]
+  [set N_fert_H N_Fert% * fert_ha ; Fert_N is the amount of nitrogen in the fertilizer that the household used
+   set P_fert_H P_Fert% * fert_ha * 0.4364; fert_ha is input which can valley depending on household input decision udated yearly.
+  ;farmtype
+   set N_fert_H-hc N_Fert% * fert_ha-hc ; Fert_N is the amount of nitrogen in the fertilizer that the household used
+   set P_fert_H-hc  P_Fert% * fert_ha-hc * 0.4364; fert_ha is input which can valley depending on household input decision udated yearly.
+  ]
+;Show-N_fert_H Show-P_fert_H
+End
+
+
+To P2222.IN2-organic-manure
+  ;estimate the texture factor for ESOM degradation
+ 
+  ask turtles with [P_ID > 0]
+  [;a) CARBON MANURE
+if Parameter = "Low"  
+    [let AOMmn-l 0.2  set C_mn Org_ha * 0.34 * AOMmn-l / 1.724 * [f-env] of patch-here set C_mn-hc Orga_ha-hc * 0.34 * AOMmn-l / 1.724 * [f-env] of patch-here] 
+if Parameter = "High" 
+    [let AOMmn-h 0.52 set C_mn Org_ha * 0.34 * AOMmn-h / 1.724 * [f-env] of patch-here set C_mn-hc Orga_ha-hc * 0.34 * AOMmn-h / 1.724 * [f-env] of patch-here]
+    set C_orga_H C_mn
+    set C_orga_H-hc C_mn-hc
+    ;B) NPK manure 
+;if Parameter = "High"  [
+  let N-org% 1.055 / 100 ; the nutrient contents ranges reported by Chilimba et al 2005 (0.21 + random-float 1.9)
+  let P-org% 0.356 / 100 ; for home made compost using range of input sources in Malawi (0.05 + random-float 0.68)
+  let K-org% 1.31 / 100  ;                                                               (0.12 + random-float 2.5)
+  set N_orga_H Org_ha * N-org%  
+  set P_orga_H Org_ha * P-org% 
+  set K_orga_H Org_ha * K-org% 
+    ;farmtype
+  set N_orga_H-hc Orga_ha-hc * N-org%  ; the nutrient contents ranges reported by Chilimba et al 2005
+  set P_orga_H-hc Orga_ha-hc * P-org% ; for home made compost using range of input sources in Malawi
+  set K_orga_H-hc Orga_ha-hc * K-org%    
+    ;  ]
+;if Parameter = "Low"  [
+;  let N-org% 0.4 / 100 ;Matsui
+;  let P-org% 0.00053 / 100 ; Matsui
+;  let K-org% 2.62 / 100 
+;  set N_orga_H Org_ha * N-org%  
+; set P_orga_H Org_ha * P-org% 
+;  set K_orga_H Org_ha * K-org%   
+;   set N_orga_H-hc Orga_ha-hc * N-org%  ; the nutrient contents ranges reported by Chilimba et al 2005
+;  set P_orga_H-hc Orga_ha-hc * P-org% ; for home made compost using range of input sources in Malawi
+;  set K_orga_H-hc Orga_ha-hc * K-org%  
+    ; ]  
+    
+      
+;if Parameter = "High"  [    
+  
+
+;residuals estimated after yield  
+  ]
+;Show-N_orga_H Show-P_orga_H Show-K_orga_H
+End
+
+
+To P2223.IN3-nitrogen-fixation
+  ask turtles with [HP_ID > 0]
+  [if Parameter = "High" [
+set	NpGNg	 0.0410 set	NpMZg	0.0230 set	NpGNs	0.0408 set	NpMZs	0.0213
+set	PpGNg	 0.0022 set	PpMZg	0.0038 set	PpGNs	0.0032 set	PpMZs	0.0019
+set	KpGNg	 0.0214 set	KpMZg	0.0187 set	KpGNs	0.0280 set	KpMZs	0.0206
+    ]
+  if Parameter = "Low" [
+set	NpGNg	 0.0278 set	NpMZg	0.0088 set	NpGNs	0.0201 set	NpMZs	0.0122
+set	PpGNg	 0.0009 set	PpMZg	0.0020 set	PpGNs	0.0015 set	PpMZs	0.0012
+set	KpGNg	 0.0097 set	KpMZg	0.0043 set	KpGNs	0.0101 set	KpMZs	0.0205
+    ]          
+    
+ if p_mzkg > 0 and p_legukg = 0 [set cereal-vs-integration 1 ] ; sole cereal
+ if p_mzkg > 0 and p_legukg > 0 [set cereal-vs-integration 2 ] ; legume integration
+ if mzkg-hc > 0 and legukg-hc = 0 [set cereal-vs-integration-hc 1]
+ if mzkg-hc > 0 and legukg-hc > 0 [set cereal-vs-integration-hc 2]   
+    set hiMZ 0.2365
+    if cereal-vs-integration = 1 [set	hiMZ   0.363] ;0.11 + random-float (0.363 -	0.11) 
+    if cereal-vs-integration = 2 [set hiMZ   0.110]
+ if cereal-vs-integration-hc = 1 [set	hiMZ   0.363] ;0.11 + random-float (0.363 -	0.11) 
+ if cereal-vs-integration-hc = 2 [set hiMZ   0.110]   
+    set	hiGN	 0.209 ;0.209 + random-float (0.352 - .209) NB: 0.209 sole and .352 intercrop
+    if p_mzkg = 0 and p_legukg > 0 [set hiGN	 0.352]
+    set rsMZ 0.25
+    if fert_ha > 0 and p_mzkg > 0 [set	rsMZ	0.42]
+    if fert_ha = 0 and p_mzkg > 0 [set rsMZ  0.08]
+    ;grain gn                         +   shoot gn                               + root gn                 
+    set	N_fixed_H	P_legukg  * mcGN * NpGNg * NdfaGN +	P_legukg  * mcGN * NpGNs * NdfaGN * (1 / hiGN - 1) +	P_legukg * mcGN * (1 / hiGN - 1) * NpGNs * NdfaGN * rsGN
+set N_fixed_H-hc	legukg-hc * mcGN * NpGNg * NdfaGN +	legukg-hc * mcGN * NpGNs * NdfaGN * (1 / hiGN - 1) + legukg-hc * mcGN * (1 / hiGN - 1) * NpGNs * NdfaGN * rsGN
+  ]
+  
+;Show-N_fixed_H
+End 
+
+
+To P2224.IN4-sedimentation  ; kg/ha/yr
+  ;estimated after erosion
+  ask patches with [P_bound = 1]
+  [set N_sedi P_Nitrogen% * 0.01 * GSL * SDR
+   set C_sedi P_SOC% * 0.01 * GSL * SDR
+   set P_sedi P_Phosphorus_soil * 0.000001 * GSL * SDR
+   set K_sedi P_Potassium_soil * 0.000001 * GSL * SDR]
+ End
+
+To P2225.IN5-atmospheric-deposition
+;--------wet-dry-atmospheric-deposition ; average rainfall 2009 - 2015 & 2016 - 2018
+ask patches with [P_elevation > 0]
+  [
+let	N_rain	0 let	P_rain	0 let	K_rain	0
+let	N_dry	0 let	P_dry	0 let	K_dry	0
+;kg/ha/yr =	μmol/l *	μmol-μg	*	μg-kg	*	rainfall (ml)	*	rain (ml-l/ha)
+set	N_rain	13.13	*	14.007	*	0.000000001	*	Rainfall	*	10000
+set	P_rain	0.78	*	30.974	*	0.000000001	*	Rainfall	*	10000
+set	K_rain	1.53	*	39.063	*	0.000000001	*	Rainfall	*	10000
+;kg/ha/yr =	μmol/m2/day	*	μmol-μg	*	μg-kg	*	m2-ha	*	days
+set	N_dry	343.00	*	14.007	*	0.000000001	*	10000	*	365
+set	P_dry	10.50	*	30.974	*	0.000000001	*	10000	*	365
+;kg/ha/yr									
+set	K_dry	4.1 - K_rain								
+;kg/ha/yr		
+let N_lnf 0 ; nitrogen fixed by lightning and deposited on land
+set N_lnf 2 + ((((rainfall + random-float 170 ) / 365) - 1350 ) * 0.005 )								
+set	N_depo	N_rain	+	N_dry	+ N_lnf					
+set	P_depo	P_rain	+	P_dry						
+set	K_depo	K_rain	+	K_dry
+   ]
+End
+
+To P2231.OUT1-crop-yield
+  ask turtles with [P_ID > 0]
+  [
+;grain-residue-nutrientcontent&conversionfactors
+set	N_cropP_H	P_mzkg * mcMZ * NpMZg + 	P_legukg * mcGN * NpGNg
+set	P_cropP_H	P_mzkg * mcMZ * PpMZg + 	P_legukg * mcGN * PpGNg
+set	K_cropP_H	P_mzkg * mcMZ * KpMZg + 	P_legukg * mcGN * KpGNg
+;type specific
+set	N_cropP_H-hc	P_mzkg * mcMZ * NpMZg + 	P_legukg * mcGN * NpGNg
+set	P_cropP_H-hc	mzkg-hc * mcMZ * PpMZg + 	P_legukg * mcGN * PpGNg
+set	K_cropP_H-hc	mzkg-hc * mcMZ * KpMZg + 	P_legukg * mcGN * KpGNg    
+  ]
+  
+End
+
+To P2232.OUT2-crop-residues
+ask turtles with [P_ID > 0]
+[let RI% 0.8
+ let RIGnroot% 0.1
+    ;                           shoot gn                                       root  gn                                        shoot mz
+let GN-shoot P_legukg * mcGN * (1 / hiGN - 1)
+let MZ-shoot P_mzkg   * mcMZ * (1 / hiMZ - 1)   
+set	N_cropR_Hout	GN-shoot * NpGNs * (1 - RI%)  +	GN-shoot * NpGNs *  rsGN * (1 - RIGnroot%)  +	MZ-shoot * NpMZs  * (1 - RI%)  
+set	P_cropR_Hout	GN-shoot * PpGNs * (1 - RI%)  +	GN-shoot * PpGNs  * rsGN * (1 - RIGnroot%)	+ MZ-shoot * PpMZs  * (1 - RI%)  
+set	K_cropR_Hout	GN-shoot * KpGNs * (1 - RI%)  +	GN-shoot * KpGNs  * rsGN * (1 - RIGnroot%)	+ MZ-shoot * KpMZs  * (1 - RI%)  
+;farmtype
+let GN-shoot-hc legukg-hc * mcGN * (1 / hiGN - 1)
+let MZ-shoot-hc mzkg-hc   * mcMZ * (1 / hiMZ - 1)   
+set	N_cropR_Hout-hc	GN-shoot-hc * NpGNs * (1 - RI%) +	GN-shoot-hc * NpGNs *  rsGN * (1 - RIGnroot%) +	MZ-shoot-hc * NpMZs  * (1 - RI%) 
+set	P_cropR_Hout-hc	GN-shoot-hc * PpGNs * (1 - RI%) +	GN-shoot-hc * PpGNs  * rsGN * (1 - RIGnroot%)	+ MZ-shoot-hc * PpMZs  * (1 - RI%) 
+set	K_cropR_Hout-hc	GN-shoot-hc * KpGNs * (1 - RI%) +	GN-shoot-hc * KpGNs  * rsGN * (1 - RIGnroot%)	+ MZ-shoot-hc * KpMZs  * (1 - RI%) 
+     
+;adds to input 2 organic manure especially CARBON
+    ;                   shoot gn            root gn                                shoot mz                    root mz
+ set	N_cropR_Hin	GN-shoot * NpGNs * RI% +	GN-shoot * NpGNs  * rsGN * RIGnroot%  +	MZ-shoot * NpMZs  * RI% + MZ-shoot * NpMZs * rsMZ
+ set	P_cropR_Hin	GN-shoot * PpGNs * RI% +	GN-shoot * PpGNs  * rsGN * RIGnroot%	+ MZ-shoot * PpMZs  * RI% + MZ-shoot * PpMZs * rsMZ
+ set	K_cropR_Hin	GN-shoot * KpGNs * RI% +	GN-shoot * KpGNs  * rsGN * RIGnroot%	+ MZ-shoot * KpMZs  * RI% + MZ-shoot * KpMZs * rsMZ
+    if Parameter = "Low"
+    [let EOMmz 0.2 let EOMgn 0.2 
+ set	C_cropR_Hin	(GN-shoot * RI% +	GN-shoot  * rsGN * RIGnroot%) * 0.42 * EOMgn / 1.724 * [f-env] of patch-here	+ (MZ-shoot * RI% + MZ-shoot * rsMZ) * 0.42 *  EOMmz / 1.724 * [f-env] of patch-here ] ; 0.42 is the carbon content
+    if Parameter = "High"
+    [let EOMmz 0.4 let EOMgn 0.4 
+ set	C_cropR_Hin	(GN-shoot * RI% +	GN-shoot  * rsGN * RIGnroot%) * 0.42 * EOMgn / 1.724 * [f-env] of patch-here	+ (MZ-shoot * RI% + MZ-shoot * rsMZ) * 0.42 *  EOMmz / 1.724 * [f-env] of patch-here ]     
+    
+;farmtype
+ set	N_cropR_Hin-hc	GN-shoot-hc * NpGNs * RI% +	GN-shoot-hc * NpGNs  * rsGN * RIGnroot% +	MZ-shoot-hc * NpMZs * RI% + MZ-shoot-hc * NpMZs * rsMZ  
+ set	P_cropR_Hin-hc	GN-shoot-hc * PpGNs * RI% +	GN-shoot-hc * PpGNs  * rsGN * RIGnroot%	+ MZ-shoot-hc * PpMZs * RI% + MZ-shoot-hc * PpMZs * rsMZ
+ set	K_cropR_Hin-hc	GN-shoot-hc * KpGNs * RI% +	GN-shoot-hc * KpGNs  * rsGN * RIGnroot%	+ MZ-shoot-hc * KpMZs * RI% + MZ-shoot-hc * KpMZs * rsMZ     
+    if Parameter = "Low"
+    [let EOMmz 0.2 let EOMgn 0.2 
+ set	C_cropR_Hin-hc	(GN-shoot-hc * RI% +	GN-shoot-hc  * rsGN * RIGnroot%) * 0.42 * EOMgn / 1.724 * [f-env] of patch-here	+ 
+      (MZ-shoot-hc * RI% + MZ-shoot-hc * rsMZ) * 0.42 *  EOMmz / 1.724 * [f-env] of patch-here ] 
+    if Parameter = "High"
+    [let EOMmz 0.4 let EOMgn 0.4 
+ set	C_cropR_Hin-hc	(GN-shoot-hc * RI% +	GN-shoot-hc  * rsGN * RIGnroot%) * 0.42 * EOMgn / 1.724 * [f-env] of patch-here	+ 
+      (MZ-shoot-hc * RI% + MZ-shoot-hc * rsMZ) * 0.42 *  EOMmz / 1.724 * [f-env] of patch-here ]     
+  ]
+End
+To P15.erosion-parameters
+ask patches with [p_bound = 1] [
+  if H_dwelling-extent > 0 [set C-factor 0.13] ; residential areas
+let rain 782 + random-float(1044 - 782)
+set Rainfall rain
+set R-factor 0.029 * (11.36 * Rainfall - 701) - 26 
+if P_land-use-state = 1 [set C-factor 0.1 + random-float 0.07] ; cultivated area cereal
+;if N_fixed > 0 [set C-factor 0.15] ; cereal plus legumes
+if P_land-use-state > 1 [set C-factor 0.02 + random-float 0.02] ; uncultivated area
+if P_land-use-state = 1 [set P-factor 0.9]
+if P_land-use-state > 1 [set P-factor 0.6]
+if P_clay% > 0 [set PcD P_BD20gcm3  + P_clay% * 0.009] ; PcD packing density for determination of Structure code S 
+    ; S  soil structure index (1…4) increasing from very fine granular to blocky, platy or massive (Wischmeier et al., 1971)
+if PcD < 1.4 [set S 3] if PcD >= 1.4 [set S 2]  if Pcd > 1.7 [set S 1] 
+if P_BD20gcm3 > 0 [set Q 6] ; Q permeability index (1…6) increasing from rapid to very slow
+if P_BD20gcm3 >= 0.9 [set Q 5] if P_BD20gcm3 >= 1.2 [set Q 4] if P_BD20gcm3 >= 1.4 [set Q 3] 
+if P_BD20gcm3 >= 1.6 [set Q 2] if P_BD20gcm3 >= 1.8 [set Q 1]
+set M ((P_Silt% + P_Sand% * 0.2) * (100 - P_Clay%))  
+    ;vfSa assumed to be 20% of P_sand%  which includes very fine sand (62.5–125 µm), 
+    ;medium sand (125–250 µm), course sand (0.25–0.5 mm) and very coarse (0.5–1 mm)   
+
+
+set K_texture-SOM 2.77 * (10 ^ -5) * M ^ 1.14 * (12 - p_SOC% * 1.72)
+if K_texture-SOM > 0  [set K-factor K_texture-SOM + (0.043 * (S - 2) + 0.033 * ( Q - 3))]
+  ]
+End
+
+
+To P2233.OUT3-soil-erosion 
+; SL_erosion = R*K*LS*C*P*SDR (R: rainfall erosivity; K: Erodibility; LS: Topography; C: surface cover; P: Management
+correct-999
+copy-turtle-estimates-to-patches ; VERY VERY IMPORTANT=================§§§§§§§§§§§§§§§§§§§§§§§§§§§§§&&&&&&&&&&&&&&==
+e2.estimate-gross-soil-loss-eroded
+e3.estimate-sediment-delivery-ratio
+e4.estimate-sediment-delivered
+e5.estimate-net-soil-loss
+e6.estimate-nutrient-eroded
+P2224.IN4-sedimentation  
+e7.Delineate-Gullies
+   
+End
+To correct-999
+  ask patches
+  [ ifelse P_bound = 1 and R-factor > -999 and K-factor > -999 and LS-factor > -999 and C-factor > -999 and P-factor > -999 [set P_bound 1] 
+  [ set P_bound 0]]
+End
+
+To copy-turtle-estimates-to-patches
+  ask turtles with [HP_ID != 0]
+  [ask patches with [P_plot-patches = [HP_ID] of myself]  
+    [set N_fert      [N_fert_H] of myself
+      set N_orga     [N_orga_H] of myself
+      set N_cropP    [N_cropP_H] of myself
+      set N_cropRin  [N_cropR_Hin] of myself
+      set N_cropRout [N_cropR_Hout] of myself
+  ]]
+end
+
+To e2.estimate-gross-soil-loss-eroded 
+  ask patches with [P_bound = 1]
+  [set GSL (R-factor *  LS-factor * C-factor * P-factor * K-factor * 1000) ] ; 1000 convert t/ha/yr to kg/ha/yr
+End
+To e3.estimate-sediment-delivery-ratio  
+ ;show "estimating SDR"
+  ask patches with [P_bound = 1]
+  [set SDR (exp ((-0.0051 * P_flowlength) / ((P_Ri-roughness * (tan (P_slope))) ^ 0.5)))
+  ]
+;Show-SDR
+End
+To e4.estimate-sediment-delivered
+  ask patches with [p_bound = 1]
+  [set SD GSL * SDR]
+End
+
+To e5.estimate-net-soil-loss ; kg/ha/yr
+ ;show "estimating nutrient-loss"
+  ask patches with [P_bound = 1]
+  [set NSL (GSL - SD)]
+End
+To e6.estimate-nutrient-eroded
+ask patches with [P_bound = 1] [
+ set N_eroded (P_Nitrogen% * 0.01 * NSL) ;kg N / ha
+ set C_eroded (P_SOC% * 0.01 * NSL) ; kg C / ha
+ set P_eroded (P_Phosphorus_soil * 0.000001 * NSL) ; kg P / ha
+ set K_eroded (P_Potassium_soil * 0.000001 * NSL) ; kg K / ha
+  ]
+End
+To e7.Delineate-Gullies
+;show "delineating gullies"
+  ask patches with [(P_bound = 1)]
+     [let g1 18 let g2 6.8 ; g1 & g2: Constant thresholds for defining potential location of gullies Tamene (2005))
+      set gully 0
+      if (((P_upslope / 30) * tan(P_slope)) > g1   
+      and ln((P_upslope / 30) / tan(P_slope)) > g2)  [set gully 1]   
+     ]
+;show-soil&nutrient-eroded-stats
+  ;show-gully
+End
+
+
+
+To P2234.OUT4-leaching
+  ask patches with [P_Clay% > 0]
+    [let D 1.06 ; decomposition rate of organic matter per year
+      ;set D ... expenential decay rate
+     set N_leached 0.0463 + 0.0037 * (Rainfall / (P_Clay% * 20)) * ((N_fert + N_orga) + D * P_N - (N_cropP + N_cropRin + N_cropRout))
+     set K_leached (-6.87 + 0.0117 * Rainfall + 0.173 * (K_fert + K_orga) + 0.265) * 13.2 ; average CEC from data, did not spatially predict
+  ]
+End
+To P2235.OUT5-gaseous ; denitrification and volatilization
+  set SOCmax max [P_SOC%] of patches
+  ask patches with [P_plot-patches > 0]
+  [set N_gase 0.025 + 0.000855 * Rainfall + 0.13 * (N_cropP + N_cropRin + N_cropRout) + (0.117 * P_SOC%) 
+  let ActiveC% 0.018 + 0.032 * P_SOC% / SOCmax  
+  if Parameter = "High" [let SOMdegrate 2 set C_SD ActiveC% * SOMdegrate * f-env * BD-G-D]
+  if Parameter = "Low" [let SOMdegrate 0.0615 set C_SD SOMdegrate * P_SOC]
+   ]
+  show mean [C_SD] of patches with [P_SOC > 0]
+Copy-patch-attributes
+End
+
+To Copy-patch-attributes
+ask turtles with [HP_ID != 0] [
+;    if elapsed-years = 0 [set P_N-H	    [P_N  ] of patch-here ] 
+;    if elapsed-years = 0 [set P_P-H     [P_P  ] of patch-here ]
+;    if elapsed-years = 0 [set P_K-H	    [P_K  ] of patch-here ]
+;    if elapsed-years = 0 [set P_SOC-H   [P_SOC] of patch-here ]
+set	N_sedi_H	[	N_sedi	] of patch-here
+set	P_sedi_H	[	P_sedi	] of patch-here
+set	K_sedi_H	[	K_sedi	] of patch-here
+set	C_sedi_H	[	C_sedi	] of patch-here
+set	N_depo_H	[	N_depo	] of patch-here
+set	P_depo_H	[	P_depo	] of patch-here
+set	K_depo_H	[	K_depo	] of patch-here
+set	N_eroded_H	[	N_eroded	] of patch-here
+set	P_eroded_H	[	P_eroded	] of patch-here
+set	K_eroded_H	[	K_eroded	] of patch-here
+set	C_eroded_H	[	C_eroded	] of patch-here
+set	N_leached_H	[	N_leached	] of patch-here
+set	K_leached_H	[	K_leached	] of patch-here
+set	N_gase_H	  [	N_gase	  ] of patch-here
+  ]
+End
+To P224.Estimate-nutrient-balance-turtle
+ask turtles with [HP_ID != 0] [
+
+set	N_in_H	     N_fert_H  +	N_orga_H     +	N_fixed_H  +	N_sedi_H     +	N_depo_H
+set	N_out_H	     N_cropP_H +	N_cropR_Hout +	N_eroded_H +	N_leached_H  +	N_gase_H
+set N_balance-H  N_in_H    -  N_out_H 
+    
+set	N_in_H-hc	      N_fert_H-hc  +	N_orga_H-hc     +	N_fixed_H-hc  +	N_sedi_H     +	N_depo_H
+set	N_out_H-hc	    N_cropP_H-hc +	N_cropR_Hout-hc +	N_eroded_H    +	N_leached_H  +	N_gase_H    
+set N_balance-H-hc  N_in_H-hc    -  N_out_H-hc  
+    
+    
+set	P_in_H	    P_fert_H     +	P_orga_H     +	P_sedi_H     +	P_depo_H	
+set	P_out_H	    P_cropP_H    +	P_cropR_Hout +	P_eroded_H		
+set P_balance-H P_in_H       -  P_out_H
+    
+set	P_in_H-hc	     P_fert_H-hc  +	P_orga_H-hc     +		P_sedi_H +	P_depo_H	        
+set	P_out_H-hc	   P_cropP_H-hc +	P_cropR_Hout-hc +	P_eroded_H		 
+set P_balance-H-hc P_in_H-hc    -  P_out_H-hc      
+    
+set	K_in_H	    K_orga_H  +	K_sedi_H     +	K_depo_H		
+set	K_out_H	    K_cropP_H +	K_cropR_Hout +	K_eroded_H +	K_leached_H    
+set K_balance-H K_in_H    -  K_out_H 	
+    	
+set	K_in_H-hc	     K_orga_H-hc  +	K_sedi_H        +	K_depo_H
+set	K_out_H-hc	   K_cropP_H-hc +	K_cropR_Hout-hc +	K_eroded_H +	K_leached_H 
+set K_balance-H-hc K_in_H-hc    - K_out_H-hc 	
+
+set	C_in_H		   C_orga_H   +	C_cropR_Hin + C_sedi_H 
+set	C_out_H	     C_eroded_H + [C_sd] of patch-here
+set C_balance-H  C_in_H     -  C_out_H    	    
+    
+set	C_in_H-hc		    C_orga_H-hc +	C_cropR_Hin-hc +	C_sedi_H 		    
+set	C_out_H-hc	    C_eroded_H 	+ [C_sd] of patch-here
+set C_balance-H-hc  C_in_H-hc   -  C_out_H-hc 		
+  ]
+  ;Show-nut-stats_H
+;copy-turtle-inputs
+End
+
+
+To P225.Update-soil-nutrient-turtle ; landscape level balance
+  ask turtles with [HP_ID != 0] [
+    ASK PATCHES WITH [p_plot-centre = [HP_ID] of myself ]
+    [set P_Nitrogen%       P_Nitrogen%       + ([N_balance-H   ] of myself / BD-G-D)
+     set P_phosphorus_soil P_phosphorus_soil + ([P_balance-H   ] of myself / BD-G-D)
+     set P_Potassium_soil  P_Potassium_soil  + ([K_balance-H   ] of myself / BD-G-D)
+     set P_SOC%            P_SOC%            + ([C_balance-H   ] of myself / BD-G-D)
+  ] ]
+  
+;map_SOC_thresholds map-N-thresholds map-P-thresholds map-StI-thresholds map-K-thresholds map-C:N-thresholds map-C:P-thresholds  
+;central-patch-soil-attributes  
+End
+To central-patch-soil-attributes
+  ask turtles with [HP_ID != 0] [  
+  set P_N	    [P_N-H  ] of myself  
+  set P_P     [P_P-H  ] of myself 
+  set P_K	    [P_K-H  ] of myself 
+  set P_SOC   [P_SOC-H] of myself 
+]
+End
+
+To copy-turtle-inputs ; landscape level upscaling
+;show "setting patch nutrient from turtles"
+;if elapsed-years = 10 or elapsed-years = 20 [
+  ask turtles 
+  [ask patches with [P_plot-patches = [HP_ID] of myself and P_bound = 1] [	
+set	  N_fert	    [	  N_fert_H	]	of myself / BD-G-D
+set	  P_fert	    [	  P_fert_H	]	of myself / BD-G-D
+set	  N_orga	    [	  N_orga_H	]	of myself / BD-G-D
+set	  P_orga	    [	  P_orga_H	]	of myself / BD-G-D
+set	  K_orga	    [	  K_orga_H	]	of myself / BD-G-D
+set	  C_orga	    [	  C_orga_H	]	of myself / BD-G-D    
+set	  N_fixed	    [	  N_fixed_H	]	of myself / BD-G-D
+set	  N_cropP	    [	  N_cropP_H	]	of myself / BD-G-D
+set	  P_cropP	    [	  P_cropP_H	]	of myself / BD-G-D    
+set	  K_cropP	    [	  K_cropP_H	]	of myself / BD-G-D
+set	  N_cropRin	  ([	  N_cropR_Hin	]	of myself ) / BD-G-D    
+set	  P_cropRin   ([	  P_cropR_Hin	]	of myself ) / BD-G-D
+set	  K_cropRin	  ([	  K_cropR_Hin	]	of myself ) / BD-G-D
+set 	C_cropRin	  ([	  C_cropR_Hin	]	of myself ) / BD-G-D
+set	  N_cropRout  ([	  N_cropR_Hout	]	of myself ) / BD-G-D    
+set	  P_cropRout  ([	  P_cropR_Hout	]	of myself ) / BD-G-D  
+set	  K_cropRout	([	  K_cropR_Hout	]	of myself ) / BD-G-D    
+  ]]
+ 
+;show "setting patch inputs and outputs from turtles is done"
+;landscape level balance
+;show "estimating yearly nutrient balance for plots"
+  ask patches with [P_bound = 1] [ 
+set C_in	C_orga + C_sedi	+ C_cropRin			
+	
+set N_in	N_fert + N_orga + N_cropRin + N_fixed + N_depo + N_sedi				
+			
+set P_in	P_fert + P_orga + P_cropRin + P_sedi + P_depo				
+
+set K_in	K_fert + K_orga + K_sedi + K_depo		
+    
+set N_out	N_cropP + N_cropRout + N_eroded + N_leached + N_gase	    		
+set P_out	P_cropP + P_cropRout + P_eroded				    
+set K_out	K_cropP + K_cropRout + K_eroded + K_leached				
+set C_out	                       C_eroded	+ C_SD		
+    
+set N_balance N_in - N_out
+set P_balance P_in - P_out
+set K_balance K_in - K_out    
+set C_balance C_in - C_out
+  ]   
+
+;show "yearly nutrient balance estimated"
+
+;To Update-soil-sutrient-status ; landscape level balance
+  ask patches with [P_bound = 1] [
+set P_Nitrogen%         P_Nitrogen%       + (N_balance / BD-G-D)
+set P_phosphorus_soil   P_phosphorus_soil + (P_balance / BD-G-D) 
+set P_Potassium_soil    P_Potassium_soil  + (K_balance / BD-G-D)
+set P_SOC%              P_SOC%            + (C_balance / BD-G-D)
+  ] 
+;map_SOC_thresholds map-N-thresholds map-P-thresholds map-StI-thresholds map-K-thresholds map-C:N-thresholds map-C:P-thresholds  
+  
+End
+To P226.Calculate-productivity-Index												
+ask 	patches with [P_bound = 1]	[								
+
+if	(	P_land-use-state	=	1					)	[	set	LU-score	1	]
+if	(	P_land-use-state	>	1					)	[	set	LU-score	0.5	]
+if	(	P_Nitrogen%	>	0	and 	P_Nitrogen%	<	0.08	)	[	set	TN-score	0.5	]
+if	(	P_Nitrogen%	>	0.08	and 	P_Nitrogen%	<	0.12	)	[	set	TN-score	0.6	]
+if	(	P_Nitrogen%	>	0.12	and 	P_Nitrogen%	<	0.15	)	[	set	TN-score	0.7	]
+if	(	P_Nitrogen%	>	0.15	and 	P_Nitrogen%	<	0.25	)	[	set	TN-score	1	]
+if	(	P_Nitrogen%	>	0.25					)	[	set	TN-score	1	]
+if	(	P_phosphorus_soil	>	0	and 	P_phosphorus_soil	<	7.4	)	[	set	Phos-score	0.1	]
+if	(	P_phosphorus_soil	>=	7.4	and 	P_phosphorus_soil	<	11	)	[	set	Phos-score	0.25	]
+if	(	P_phosphorus_soil	>=	11	and 	P_phosphorus_soil	<	13.5	)	[	set	Phos-score	0.5	]
+if	(	P_phosphorus_soil	>=	13.5	and 	P_phosphorus_soil	<	17	)	[	set	Phos-score	0.75	]
+if	(	P_phosphorus_soil	>=	17					)	[	set	Phos-score	1	]
+if	(	P_potassium_soil	>	0	and 	P_potassium_soil	<	125	)	[	set	K-score	0.5	]
+if	(	P_potassium_soil	>=	125	and 	P_potassium_soil	<	190	)	[	set	K-score	0.7	]
+if	(	P_potassium_soil	>=	190					)	[	set	K-score	1	]
+if	(	C:N	>	0	and 	C:N	<	16	)	[	set	C:N-score	0.5	]
+if	(	C:N	>=	16	and 	C:N	<	20	)	[	set	C:N-score	0.7	]
+if	(	C:N	>=	20	and 	C:N	<	25	)	[	set	C:N-score	1	]
+if	(	C:N	>=	25	and 	C:N	<	30	)	[	set	C:N-score	0.5	]
+if	(	C:N	>=	30					)	[	set	C:N-score	0.1	]
+if	(	C:P	>	0	and 	C:P	<	100	)	[	set	C:P-score	0.1	]
+if	(	C:P	>=	100	and 	C:P	<	200	)	[	set	C:P-score	0.5	]
+if	(	C:P	>=	200	and 	C:P	<	300	)	[	set	C:P-score	1	]
+if	(	C:P	>=	300	and 	C:P	<	500	)	[	set	C:P-score	0.7	]
+if	(	C:P	>=	500	and 	C:P	<	700	)	[	set	C:P-score	0.5	]
+if	(	C:P	>=	700					)	[	set	C:P-score	0.1	]
+if	(	P_SOC%	>	0	and 	P_SOC%	<	0.5	)	[	set	SOC-score	0.1	]
+if	(	P_SOC%	>=	0.5	and 	P_SOC%	<	0.7	)	[	set	SOC-score	0.2	]
+if	(	P_SOC%	>=	0.7	and 	P_SOC%	<	1	)	[	set	SOC-score	0.4	]
+if	(	P_SOC%	>=	1	and 	P_SOC%	<	1.5	)	[	set	SOC-score	0.6	]
+if	(	P_SOC%	>=	1.5	and 	P_SOC%	<	2	)	[	set	SOC-score	0.8	]
+if	(	P_SOC%	>	2					)	[	set	SOC-score	1	]
+if	(	StI	>	0	and 	StI	<	5	)	[	set	StI-score	0.5	]
+if	(	StI	>=	5	and 	StI	<	7	)	[	set	StI-score	0.8	]
+if	(	StI	>=	7					)	[	set	StI-score	1	]
+if	(	P_slope	>	0	and	P_slope	<=	1	)	[	set	Slope-score	1	]
+if	(	P_slope	>	1	and	P_slope	<=	2	)	[	set	Slope-score	0.9	]
+if	(	P_slope	>	2	and	P_slope	<=	5	)	[	set	Slope-score	0.8	]
+if	(	P_slope	>	5	and	P_slope	<=	10	)	[	set	Slope-score	0.6	]
+if	(	P_slope	>	10	and	P_slope	<=	15	)	[	set	Slope-score	0.2	]
+if	(	P_slope	>	15	and	P_slope	<=	30	)	[	set	Slope-score	0	]
+if	(	P_slope	>	30					)	[	set	Slope-score	0	]
+if	(	gully	=	1					)	[	set	Gully-score	0.5	]
+if	(	gully	=	0					)	[	set	Gully-score	1	]
+if	(	NSL	>	0	and 	NSL	<	2000	)	[	set	Erosion-score	1	]
+if	(	NSL	>=	2000	and 	NSL	<	10000	)	[	set	Erosion-score	0.8	]
+if	(	NSL	>=	10000	and 	NSL	<	20000	)	[	set	Erosion-score	0.6	]
+if	(	NSL	>=	20000	and 	NSL	<	30000	)	[	set	Erosion-score	0.4	]
+if	(	NSL	>=	30000	and 	NSL	<	50000	)	[	set	Erosion-score	0.2	]
+if	(	NSL	>=	50000	and 	NSL	<	80000	)	[	set	Erosion-score	0	]
+if	(	NSL	>=	80000					)	[	set	Erosion-score	0	]
+
+set	Productivity-INDEX	precision (LU-score	*	TN-score	*	Phos-score	*	K-score	    *	C:N-score	*	
+		                    C:P-score	*	SOC-score	*	StI-score	  *	Slope-score	*	Gully-score	*	Erosion-score) 3
+  ]
+show-productivity-index	
+  zero-one&categorize
+  ;show "zero-one-done" 
+  
+End
+To zero-one&categorize
+ set prod-max 1 / max [Productivity-INDEX] of patches
+  ask patches with [P_bound = 1] [
+  set productivity-INDEX productivity-INDEX * prod-max ; lie between 0 and 1, 1 being most productive
+  if Productivity-INDEX = 0   and P_bound	         = 1     [set Prod-cat 0] 
+  if Productivity-INDEX > 0   and Productivity-INDEX >= 0.1  [set Prod-cat 1] 
+  if Productivity-INDEX > 0.1 and Productivity-INDEX >= 0.2  [set Prod-cat 2]
+  if Productivity-INDEX > 0.2 and Productivity-INDEX >= 0.3  [set Prod-cat 3] 
+  if Productivity-INDEX > 0.3 and Productivity-INDEX >= 0.4  [set Prod-cat 4] 
+  if Productivity-INDEX > 0.4 and Productivity-INDEX >= 0.5  [set Prod-cat 5] 
+  if Productivity-INDEX > 0.5 and Productivity-INDEX >= 0.6  [set Prod-cat 6] 
+  if Productivity-INDEX > 0.6 and Productivity-INDEX >= 0.7  [set Prod-cat 7]
+  if Productivity-INDEX > 0.7 and Productivity-INDEX >= 0.8  [set Prod-cat 8] 
+  if Productivity-INDEX > 0.8 and Productivity-INDEX >= 0.9  [set Prod-cat 9] 
+  if Productivity-INDEX > 0.9 and Productivity-INDEX >= 1    [set Prod-cat 10]
+  ]
+End

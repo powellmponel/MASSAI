@@ -1,0 +1,1250 @@
+To map-elevation
+let max-z max [p_elevation] of patches let min-z min [p_elevation] of patches with [p_elevation > -999]
+ask patches [if p_elevation = -999 [set pcolor grey]  if p_elevation > -999 [set pcolor scale-color red p_elevation max-z  min-z]]
+End
+To map-slope
+let max-z max [p_slope] of patches let min-z min [p_slope] of patches with [p_slope > -999]
+let s12.5 min [p_slope] of patches with [p_slope > 12.5]
+ask patches [if p_slope = -999 [set pcolor grey]  
+    if p_slope > -999 [set pcolor scale-color yellow p_slope s12.5 min-z]
+    if p_slope > 12.5 [set pcolor scale-color red p_slope max-z s12.5]]
+End
+To map-P-land-use
+ask patches
+[if P_land-use-state = -999 [set pcolor grey]
+  if P_land-use-state = 1 [set pcolor red]     ; cultivated area
+  if P_land-use-state > 1 [set P_land-use-state 0]       ; uncultivated area
+  if P_land-use-state = 0 [set pcolor white]       ; uncultivated area
+]
+End
+
+To map-sampled-plot-areas
+ask patches [if P_land-use-state = -999 [set pcolor grey]   
+    if P_land-use-state = 1 [set pcolor red]  
+    if P_land-use-state > 1 [set pcolor white]  
+    if P_plot-patches > 1 [set pcolor black]]
+End
+ 
+To map-sampled-plot-centres
+ask patches [if P_plot-centre = -999 [set pcolor grey] 
+    if P_land-use-state = 1 [set pcolor red] 
+ if P_land-use-state > 1 [set pcolor white]  
+    if P_plot-centre > 1 [set pcolor black]]
+End
+
+To map-village-extent
+      ask patches
+  [if P_village < 0 [set Pcolor white]  ; outside the boundry of the catchment
+    if P_village = 0 [set Pcolor yellow]     ; Phikani village
+    if P_village = 1 [set Pcolor blue]       ; Malaswa
+    if P_village = 2 [set Pcolor orange]     ; Amosi village
+    if P_village = 3 [set Pcolor orange]        ; Kwangwani villahe
+    if P_village = 4 [set Pcolor blue]      ; Kaombe village
+    if P_village = 5 [set Pcolor orange]     ; Hiwa Village
+    if P_village = 6 [set Pcolor green]   ; Farm land rented by people from Hiwa, Amosi and Phikani  
+  ]
+End
+To map-dwelling-extent
+ask patches
+  [if H_dwelling-extent = 0 [set Pcolor white] ; land outside the study area
+   if H_dwelling-extent = 255 [set Pcolor green] ;  cultivated area
+   if H_dwelling-extent = 1 [set Pcolor blue] ; Malaswa and Kaombe
+   if H_dwelling-extent = 2 [set Pcolor Orange] ; hiwa, amosi and kwangwani
+   if H_dwelling-extent = 3 [set Pcolor yellow] ;Phikani
+  
+  ]
+End
+To map-household-locations
+  ask patches [if P_owner-residence = -999 [set pcolor white] if P_owner-residence > 0 [set pcolor black]]
+End
+To map-plots
+ask patches 
+  [ if P_plot-patches      = 0     [set pcolor grey]
+    if P_plot-patches      = 1     [set pcolor red]
+    if H_dwelling-extent   = 1 [set Pcolor blue] ; Malaswa and Kaombe
+    if H_dwelling-extent   = 2 [set Pcolor blue] ; hiwa, amosi and kwangwani
+    if H_dwelling-extent   = 3 [set Pcolor blue] ;Phikani
+    if P_land-use-state    = 0     [set pcolor green] 
+    if P_plot-patches      > 1 and P_plot-patches < 10000 [set pcolor black] ; sampled
+    if P_plot-patches      > 10000  [set pcolor yellow]]  ; populated proportional upscaling
+End
+
+To map-SOC
+  let max-z max [p_SOC%] of patches let min-z min [p_SOC%] of patches with [p_SOC% > -999]
+  ask patches [if p_SOC% = -999 [set pcolor grey] if p_SOC% > -999 [set pcolor scale-color red p_SOC% max-z  min-z]]
+End
+To map-TN
+let max-z max [P_Nitrogen%] of patches let min-z min [P_Nitrogen%] of patches with [P_Nitrogen% > -999]
+ask patches [if P_Nitrogen% = -999 [set pcolor grey]  if P_Nitrogen% > -999 [set pcolor scale-color red P_Nitrogen% max-z  min-z]]
+End
+To map-Phosphorus
+let max-z max [P_Phosphorus_soil] of patches let min-z min [P_Phosphorus_soil] of patches with [P_Phosphorus_soil > -999]
+ask patches [if P_Phosphorus_soil = -999 [set pcolor grey] if P_Phosphorus_soil > -999 [set pcolor scale-color red P_Phosphorus_soil max-z  min-z]]
+End
+To map-Potassium
+let max-z max [P_Potassium_soil] of patches let min-z min [P_Potassium_soil] of patches with [P_Potassium_soil > -999]
+ask patches [if P_Potassium_soil = -999 [set pcolor grey]  if P_Potassium_soil > -999 [set pcolor scale-color red P_Potassium_soil max-z  min-z]]
+End
+To map-clay
+let max-z max [P_Clay%] of patches let min-z min [P_Clay%] of patches with [P_Clay% > -999]
+ask patches [if P_Clay% = -999 [set pcolor grey]  if P_Clay% > -999 [set pcolor scale-color red P_Clay% max-z  min-z]]
+End
+To map-silt
+  let max-z max [P_Silt%] of patches let min-z min [P_Silt%] of patches with [P_Silt% > -999]
+  ask patches [if P_Silt% = -999 [set pcolor grey] if P_Silt% > -999 [set pcolor scale-color red P_Silt% max-z  min-z]]
+End
+To map-bulk-density
+  let max-z max [P_BD20gcm3] of patches let min-z min [P_BD20gcm3] of patches with [P_BD20gcm3 > -999]
+  ask patches [if P_BD20gcm3 = -999 [set pcolor grey] if P_BD20gcm3 > -999 [set pcolor scale-color red P_BD20gcm3 max-z  min-z]]
+End
+To map-Coarse-fragments
+  let max-z max [P_CoarsePer] of patches let min-z min [P_CoarsePer] of patches with [P_CoarsePer > -999]
+  ask patches [if P_CoarsePer = -999 [set pcolor grey] if P_CoarsePer > -999 [set pcolor scale-color red P_CoarsePer max-z  min-z]]
+End
+;#######################################SUMMARY STATISTICS #################
+
+To cultivation-sum-stats
+  let patches# count patches with [P_bound = 1]
+  let cult% count patches with [P_cult = 1] / patches# * 100
+  let uncult% count patches with [P_cult = 2] / patches# * 100
+  show	(word "cult% = " (precision	cult%	0) " , uncult% = " (precision	uncult%	0))
+End
+
+To topography-summary-statistics
+;----elevation										
+;	min-elev	max-elev	mean-elev	sd-elev						
+let	min-elev	min [	P_elevation	] of patches with [	P_bound	 = 1]				
+let	max-elev	max [	P_elevation	] of patches with [	P_bound	 = 1]				
+let	mean-elev	mean [	P_elevation	] of patches with [	P_bound	 = 1]				
+let	sd-elev	standard-deviation [	P_elevation	] of patches with [	P_bound	 = 1]				
+show	(word "min-elev = " (precision	min-elev	2) " , max-elev = " (precision	max-elev	2) " ,mean-elev = " (precision	mean-elev	2) " , sd-elev = " (precision	sd-elev	2))	
+;----slope										
+;	min-slope	max-slope	mean-slope	sd-slope						
+let	min-slope	min [	P_slope	] of patches with [	P_bound	 = 1]				
+let	max-slope	max [	P_slope	] of patches with [	P_bound	 = 1]				
+let	mean-slope	mean [	P_slope	] of patches with [	P_bound	 = 1]				
+let	sd-slope	standard-deviation [	P_slope	] of patches with [	P_bound	 = 1]				
+show	(word "min-slope = " (precision	min-slope	2) " , max-slope = " (precision	max-slope	2) " ,mean-slope = " (precision	mean-slope	2) " , sd-slope = " (precision	sd-slope	2))	
+let patches# count patches with [P_bound = 1]
+let	A_slope0-1	count patches with [	P_slope	>	0	and	P_slope	<=	1	] / patches# * 100
+let	A_slope1-2	count patches with [	P_slope	>	1	and	P_slope	<=	2	] / patches# * 100
+let	A_slope2-5	count patches with [	P_slope	>	2	and	P_slope	<=	5	] / patches# * 100
+let	A_slope5-10	count patches with [	P_slope	>	5	and	P_slope	<=	10	] / patches# * 100
+let	A_slope10-15	count patches with [	P_slope	>	10	and	P_slope	<=	15	] / patches# * 100
+let	A_slope15-30	count patches with [	P_slope	>	15	and	P_slope	<=	30	] / patches# * 100
+let	A_slope30-60	count patches with [	P_slope	>	30	and	P_slope	<=	60	] / patches# * 100
+let	A_slope>60	count patches with [	P_slope	>	60	]				/ patches# * 100
+show	(word "0-1 = " (precision	A_slope0-1	2) " , 1-2 = " (precision	A_slope1-2	2) " , 2-5 = " (precision	A_slope2-5	2) " , 5-10 = " (precision	A_slope5-10		
+	2) " , 10-15 = " (precision	A_slope10-15	2) " , 15-30 = " (precision	A_slope15-30	2) " , 30-60 = " (precision	A_slope30-60	2) " , >60 = " (precision	A_slope>60	2))	
+;----LS-factor										
+;	min-LS	max-LS	mean-LS	sd-LS						
+let	min-LS	min [	LS-factor	] of patches with [	P_bound	 = 1]				
+let	max-LS	max [	LS-factor	] of patches with [	P_bound	 = 1]				
+let	mean-LS	mean [	LS-factor	] of patches with [	P_bound	 = 1]				
+let	sd-LS	standard-deviation [	LS-factor	] of patches with [	P_bound	 = 1]				
+show	(word "min-LS = " (precision	min-LS	2) " , max-LS = " (precision	max-LS	2) " ,mean-LS = " (precision	mean-LS	2) " , sd-LS = " (precision	sd-LS	2))	
+;----roughness										
+;	min-Ri	max-Ri	mean-Ri	sd-Ri						
+let	min-Ri	min [	P_Ri-roughness	] of patches with [	P_bound	 = 1]				
+let	max-Ri	max [	P_Ri-roughness	] of patches with [	P_bound	 = 1]				
+let	mean-Ri	mean [	P_Ri-roughness	] of patches with [	P_bound	 = 1]				
+let	sd-Ri	standard-deviation [	P_Ri-roughness	] of patches with [	P_bound	 = 1]				
+show	(word "min-Ri = " (precision	min-Ri	2) " , max-Ri = " (precision	max-Ri	2) " ,mean-Ri = " (precision	mean-Ri	2) " , sd-Ri = " (precision	sd-Ri	2))	
+;----flow length										
+;	min-flowlength	max-flowlength	mean-flowlength	sd-flowlength						
+let	min-flowlength	min [	P_flowlength	] of patches with [	P_bound	 = 1]				
+let	max-flowlength	max [	P_flowlength	] of patches with [	P_bound	 = 1]				
+let	mean-flowlength	mean [	P_flowlength	] of patches with [	P_bound	 = 1]				
+let	sd-flowlength	standard-deviation [	P_flowlength	] of patches with [	P_bound	 = 1]				
+show	(word "min-flowlength = " (precision	min-flowlength	2) " , max-flowlength = " (precision	max-flowlength	2) " ,mean-flowlength = " (precision	mean-flowlength	2) " , sd-flowlength = " (precision	sd-flowlength	2))	
+;----flow accum										
+;	min-flowacc	max-flowacc	mean-flowacc	sd-flowacc						
+let	min-flowacc	min [	P_flowacc	] of patches with [	P_bound	 = 1]				
+let	max-flowacc	max [	P_flowacc	] of patches with [	P_bound	 = 1]				
+let	mean-flowacc	mean [	P_flowacc	] of patches with [	P_bound	 = 1]				
+let	sd-flowacc	standard-deviation [	P_flowacc	] of patches with [	P_bound	 = 1]				
+show	(word "min-flowacc = " (precision	min-flowacc	2) " , max-flowacc = " (precision	max-flowacc	2) " ,mean-flowacc = " (precision	mean-flowacc	2) " , sd-flowacc = " (precision	sd-flowacc	2))	
+;----upslope										
+;	min-upslope	max-upslope	mean-upslope	sd-upslope						
+let	min-upslope	min [	P_upslope	] of patches with [	P_bound	 = 1]				
+let	max-upslope	max [	P_upslope	] of patches with [	P_bound	 = 1]				
+let	mean-upslope	mean [	P_upslope	] of patches with [	P_bound	 = 1]				
+let	sd-upslope	standard-deviation [	P_upslope	] of patches with [	P_bound	 = 1]				
+show	(word "min-upslope = " (precision	min-upslope	2) " , max-upslope = " (precision	max-upslope	2) " ,mean-upslope = " (precision	mean-upslope	2) " , sd-upslope = " (precision	sd-upslope	2))	
+
+End
+
+
+;Soil nutrient stocks
+To map-P_SOC let max-z max [P_SOC] of patches let min-z min [P_SOC] of patches with [P_bound = 1]
+ask patches [if P_SOC = -999 [set pcolor grey] if P_SOC > -999 [set pcolor scale-color red P_SOC max-z  min-z]]
+End
+To map-P_N  let max-z max [P_N] of patches let min-z min [P_N] of patches with [P_N > -999]
+  ask patches [if P_N = -999 [set pcolor grey] if P_N > -999 [set pcolor scale-color red P_N max-z  min-z]]
+End
+To map-P_P  let max-z max [P_P] of patches let min-z min [P_P] of patches with [P_P > -999]
+  ask patches [if P_P = -999 [set pcolor grey] if P_P > -999 [set pcolor scale-color red P_P max-z  min-z]]
+End
+To map-P_K  let max-z max [P_K] of patches let min-z min [P_K] of patches with [P_K > -999]
+  ask patches [if P_K = -999 [set pcolor grey] if P_K > -999 [set pcolor scale-color red P_K max-z  min-z]]
+End
+To map-StI let max-z max [StI] of patches let min-z min [StI] of patches with [StI > -999]
+ask patches [if StI = -999 [set pcolor grey] if StI > -999 [set pcolor scale-color red StI max-z  min-z]]
+End
+To map-C:N let max-z max [C:N] of patches let min-z min [C:N] of patches with [P_bound = 1]
+ask patches [if C:N = 0 [set pcolor grey] if C:N > 0 [set pcolor scale-color red C:N max-z  min-z]]
+End
+To map-C:P let max-z max [C:P] of patches let min-z min [C:P] of patches with [P_bound = 1]
+ask patches [if C:P = 0 [set pcolor grey] if C:P > 0 [set pcolor scale-color red C:P max-z  min-z]]
+End
+
+To map_SOC_thresholds
+ask patches [if P_SOC% = -999 [set pcolor grey] if P_SOC% > -999 [set pcolor red ] if P_SOC% >= 0.5 and P_SOC% < 0.7 [set pcolor yellow]
+    if P_SOC% >= 0.7 and P_SOC% < 1 [set pcolor orange] if P_SOC% >= 1 and P_SOC% < 1.5 [set pcolor green] if P_SOC% >= 1.5 and P_SOC% < 2 [set pcolor 51] if P_SOC% > 2 [set pcolor black] ] 
+
+End
+To map-N-thresholds
+  ask patches [if P_Nitrogen% = -999 [set pcolor grey] if P_Nitrogen% > -999 [set pcolor red ] if P_Nitrogen% >= 0.15 [set pcolor yellow]
+    if P_Nitrogen% >= 0.15 and P_Nitrogen% < 0.25 [set pcolor orange] if P_Nitrogen% >= 0.25 [set pcolor green]]   
+End
+To map-P-thresholds
+ask patches [if P_phosphorus_soil = -999 [set pcolor grey] if P_phosphorus_soil > -999 [set pcolor red ] if P_phosphorus_soil > 11 [set pcolor yellow]
+    if P_phosphorus_soil >= 11 and P_phosphorus_soil < 17 [set pcolor orange] if P_phosphorus_soil >= 17 [set pcolor green]]
+End
+To map-K-thresholds
+ask patches [if P_Potassium_soil = -999 [set pcolor grey] if P_Potassium_soil > -999 [set pcolor red ] if P_Potassium_soil > 125 [set pcolor yellow]
+    if P_Potassium_soil >= 125 and P_Potassium_soil < 190 [set pcolor orange] if P_Potassium_soil >= 190 [set pcolor green]]
+End
+To map-C:N-thresholds
+ask patches [if C:N = 0 [set pcolor grey] if C:N > 0 [set pcolor red ] if C:N > 16 [set pcolor yellow]
+    if C:N >= 16 and C:N < 23 [set pcolor orange] if C:N >= 23 and C:N < 30 [set pcolor green] if C:N >= 30 [set pcolor black]]   
+End
+To map-C:P-thresholds
+ask patches [if C:P = 0 [set pcolor grey] if C:P > 0 [set pcolor red ] if C:P > 200 [set pcolor yellow]
+    if C:P >= 200 and C:P < 400 [set pcolor green] if C:P >= 400 [set pcolor black]]   
+End
+To map-StI-thresholds
+  ask patches [if StI = -999 [set pcolor grey] if StI > -999 [set pcolor red ] if StI > 5 [set pcolor yellow] if StI > 7 [set pcolor green]]
+End
+
+To map-R-factor
+;let max-z max [R-factor] of patches with [P_elevation > 0 ] let min-z min [GSL] of patches with [P_elevation > 0]
+;ask patches [if P_elevation = -999 [set pcolor grey]  if P_elevation > 0  [set pcolor scale-color red GSL max-z  min-z]]
+End
+
+; Nutrient statistics
+To Show-nut-stats_H
+let fert_plots% 0 let fert_plotsN 0 let fert_plots0 0
+let mean-N_fert_H 0 let min-N_fert_H 0 let max-N_fert_H 0 let Stdev-N_fert_H 0
+set fert_plots% count turtles with [N_fert_H > 0] / count turtles with [N_fert_H > -999]
+set fert_plotsN count turtles with [N_fert_H > 0]
+set fert_plots0 count turtles with [N_fert_H = 0]
+set mean-N_fert_H mean [N_fert_H] of turtles with [N_fert_H > 0]
+set min-N_fert_H min [N_fert_H] of turtles with [N_fert_H > 0]
+set max-N_fert_H max [N_fert_H] of turtles with [N_fert_H > 0]
+set stdev-N_fert_H standard-deviation [N_fert_H] of turtles with [N_fert_H > 0]
+show (word "count(fert) = "(fert_plotsN)", no(fert) = "(fert_plots0)", proportion(fert) = "(precision fert_plots% 2))
+show (word "mean(N_fert_H) = " (precision mean-N_fert_H 2) ", min(N_fert_H) = " (precision min-N_fert_H 2) ", max(N_fert_H) = " (precision max-N_fert_H 2) ", stdev(N_fert_H) = " (precision stdev-N_fert_H 2))
+;end
+;To Show-P_fert_H
+let mean-P_fert_H 0 let min-P_fert_H 0 let max-P_fert_H 0 let Stdev-P_fert_H 0
+set mean-P_fert_H mean [P_fert_H] of turtles with [P_fert_H > 0]
+set min-P_fert_H min [P_fert_H] of turtles with [P_fert_H > 0]
+set max-P_fert_H max [P_fert_H] of turtles with [P_fert_H > 0]
+set stdev-P_fert_H standard-deviation [P_fert_H] of turtles with [P_fert_H > 0]
+show (word "mean(P_fert_H) = " (precision mean-P_fert_H 2) ", min(P_fert_H) = " (precision min-P_fert_H 2) ", max(P_fert_H) = " (precision max-P_fert_H 2) ", stdev(P_fert_H) = " (precision stdev-P_fert_H 2))
+;end
+;To Show-N_orga_H
+let orga_plots% 0 let orga_plotsN 0 let orga_plots0 0
+let mean-N_orga_H 0 let min-N_orga_H 0 let max-N_orga_H 0 let Stdev-N_orga_H 0
+set orga_plots% count turtles with [N_orga_H > 0] / count turtles with [N_orga_H > -999]
+set orga_plotsN count turtles with [N_orga_H > 0]
+set orga_plots0 count turtles with [N_orga_H = 0]
+set mean-N_orga_H mean [N_orga_H] of turtles with [N_orga_H > 0]
+set min-N_orga_H min [N_orga_H] of turtles with [N_orga_H > 0]
+set max-N_orga_H max [N_orga_H] of turtles with [N_orga_H > 0]
+set stdev-N_orga_H standard-deviation [N_orga_H] of turtles with [N_orga_H > 0]
+show (word "count(orga) = "(orga_plotsN)", no(orga) = "(orga_plots0)", proportion(orga) = "(precision orga_plots% 2))
+show (word "mean(N_orga_H) = " (precision mean-N_orga_H 2) ", min(N_orga_H) = " (precision min-N_orga_H 2) ", max(N_orga_H) = " (precision max-N_orga_H 2) ", stdev(N_orga_H) = " (precision stdev-N_orga_H 2))
+;end
+;To Show-P_orga_H
+let mean-P_orga_H 0 let min-P_orga_H 0 let max-P_orga_H 0 let Stdev-P_orga_H 0
+set mean-P_orga_H mean [P_orga_H] of turtles with [P_orga_H > 0]
+set min-P_orga_H min [P_orga_H] of turtles with [P_orga_H > 0]
+set max-P_orga_H max [P_orga_H] of turtles with [P_orga_H > 0]
+set stdev-P_orga_H standard-deviation [P_orga_H] of turtles with [P_orga_H > 0]
+show (word "mean(P_orga_H) = " (precision mean-P_orga_H 2) ", min(P_orga_H) = " (precision min-P_orga_H 2) ", max(P_orga_H) = " (precision max-P_orga_H 2) ", stdev(P_orga_H) = " (precision stdev-P_orga_H 2))
+;end
+;To Show-K_orga_H
+let mean-K_orga_H 0 let min-K_orga_H 0 let max-K_orga_H 0 let Stdev-K_orga_H 0
+set mean-K_orga_H mean [K_orga_H] of turtles with [K_orga_H > 0]
+set min-K_orga_H min [K_orga_H] of turtles with [K_orga_H > 0]
+set max-K_orga_H max [K_orga_H] of turtles with [K_orga_H > 0]
+set stdev-K_orga_H standard-deviation [K_orga_H] of turtles with [K_orga_H > 0]
+show (word "mean(K_orga_H) = " (precision mean-K_orga_H 2) ", min(K_orga_H) = " (precision min-K_orga_H 2) ", max(K_orga_H) = " (precision max-K_orga_H 2) ", stdev(K_orga_H) = " (precision stdev-K_orga_H 2))
+;end    
+;To Show-N_fixed_H
+let fixed_plots% 0 let fixed_plotsN 0 let fixed_plots0 0
+let mean-N_fixed_H 0 let min-N_fixed_H 0 let max-N_fixed_H 0 let Stdev-N_fixed_H 0
+set fixed_plots% count turtles with [N_fixed_H > 0] / count turtles with [N_fixed_H > -999]
+set fixed_plotsN count turtles with [N_fixed_H > 0]
+set fixed_plots0 count turtles with [N_fixed_H = 0]
+set mean-N_fixed_H mean [N_fixed_H] of turtles with [N_fixed_H > 0]
+set min-N_fixed_H min [N_fixed_H] of turtles with [N_fixed_H > 0]
+set max-N_fixed_H max [N_fixed_H] of turtles with [N_fixed_H > 0]
+set stdev-N_fixed_H standard-deviation [N_fixed_H] of turtles with [N_fixed_H > 0]
+show (word "count(fixed) = "(fixed_plotsN)", no(fixed) = "(fixed_plots0)", proportion(fixed) = "(precision fixed_plots% 2))
+show (word "mean(N_fixed_H) = " (precision mean-N_fixed_H 2) ", min(N_fixed_H) = " (precision min-N_fixed_H 2) ", max(N_fixed_H) = " (precision max-N_fixed_H 2) ", stdev(N_fixed_H) = " (precision stdev-N_fixed_H 2))
+;end
+;To Show-Nut_sedi_H
+let sedi_plots% 0 let sedi_plotsN 0 let sedi_plots0 0
+let mean-N_sedi_H 0 let min-N_sedi_H 0 let max-N_sedi_H 0 let Stdev-N_sedi_H 0
+set sedi_plots% count turtles with [N_sedi_H > 0] / count turtles with [N_sedi_H > -999]
+set sedi_plotsN count turtles with [N_sedi_H > 0]
+set sedi_plots0 count turtles with [N_sedi_H = 0]
+set mean-N_sedi_H mean [N_sedi_H] of turtles with [N_sedi_H > 0]
+set min-N_sedi_H min [N_sedi_H] of turtles with [N_sedi_H > 0]
+set max-N_sedi_H max [N_sedi_H] of turtles with [N_sedi_H > 0]
+set stdev-N_sedi_H standard-deviation [N_sedi_H] of turtles with [N_sedi_H > 0]
+show (word "count(sedi) = "(sedi_plotsN)", no(sedi) = "(sedi_plots0)", proportion(sedi) = "(precision sedi_plots% 2))
+show (word "mean(N_sedi_H) = " (precision mean-N_sedi_H 2) ", min(N_sedi_H) = " (precision min-N_sedi_H 2) ", max(N_sedi_H) = " (precision max-N_sedi_H 2) ", stdev(N_sedi_H) = " (precision stdev-N_sedi_H 2))
+let mean-P_sedi_H 0 let min-P_sedi_H 0 let max-P_sedi_H 0 let Stdev-P_sedi_H 0
+set mean-P_sedi_H mean [P_sedi_H] of turtles with [P_sedi_H > 0]
+set min-P_sedi_H min [P_sedi_H] of turtles with [P_sedi_H > 0]
+set max-P_sedi_H max [P_sedi_H] of turtles with [P_sedi_H > 0]
+set stdev-P_sedi_H standard-deviation [P_sedi_H] of turtles with [P_sedi_H > 0]
+show (word "mean(P_sedi_H) = " (precision mean-P_sedi_H 2) ", min(P_sedi_H) = " (precision min-P_sedi_H 2) ", max(P_sedi_H) = " (precision max-P_sedi_H 2) ", stdev(P_sedi_H) = " (precision stdev-P_sedi_H 2))
+let mean-K_sedi_H 0 let min-K_sedi_H 0 let max-K_sedi_H 0 let Stdev-K_sedi_H 0
+set mean-K_sedi_H mean [K_sedi_H] of turtles with [K_sedi_H > 0]
+set min-K_sedi_H min [K_sedi_H] of turtles with [K_sedi_H > 0]
+set max-K_sedi_H max [K_sedi_H] of turtles with [K_sedi_H > 0]
+set stdev-K_sedi_H standard-deviation [K_sedi_H] of turtles with [K_sedi_H > 0]
+show (word "mean(K_sedi_H) = " (precision mean-K_sedi_H 2) ", min(K_sedi_H) = " (precision min-K_sedi_H 2) ", max(K_sedi_H) = " (precision max-K_sedi_H 2) ", stdev(K_sedi_H) = " (precision stdev-K_sedi_H 2))
+;end
+;To Show-N_depo_H
+let depo_plots% 0 let depo_plotsN 0 let depo_plots0 0
+let mean-N_depo_H 0 let min-N_depo_H 0 let max-N_depo_H 0 let Stdev-N_depo_H 0
+set depo_plots% count turtles with [N_depo_H > 0] / count turtles with [N_depo_H > -999]
+set depo_plotsN count turtles with [N_depo_H > 0]
+set depo_plots0 count turtles with [N_depo_H = 0]
+set mean-N_depo_H mean [N_depo_H] of turtles with [N_depo_H > 0]
+set min-N_depo_H min [N_depo_H] of turtles with [N_depo_H > 0]
+set max-N_depo_H max [N_depo_H] of turtles with [N_depo_H > 0]
+set stdev-N_depo_H standard-deviation [N_depo_H] of turtles with [N_depo_H > 0]
+show (word "count(depo) = "(depo_plotsN)", no(depo) = "(depo_plots0)", proportion(depo) = "(precision depo_plots% 2))
+show (word "mean(N_depo_H) = " (precision mean-N_depo_H 2) ", min(N_depo_H) = " (precision min-N_depo_H 2) ", max(N_depo_H) = " (precision max-N_depo_H 2) ", stdev(N_depo_H) = " (precision stdev-N_depo_H 2))
+;end
+;To Show-P_depo_H
+let mean-P_depo_H 0 let min-P_depo_H 0 let max-P_depo_H 0 let Stdev-P_depo_H 0
+set mean-P_depo_H mean [P_depo_H] of turtles with [P_depo_H > 0]
+set min-P_depo_H min [P_depo_H] of turtles with [P_depo_H > 0]
+set max-P_depo_H max [P_depo_H] of turtles with [P_depo_H > 0]
+set stdev-P_depo_H standard-deviation [P_depo_H] of turtles with [P_depo_H > 0]
+show (word "mean(P_depo_H) = " (precision mean-P_depo_H 2) ", min(P_depo_H) = " (precision min-P_depo_H 2) ", max(P_depo_H) = " (precision max-P_depo_H 2) ", stdev(P_depo_H) = " (precision stdev-P_depo_H 2))
+;end
+;To Show-K_depo_H
+let mean-K_depo_H 0 let min-K_depo_H 0 let max-K_depo_H 0 let Stdev-K_depo_H 0
+set mean-K_depo_H mean [K_depo_H] of turtles with [K_depo_H > 0]
+set min-K_depo_H min [K_depo_H] of turtles with [K_depo_H > 0]
+set max-K_depo_H max [K_depo_H] of turtles with [K_depo_H > 0]
+set stdev-K_depo_H standard-deviation [K_depo_H] of turtles with [K_depo_H > 0]
+show (word "mean(K_depo_H) = " (precision mean-K_depo_H 2) ", min(K_depo_H) = " (precision min-K_depo_H 2) ", max(K_depo_H) = " (precision max-K_depo_H 2) ", stdev(K_depo_H) = " (precision stdev-K_depo_H 2))
+
+let cropP_plots% 0 let cropP_plotsN 0 let cropP_plots0 0
+let mean-N_cropP_H 0 let min-N_cropP_H 0 let max-N_cropP_H 0 let Stdev-N_cropP_H 0
+set cropP_plots% count turtles with [N_cropP_H > 0] / count turtles with [N_cropP_H > -999]
+set cropP_plotsN count turtles with [N_cropP_H > 0]
+set cropP_plots0 count turtles with [N_cropP_H = 0]
+set mean-N_cropP_H mean [N_cropP_H] of turtles with [N_cropP_H > 0]
+set min-N_cropP_H min [N_cropP_H] of turtles with [N_cropP_H > 0]
+set max-N_cropP_H max [N_cropP_H] of turtles with [N_cropP_H > 0]
+set stdev-N_cropP_H standard-deviation [N_cropP_H] of turtles with [N_cropP_H > 0]
+show (word "count(cropP) = "(cropP_plotsN)", no(cropP) = "(cropP_plots0)", proportion(cropP) = "(precision cropP_plots% 2))
+show (word "mean(N_cropP_H) = " (precision mean-N_cropP_H 2) ", min(N_cropP_H) = " (precision min-N_cropP_H 2) ", max(N_cropP_H) = " (precision max-N_cropP_H 2) ", stdev(N_cropP_H) = " (precision stdev-N_cropP_H 2))
+let mean-P_cropP_H 0 let min-P_cropP_H 0 let max-P_cropP_H 0 let Stdev-P_cropP_H 0
+set mean-P_cropP_H mean [P_cropP_H] of turtles with [P_cropP_H > 0]
+set min-P_cropP_H min [P_cropP_H] of turtles with [P_cropP_H > 0]
+set max-P_cropP_H max [P_cropP_H] of turtles with [P_cropP_H > 0]
+set stdev-P_cropP_H standard-deviation [P_cropP_H] of turtles with [P_cropP_H > 0]
+show (word "mean(P_cropP_H) = " (precision mean-P_cropP_H 2) ", min(P_cropP_H) = " (precision min-P_cropP_H 2) ", max(P_cropP_H) = " (precision max-P_cropP_H 2) ", stdev(P_cropP_H) = " (precision stdev-P_cropP_H 2))
+let mean-K_cropP_H 0 let min-K_cropP_H 0 let max-K_cropP_H 0 let Stdev-K_cropP_H 0
+set mean-K_cropP_H mean [K_cropP_H] of turtles with [K_cropP_H > 0]
+set min-K_cropP_H min [K_cropP_H] of turtles with [K_cropP_H > 0]
+set max-K_cropP_H max [K_cropP_H] of turtles with [K_cropP_H > 0]
+set stdev-K_cropP_H standard-deviation [K_cropP_H] of turtles with [K_cropP_H > 0]
+show (word "mean(K_cropP_H) = " (precision mean-K_cropP_H 2) ", min(K_cropP_H) = " (precision min-K_cropP_H 2) ", max(K_cropP_H) = " (precision max-K_cropP_H 2) ", stdev(K_cropP_H) = " (precision stdev-K_cropP_H 2))
+let cropR_plots% 0 let cropR_plotsN 0 let cropR_plots0 0
+let mean-N_cropR_Hout 0 let min-N_cropR_Hout 0 let max-N_cropR_Hout 0 let Stdev-N_cropR_Hout 0
+set cropR_plots% count turtles with [N_cropR_Hout > 0] / count turtles with [N_cropR_Hout > -999]
+set cropR_plotsN count turtles with [N_cropR_Hout > 0]
+set cropR_plots0 count turtles with [N_cropR_Hout = 0]
+set mean-N_cropR_Hout mean [N_cropR_Hout] of turtles with [N_cropR_Hout > 0]
+set min-N_cropR_Hout min [N_cropR_Hout] of turtles with [N_cropR_Hout > 0]
+set max-N_cropR_Hout max [N_cropR_Hout] of turtles with [N_cropR_Hout > 0]
+set stdev-N_cropR_Hout standard-deviation [N_cropR_Hout] of turtles with [N_cropR_Hout > 0]
+show (word "count(cropR) = "(cropR_plotsN)", no(cropR) = "(cropR_plots0)", proportion(cropR) = "(precision cropR_plots% 2))
+show (word "mean(N_cropR_Hout) = " (precision mean-N_cropR_Hout 2) ", min(N_cropR_Hout) = " (precision min-N_cropR_Hout 2) ", max(N_cropR_Hout) = " (precision max-N_cropR_Hout 2) ", stdev(N_cropR_Hout) = " (precision stdev-N_cropR_Hout 2))
+let mean-P_cropR_Hout 0 let min-P_cropR_Hout 0 let max-P_cropR_Hout 0 let Stdev-P_cropR_Hout 0
+set mean-P_cropR_Hout mean [P_cropR_Hout] of turtles with [P_cropR_Hout > 0]
+set min-P_cropR_Hout min [P_cropR_Hout] of turtles with [P_cropR_Hout > 0]
+set max-P_cropR_Hout max [P_cropR_Hout] of turtles with [P_cropR_Hout > 0]
+set stdev-P_cropR_Hout standard-deviation [P_cropR_Hout] of turtles with [P_cropR_Hout > 0]
+show (word "mean(P_cropR_Hout) = " (precision mean-P_cropR_Hout 2) ", min(P_cropR_Hout) = " (precision min-P_cropR_Hout 2) ", max(P_cropR_Hout) = " (precision max-P_cropR_Hout 2) ", stdev(P_cropR_Hout) = " (precision stdev-P_cropR_Hout 2))
+let mean-K_cropR_Hout 0 let min-K_cropR_Hout 0 let max-K_cropR_Hout 0 let Stdev-K_cropR_Hout 0
+set mean-K_cropR_Hout mean [K_cropR_Hout] of turtles with [K_cropR_Hout > 0]
+set min-K_cropR_Hout min [K_cropR_Hout] of turtles with [K_cropR_Hout > 0]
+set max-K_cropR_Hout max [K_cropR_Hout] of turtles with [K_cropR_Hout > 0]
+set stdev-K_cropR_Hout standard-deviation [K_cropR_Hout] of turtles with [K_cropR_Hout > 0]
+show (word "mean(K_cropR_Hout) = " (precision mean-K_cropR_Hout 2) ", min(K_cropR_Hout) = " (precision min-K_cropR_Hout 2) ", max(K_cropR_Hout) = " (precision max-K_cropR_Hout 2) ", stdev(K_cropR_Hout) = " (precision stdev-K_cropR_Hout 2))
+ 
+;To Show-N_eroded_H
+let eroded_plots% 0 let eroded_plotsN 0 let eroded_plots0 0
+let mean-N_eroded_H 0 let min-N_eroded_H 0 let max-N_eroded_H 0 let Stdev-N_eroded_H 0
+set eroded_plots% count turtles with [N_eroded_H > 0] / count turtles with [N_eroded_H > -999]
+set eroded_plotsN count turtles with [N_eroded_H > 0]
+set eroded_plots0 count turtles with [N_eroded_H = 0]
+set mean-N_eroded_H mean [N_eroded_H] of turtles with [N_eroded_H > 0]
+set min-N_eroded_H min [N_eroded_H] of turtles with [N_eroded_H > 0]
+set max-N_eroded_H max [N_eroded_H] of turtles with [N_eroded_H > 0]
+set stdev-N_eroded_H standard-deviation [N_eroded_H] of turtles with [N_eroded_H > 0]
+show (word "count(eroded) = "(eroded_plotsN)", no(eroded) = "(eroded_plots0)", proportion(eroded) = "(precision eroded_plots% 2))
+show (word "mean(N_eroded_H) = " (precision mean-N_eroded_H 2) ", min(N_eroded_H) = " (precision min-N_eroded_H 2) ", max(N_eroded_H) = " (precision max-N_eroded_H 2) ", stdev(N_eroded_H) = " (precision stdev-N_eroded_H 2))
+;end
+;To Show-P_eroded_H
+let mean-P_eroded_H 0 let min-P_eroded_H 0 let max-P_eroded_H 0 let Stdev-P_eroded_H 0
+set mean-P_eroded_H mean [P_eroded_H] of turtles with [P_eroded_H > 0]
+set min-P_eroded_H min [P_eroded_H] of turtles with [P_eroded_H > 0]
+set max-P_eroded_H max [P_eroded_H] of turtles with [P_eroded_H > 0]
+set stdev-P_eroded_H standard-deviation [P_eroded_H] of turtles with [P_eroded_H > 0]
+show (word "mean(P_eroded_H) = " (precision mean-P_eroded_H 2) ", min(P_eroded_H) = " (precision min-P_eroded_H 2) ", max(P_eroded_H) = " (precision max-P_eroded_H 2) ", stdev(P_eroded_H) = " (precision stdev-P_eroded_H 2))
+;end
+;To Show-K_eroded_H
+let mean-K_eroded_H 0 let min-K_eroded_H 0 let max-K_eroded_H 0 let Stdev-K_eroded_H 0
+set mean-K_eroded_H mean [K_eroded_H] of turtles with [K_eroded_H > 0]
+set min-K_eroded_H min [K_eroded_H] of turtles with [K_eroded_H > 0]
+set max-K_eroded_H max [K_eroded_H] of turtles with [K_eroded_H > 0]
+set stdev-K_eroded_H standard-deviation [K_eroded_H] of turtles with [K_eroded_H > 0]
+show (word "mean(K_eroded_H) = " (precision mean-K_eroded_H 2) ", min(K_eroded_H) = " (precision min-K_eroded_H 2) ", max(K_eroded_H) = " (precision max-K_eroded_H 2) ", stdev(K_eroded_H) = " (precision stdev-K_eroded_H 2))
+;To Show-N_leached_H
+let leached_plots% 0 let leached_plotsN 0 let leached_plots0 0
+let mean-N_leached_H 0 let min-N_leached_H 0 let max-N_leached_H 0 let Stdev-N_leached_H 0
+set leached_plots% count turtles with [N_leached_H > 0] / count turtles with [N_leached_H > -999]
+set leached_plotsN count turtles with [N_leached_H > 0]
+set leached_plots0 count turtles with [N_leached_H = 0]
+set mean-N_leached_H mean [N_leached_H] of turtles with [N_leached_H > 0]
+set min-N_leached_H min [N_leached_H] of turtles with [N_leached_H > 0]
+set max-N_leached_H max [N_leached_H] of turtles with [N_leached_H > 0]
+set stdev-N_leached_H standard-deviation [N_leached_H] of turtles with [N_leached_H > 0]
+show (word "count(leached) = "(leached_plotsN)", no(leached) = "(leached_plots0)", proportion(leached) = "(precision leached_plots% 2))
+show (word "mean(N_leached_H) = " (precision mean-N_leached_H 2) ", min(N_leached_H) = " (precision min-N_leached_H 2) ", max(N_leached_H) = " (precision max-N_leached_H 2) ", stdev(N_leached_H) = " (precision stdev-N_leached_H 2))
+;end
+;To Show-K_leached_H
+let mean-K_leached_H 0 let min-K_leached_H 0 let max-K_leached_H 0 let Stdev-K_leached_H 0
+set mean-K_leached_H mean [K_leached_H] of turtles with [K_leached_H > 0]
+set min-K_leached_H min [K_leached_H] of turtles with [K_leached_H > 0]
+set max-K_leached_H max [K_leached_H] of turtles with [K_leached_H > 0]
+set stdev-K_leached_H standard-deviation [K_leached_H] of turtles with [K_leached_H > 0]
+show (word "mean(K_leached_H) = " (precision mean-K_leached_H 2) ", min(K_leached_H) = " (precision min-K_leached_H 2) ", max(K_leached_H) = " (precision max-K_leached_H 2) ", stdev(K_leached_H) = " (precision stdev-K_leached_H 2))
+
+  ;To Show-N_gase_H
+let gase_plots% 0 let gase_plotsN 0 let gase_plots0 0
+let mean-N_gase_H 0 let min-N_gase_H 0 let max-N_gase_H 0 let Stdev-N_gase_H 0
+set gase_plots% count turtles with [N_gase_H > 0] / count turtles with [N_gase_H > -999]
+set gase_plotsN count turtles with [N_gase_H > 0]
+set gase_plots0 count turtles with [N_gase_H = 0]
+set mean-N_gase_H mean [N_gase_H] of turtles with [N_gase_H > 0]
+set min-N_gase_H min [N_gase_H] of turtles with [N_gase_H > 0]
+set max-N_gase_H max [N_gase_H] of turtles with [N_gase_H > 0]
+set stdev-N_gase_H standard-deviation [N_gase_H] of turtles with [N_gase_H > 0]
+show (word "count(gase) = "(gase_plotsN)", no(gase) = "(gase_plots0)", proportion(gase) = "(precision gase_plots% 2))
+show (word "mean(N_gase_H) = " (precision mean-N_gase_H 2) ", min(N_gase_H) = " (precision min-N_gase_H 2) ", max(N_gase_H) = " (precision max-N_gase_H 2) ", stdev(N_gase_H) = " (precision stdev-N_gase_H 2))
+
+let N_in% 0 let N_inN 0 let N_in0 0
+let mean-N_in_H 0 let min-N_in_H 0 let max-N_in_H 0 let Stdev-N_in_H 0
+set N_in% count turtles  / count turtles with [N_in_H > -999]
+set N_inN count turtles 
+set N_in0 count turtles with [N_in_H = 0]
+set mean-N_in_H mean [N_in_H] of turtles 
+set min-N_in_H min [N_in_H] of turtles 
+set max-N_in_H max [N_in_H] of turtles 
+set stdev-N_in_H standard-deviation [N_in_H] of turtles 
+show (word "count(N) = "(N_inN)", no(N) = "(N_in0)", proportion(N) = "(precision N_in% 2))
+show (word "mean(N_in_H) = " (precision mean-N_in_H 2) ", min(N_in_H) = " (precision min-N_in_H 2) ", max(N_in_H) = " (precision max-N_in_H 2) ", stdev(N_in_H) = " (precision stdev-N_in_H 2))
+
+let N_out% 0 let N_outN 0 let N_out0 0
+let mean-N_out_H 0 let mout-N_out_H 0 let max-N_out_H 0 let Stdev-N_out_H 0
+set N_out% count turtles  / count turtles with [N_out_H > -999]
+set N_outN count turtles 
+set N_out0 count turtles with [N_out_H = 0]
+set mean-N_out_H mean [N_out_H] of turtles 
+set mout-N_out_H min [N_out_H] of turtles 
+set max-N_out_H max [N_out_H] of turtles 
+set stdev-N_out_H standard-deviation [N_out_H] of turtles 
+show (word "count(N) = "(N_outN)", no(N) = "(N_out0)", proportion(N) = "(precision N_out% 2))
+show (word "mean(N_out_H) = " (precision mean-N_out_H 2) ", mout(N_out_H) = " (precision mout-N_out_H 2) ", max(N_out_H) = " (precision max-N_out_H 2) ", stdev(N_out_H) = " (precision stdev-N_out_H 2))
+
+let N_balance% 0 let N_balanceN 0 let N_balance0 0
+let mean-N_balance_H 0 let mbalance-N_balance_H 0 let max-N_balance_H 0 let Stdev-N_balance_H 0
+set N_balance% count turtles  / count turtles with [N_balance-H > -999]
+set N_balanceN count turtles 
+set N_balance0 count turtles with [N_balance-H = 0]
+set mean-N_balance_H mean [N_balance-H] of turtles 
+set mbalance-N_balance_H min [N_balance-H] of turtles 
+set max-N_balance_H max [N_balance-H] of turtles 
+set stdev-N_balance_H standard-deviation [N_balance-H] of turtles 
+show (word "count(N) = "(N_balanceN)", no(N) = "(N_balance0)", proportion(N) = "(precision N_balance% 2))
+show (word "mean(N_balance_H) = " (precision mean-N_balance_H 2) ", mbalance(N_balance_H) = " (precision mbalance-N_balance_H 2) ", max(N_balance_H) = " (precision max-N_balance_H 2) ", stdev(N_balance_H) = " (precision stdev-N_balance_H 2))
+  
+let P_in% 0 let P_inN 0 let P_in0 0
+let mean-P_in_H 0 let min-P_in_H 0 let max-P_in_H 0 let Stdev-P_in_H 0
+set P_in% count turtles  / count turtles with [P_in_H > -999]
+set P_inN count turtles 
+set P_in0 count turtles with [P_in_H = 0]
+set mean-P_in_H mean [P_in_H] of turtles 
+set min-P_in_H min [P_in_H] of turtles 
+set max-P_in_H max [P_in_H] of turtles 
+set stdev-P_in_H standard-deviation [P_in_H] of turtles 
+show (word "count(P) = "(P_inN)", no(P) = "(P_in0)", proportion(P) = "(precision P_in% 2))
+show (word "mean(P_in_H) = " (precision mean-P_in_H 2) ", min(P_in_H) = " (precision min-P_in_H 2) ", max(P_in_H) = " (precision max-P_in_H 2) ", stdev(P_in_H) = " (precision stdev-P_in_H 2))
+
+let P_out% 0 let P_outN 0 let P_out0 0
+let mean-P_out_H 0 let min-P_out_H 0 let max-P_out_H 0 let Stdev-P_out_H 0
+set P_out% count turtles  / count turtles with [P_out_H > -999]
+set P_outN count turtles 
+set P_out0 count turtles with [P_out_H = 0]
+set mean-P_out_H mean [P_out_H] of turtles 
+set min-P_out_H min [P_out_H] of turtles 
+set max-P_out_H max [P_out_H] of turtles 
+set stdev-P_out_H standard-deviation [P_out_H] of turtles 
+show (word "count(P) = "(P_outN)", no(P) = "(P_out0)", proportion(P) = "(precision P_out% 2))
+show (word "mean(P_out_H) = " (precision mean-P_out_H 2) ", min(P_out_H) = " (precision min-P_out_H 2) ", max(P_out_H) = " (precision max-P_out_H 2) ", stdev(P_out_H) = " (precision stdev-P_out_H 2))
+
+let P_balance% 0 let P_balanceN 0 let P_balance0 0
+let mean-P_balance_H 0 let min-P_balance_H 0 let max-P_balance_H 0 let Stdev-P_balance_H 0
+set P_balance% count turtles  / count turtles with [P_balance-H > -999]
+set P_balanceN count turtles 
+set P_balance0 count turtles with [P_balance-H = 0]
+set mean-P_balance_H mean [P_balance-H] of turtles 
+set min-P_balance_H min [P_balance-H] of turtles 
+set max-P_balance_H max [P_balance-H] of turtles 
+set stdev-P_balance_H standard-deviation [P_balance-H] of turtles 
+show (word "count(P) = "(P_balanceN)", no(P) = "(P_balance0)", proportion(P) = "(precision P_balance% 2))
+show (word "mean(P_balance_H) = " (precision mean-P_balance_H 2) ", min(P_balance_H) = " (precision min-P_balance_H 2) ", max(P_balance_H) = " (precision max-P_balance_H 2) ", stdev(P_balance_H) = " (precision stdev-P_balance_H 2))
+  
+let K_in% 0 let K_inN 0 let K_in0 0
+let mean-K_in_H 0 let min-K_in_H 0 let max-K_in_H 0 let Stdev-K_in_H 0
+set K_in% count turtles  / count turtles with [K_in_H > -999]
+set K_inN count turtles 
+set K_in0 count turtles with [K_in_H = 0]
+set mean-K_in_H mean [K_in_H] of turtles 
+set min-K_in_H min [K_in_H] of turtles 
+set max-K_in_H max [K_in_H] of turtles 
+set stdev-K_in_H standard-deviation [K_in_H] of turtles 
+show (word "count(K) = "(K_inN)", no(K) = "(K_in0)", proportion(K) = "(precision K_in% 2))
+show (word "mean(K_in_H) = " (precision mean-K_in_H 2) ", min(K_in_H) = " (precision min-K_in_H 2) ", max(K_in_H) = " (precision max-K_in_H 2) ", stdev(K_in_H) = " (precision stdev-K_in_H 2))
+
+let K_out% 0 let K_outN 0 let K_out0 0
+let mean-K_out_H 0 let min-K_out_H 0 let max-K_out_H 0 let Stdev-K_out_H 0
+set K_out% count turtles  / count turtles with [K_out_H > -999]
+set K_outN count turtles 
+set K_out0 count turtles with [K_out_H = 0]
+set mean-K_out_H mean [K_out_H] of turtles 
+set min-K_out_H min [K_out_H] of turtles 
+set max-K_out_H max [K_out_H] of turtles 
+set stdev-K_out_H standard-deviation [K_out_H] of turtles 
+show (word "count(K) = "(K_outN)", no(K) = "(K_out0)", proportion(K) = "(precision K_out% 2))
+show (word "mean(K_out_H) = " (precision mean-K_out_H 2) ", min(K_out_H) = " (precision min-K_out_H 2) ", max(K_out_H) = " (precision max-K_out_H 2) ", stdev(K_out_H) = " (precision stdev-K_out_H 2))
+
+let K_balance% 0 let K_balanceN 0 let K_balance0 0
+let mean-K_balance_H 0 let min-K_balance_H 0 let max-K_balance_H 0 let Stdev-K_balance_H 0
+set K_balance% count turtles  / count turtles with [K_balance-H > -999]
+set K_balanceN count turtles 
+set K_balance0 count turtles with [K_balance-H = 0]
+set mean-K_balance_H mean [K_balance-H] of turtles 
+set min-K_balance_H min [K_balance-H] of turtles 
+set max-K_balance_H max [K_balance-H] of turtles 
+set stdev-K_balance_H standard-deviation [K_balance-H] of turtles 
+show (word "count(K) = "(K_balanceN)", no(K) = "(K_balance0)", proportion(K) = "(precision K_balance% 2))
+show (word "mean(K_balance_H) = " (precision mean-K_balance_H 2) ", min(K_balance_H) = " (precision min-K_balance_H 2) ", max(K_balance_H) = " (precision max-K_balance_H 2) ", stdev(K_balance_H) = " (precision stdev-K_balance_H 2))
+    
+let mean-N_balance_Hc1 0 let min-N_balance_Hc1 0 let max-N_balance_Hc1 0 let Stdev-N_balance_Hc1 0
+set mean-N_balance_Hc1 mean [N_balance-H] of turtles with [hclus = 1]
+set min-N_balance_Hc1 min [N_balance-H] of turtles with [hclus = 1]
+set max-N_balance_Hc1 max [N_balance-H] of turtles with [hclus = 1]
+set stdev-N_balance_Hc1 standard-deviation [N_balance-H] of turtles with [hclus = 1]
+show (word "mean(N_balance_Hc1) = " (precision mean-N_balance_Hc1 2) ", min(N_balance_Hc1) = " (precision min-N_balance_Hc1 2) ", max(N_balance_Hc1) = " (precision max-N_balance_Hc1 2) ", stdev(N_balance_Hc1) = " (precision stdev-N_balance_Hc1 2)) 
+ 
+let mean-N_balance_Hc2 0 let min-N_balance_Hc2 0 let max-N_balance_Hc2 0 let Stdev-N_balance_Hc2 0
+set mean-N_balance_Hc2 mean [N_balance-H] of turtles with [hclus = 2]
+set min-N_balance_Hc2 min [N_balance-H] of turtles with [hclus = 2]
+set max-N_balance_Hc2 max [N_balance-H] of turtles with [hclus = 2]
+set stdev-N_balance_Hc2 standard-deviation [N_balance-H] of turtles with [hclus = 2]
+show (word "mean(N_balance_Hc2) = " (precision mean-N_balance_Hc2 2) ", min(N_balance_Hc2) = " (precision min-N_balance_Hc2 2) ", max(N_balance_Hc2) = " (precision max-N_balance_Hc2 2) ", stdev(N_balance_Hc2) = " (precision stdev-N_balance_Hc2 2)) 
+
+let mean-N_balance_Hc3 0 let min-N_balance_Hc3 0 let max-N_balance_Hc3 0 let Stdev-N_balance_Hc3 0
+set mean-N_balance_Hc3 mean [N_balance-H] of turtles with [hclus = 3]
+set min-N_balance_Hc3 min [N_balance-H] of turtles with [hclus = 3]
+set max-N_balance_Hc3 max [N_balance-H] of turtles with [hclus = 3]
+set stdev-N_balance_Hc3 standard-deviation [N_balance-H] of turtles with [hclus = 3]
+show (word "mean(N_balance_Hc3) = " (precision mean-N_balance_Hc3 2) ", min(N_balance_Hc3) = " (precision min-N_balance_Hc3 2) ", max(N_balance_Hc3) = " (precision max-N_balance_Hc3 2) ", stdev(N_balance_Hc3) = " (precision stdev-N_balance_Hc3 2)) 
+  
+  
+let mean-P_balance_Hc1 0 let min-P_balance_Hc1 0 let max-P_balance_Hc1 0 let Stdev-P_balance_Hc1 0
+set mean-P_balance_Hc1 mean [P_balance-H] of turtles with [hclus = 1]
+set min-P_balance_Hc1 min [P_balance-H] of turtles with [hclus = 1]
+set max-P_balance_Hc1 max [P_balance-H] of turtles with [hclus = 1]
+set stdev-P_balance_Hc1 standard-deviation [P_balance-H] of turtles with [hclus = 1]
+show (word "mean(P_balance_Hc1) = " (precision mean-P_balance_Hc1 2) ", min(P_balance_Hc1) = " (precision min-P_balance_Hc1 2) ", max(P_balance_Hc1) = " (precision max-P_balance_Hc1 2) ", stdev(P_balance_Hc1) = " (precision stdev-P_balance_Hc1 2)) 
+ 
+let mean-P_balance_Hc2 0 let min-P_balance_Hc2 0 let max-P_balance_Hc2 0 let Stdev-P_balance_Hc2 0
+set mean-P_balance_Hc2 mean [P_balance-H] of turtles with [hclus = 2]
+set min-P_balance_Hc2 min [P_balance-H] of turtles with [hclus = 2]
+set max-P_balance_Hc2 max [P_balance-H] of turtles with [hclus = 2]
+set stdev-P_balance_Hc2 standard-deviation [P_balance-H] of turtles with [hclus = 2]
+show (word "mean(P_balance_Hc2) = " (precision mean-P_balance_Hc2 2) ", min(P_balance_Hc2) = " (precision min-P_balance_Hc2 2) ", max(P_balance_Hc2) = " (precision max-P_balance_Hc2 2) ", stdev(P_balance_Hc2) = " (precision stdev-P_balance_Hc2 2)) 
+
+let mean-P_balance_Hc3 0 let min-P_balance_Hc3 0 let max-P_balance_Hc3 0 let Stdev-P_balance_Hc3 0
+set mean-P_balance_Hc3 mean [P_balance-H] of turtles with [hclus = 3]
+set min-P_balance_Hc3 min [P_balance-H] of turtles with [hclus = 3]
+set max-P_balance_Hc3 max [P_balance-H] of turtles with [hclus = 3]
+set stdev-P_balance_Hc3 standard-deviation [P_balance-H] of turtles with [hclus = 3]
+show (word "mean(P_balance_Hc3) = " (precision mean-P_balance_Hc3 2) ", min(P_balance_Hc3) = " (precision min-P_balance_Hc3 2) ", max(P_balance_Hc3) = " (precision max-P_balance_Hc3 2) ", stdev(P_balance_Hc3) = " (precision stdev-P_balance_Hc3 2)) 
+
+let mean-K_balance_Hc1 0 let min-K_balance_Hc1 0 let max-K_balance_Hc1 0 let Stdev-K_balance_Hc1 0
+set mean-K_balance_Hc1 mean [K_balance-H] of turtles with [hclus = 1]
+set min-K_balance_Hc1 min [K_balance-H] of turtles with [hclus = 1]
+set max-K_balance_Hc1 max [K_balance-H] of turtles with [hclus = 1]
+set stdev-K_balance_Hc1 standard-deviation [K_balance-H] of turtles with [hclus = 1]
+show (word "mean(K_balance_Hc1) = " (precision mean-K_balance_Hc1 2) ", min(K_balance_Hc1) = " (precision min-K_balance_Hc1 2) ", max(K_balance_Hc1) = " (precision max-K_balance_Hc1 2) ", stdev(K_balance_Hc1) = " (precision stdev-K_balance_Hc1 2)) 
+ 
+let mean-K_balance_Hc2 0 let min-K_balance_Hc2 0 let max-K_balance_Hc2 0 let Stdev-K_balance_Hc2 0
+set mean-K_balance_Hc2 mean [K_balance-H] of turtles with [hclus = 2]
+set min-K_balance_Hc2 min [K_balance-H] of turtles with [hclus = 2]
+set max-K_balance_Hc2 max [K_balance-H] of turtles with [hclus = 2]
+set stdev-K_balance_Hc2 standard-deviation [K_balance-H] of turtles with [hclus = 2]
+show (word "mean(K_balance_Hc2) = " (precision mean-K_balance_Hc2 2) ", min(K_balance_Hc2) = " (precision min-K_balance_Hc2 2) ", max(K_balance_Hc2) = " (precision max-K_balance_Hc2 2) ", stdev(K_balance_Hc2) = " (precision stdev-K_balance_Hc2 2)) 
+
+let mean-K_balance_Hc3 0 let min-K_balance_Hc3 0 let max-K_balance_Hc3 0 let Stdev-K_balance_Hc3 0
+set mean-K_balance_Hc3 mean [K_balance-H] of turtles with [hclus = 3]
+set min-K_balance_Hc3 min [K_balance-H] of turtles with [hclus = 3]
+set max-K_balance_Hc3 max [K_balance-H] of turtles with [hclus = 3]
+set stdev-K_balance_Hc3 standard-deviation [K_balance-H] of turtles with [hclus = 3]
+show (word "mean(K_balance_Hc3) = " (precision mean-K_balance_Hc3 2) ", min(K_balance_Hc3) = " (precision min-K_balance_Hc3 2) ", max(K_balance_Hc3) = " (precision max-K_balance_Hc3 2) ", stdev(K_balance_Hc3) = " (precision stdev-K_balance_Hc3 2)) 
+  
+ 
+  
+end      
+   
+
+
+To Show-SDR ; temp not embeded
+let max-z max [SDR] of patches with [SDR > -999]
+let min-z min [SDR] of patches with [SDR > -999]
+ask patches with [SDR > -999]   [set pcolor scale-color Red SDR max-z min-z]
+ask patches with [SDR = -999]   [set pcolor grey]
+let mean-SDR 0 let min-SDR 0 let max-SDR 0 let Stdev-SDR 0
+set mean-SDR mean [SDR] of patches with [SDR > -999]
+set min-SDR min [SDR] of patches with [SDR > -999]
+set max-SDR max [SDR] of patches with [SDR > -999]
+set stdev-SDR standard-deviation [SDR] of patches with [SDR > -999]
+show (word "mean(SDR) = " (precision mean-SDR 2) ", min(SDR) = " (precision min-SDR 2) ", max(SDR) = " (precision max-SDR 2) ", stdev(SDR) = " (precision stdev-SDR 2))
+end
+To show-gully
+ask patches with [P_bound = 1][ ifelse gully = 1 [set pcolor Red ] [set pcolor grey]]
+End
+To show-soil&nutrient-eroded-stats
+show	(word "	EROSION	")																
+;	min-GSL	max-GSL	mean-GSL	sd-GSL															
+let	min-GSL	min [	GSL	] of patches with [	P_bound	 = 1]													
+let	max-GSL	max [	GSL	] of patches with [	P_bound	 = 1]													
+let	mean-GSL	mean [	GSL	] of patches with [	P_bound	 = 1]													
+let	sd-GSL	standard-deviation [	GSL	] of patches with [	P_bound	 = 1]													
+show	(word "min-GSL = " (precision	min-GSL	2) " , max-GSL = " (precision	max-GSL	2) " ,mean-GSL = " (precision	mean-GSL	2) " , sd-GSL = " (precision	sd-GSL	2))										
+let	GSL0-2	0	let	GSL2-10	0	let	GSL10-20	0	let	GSL20-30	0	let	GSL30-50	0					
+let	GSL50-80	0	let	 GSL80-200	0	let	GSL200-350	0	let	GSL>350	0	let	Patches#	count patches with [P_bound = 1]					
+set	GSL0-2	count patches with [	GSL	>	-999	and 	GSL	<	2000	and P_bound = 1	]	/  Patches# * 100							
+set	GSL2-10	count patches with [	GSL	>=	2000	and 	GSL	<	10000	and P_bound = 1	]	/  Patches# * 100							
+set	GSL10-20	count patches with [	GSL	>=	10000	and 	GSL	<	20000	and P_bound = 1	]	/  Patches# * 100							
+set	GSL20-30	count patches with [	GSL	>=	20000	and 	GSL	<	30000	and P_bound = 1	]	/  Patches# * 100							
+set	GSL30-50	count patches with [	GSL	>=	30000	and 	GSL	<	50000	and P_bound = 1	]	/  Patches# * 100							
+set	GSL50-80	count patches with [	GSL	>=	50000	and 	GSL	<	80000	and P_bound = 1	]	/  Patches# * 100							
+set	 GSL80-200	count patches with [	GSL	>=	80000	and 	GSL	<	200000	and P_bound = 1	]	/  Patches# * 100							
+set	GSL200-350	count patches with [	GSL	>=	200000	and 	GSL	<	350000	and P_bound = 1	]	/  Patches# * 100							
+set	GSL>350	count patches with [	GSL	>=	350000	and P_bound = 1	]					/  Patches# * 100							
+show	(word "	gloss soil loss	")																
+show	(word "0-2 = " (precision	GSL0-2	2) " , 2-10= " (precision	GSL2-10	2) " , 10-20 = " (precision	GSL10-20	2) " , 20-30 = " (precision	GSL20-30	2) " , 30-50 = " (precision	GSL30-50	2) " , 50-100 = " (precision	GSL50-80	2) " , 100-200 = " (precision	 GSL80-200	2) " , 200-350 = " (precision	GSL200-350	2) " , >350 = " (precision	GSL>350	2))
+;	min-NSL	max-NSL	mean-NSL	sd-NSL															
+let	min-NSL	min [	NSL	] of patches with [	P_bound	 = 1]													
+let	max-NSL	max [	NSL	] of patches with [	P_bound	 = 1]													
+let	mean-NSL	mean [	NSL	] of patches with [	P_bound	 = 1]													
+let	sd-NSL	standard-deviation [	NSL	] of patches with [	P_bound	 = 1]													
+show	(word "min-NSL = " (precision	min-NSL	2) " , max-NSL = " (precision	max-NSL	2) " ,mean-NSL = " (precision	mean-NSL	2) " , sd-NSL = " (precision	sd-NSL	2))										
+let	NSL0-2	0	let	NSL2-10	0	let	NSL10-20	0	let	NSL20-30	0	let	NSL30-50	0					
+let	NSL50-80	0	let	 NSL80-200	0	let	NSL200-350	0	let	NSL>350	0	;let	Patches#	count patches with [P_bound = 1]					
+set	NSL0-2	count patches with [	NSL	>	-999	and 	NSL	<	2000	and P_bound = 1	]	/  Patches# * 100							
+set	NSL2-10	count patches with [	NSL	>=	2000	and 	NSL	<	10000	and P_bound = 1	]	/  Patches# * 100							
+set	NSL10-20	count patches with [	NSL	>=	10000	and 	NSL	<	20000	and P_bound = 1	]	/  Patches# * 100							
+set	NSL20-30	count patches with [	NSL	>=	20000	and 	NSL	<	30000	and P_bound = 1	]	/  Patches# * 100							
+set	NSL30-50	count patches with [	NSL	>=	30000	and 	NSL	<	50000	and P_bound = 1	]	/  Patches# * 100							
+set	NSL50-80	count patches with [	NSL	>=	50000	and 	NSL	<	80000	and P_bound = 1	]	/  Patches# * 100							
+set	 NSL80-200	count patches with [	NSL	>=	80000	and 	NSL	<	200000	and P_bound = 1	]	/  Patches# * 100							
+set	NSL200-350	count patches with [	NSL	>=	200000	and 	NSL	<	350000	and P_bound = 1	]	/  Patches# * 100							
+set	NSL>350	count patches with [	NSL	>=	350000	and P_bound = 1	]					/  Patches# * 100							
+show	(word "	Net soil loss	")																
+show	(word "0-2 = " (precision	NSL0-2	2) " , 2-10= " (precision	NSL2-10	2) " , 10-20 = " (precision	NSL10-20	2) " , 20-30 = " (precision	NSL20-30	2) " , 30-50 = " (precision	NSL30-50	2) " , 50-80 = " (precision	NSL50-80	2) " , 80-200 = " (precision	 NSL80-200	2) " , 200-350 = " (precision	NSL200-350	2) " , >350 = " (precision	NSL>350	2))
+let	gully%	count patches with [	gully	=	1 ] / Patches# * 100
+show	 (word "	Gully areas	")		
+show	(word "gully%= "	gully%	)		
+show	(word " Mean Nutrients Eroded")								
+let	C_erod-x 	mean [	C_eroded	] of patches with [	P_bound	 = 1]			
+let	N_erod-x	mean [	N_eroded	] of patches with [	P_bound	 = 1]			
+let	P_erod-x	mean [	P_eroded	] of patches with [	P_bound	 = 1]			
+let	K_erod-x	mean [	K_eroded	] of patches with [	P_bound	 = 1]			
+show	(word "C_erod-x= " (precision	C_erod-x 	2) " , N_erod-x=" (precision	N_erod-x	2) " , P_erod-x=" (precision	P_erod-x	2) " , K_erod-x=" (precision	K_erod-x	2))
+End
+
+To nutrients-summary-stats
+  ask patches with [P_bound = 1]   [let BD_gravel_depth P_BD20gcm3 * 1000 * (1 - P_CoarsePer / 100) * 20
+   set P_SOC P_SOC% *  BD_gravel_depth ; kg C / ha
+   set P_N P_Nitrogen%  * BD_gravel_depth ; kg N / ha
+   set P_P P_Phosphorus_soil / 10000 * BD_gravel_depth ; kg P / ha
+   set P_K P_Potassium_soil / 10000 * BD_gravel_depth ;kg K / ha
+   set C:N P_SOC / P_N
+    set C:P P_SOC / P_P
+  ]
+
+  let min-SOC-kg min [P_SOC] of patches with [P_bound = 1]
+  let max-SOC-kg max [P_SOC] of patches with [P_bound = 1]
+  let mean-SOC-kg mean [P_SOC] of patches with [P_bound = 1]
+  let sd-SOC-kg standard-deviation [P_SOC] of patches with [P_bound = 1]
+  show (word "min-SOC-kg  =" min-SOC-kg ", max-SOC-kg  = " max-SOC-kg ", mean-SOC-kg  ="  mean-SOC-kg ", sd-SOC-kg  =" sd-SOC-kg)
+  
+  let min-N-kg min [P_N] of patches with [P_bound = 1]
+  let max-N-kg max [P_N] of patches with [P_bound = 1]
+  let mean-N-kg mean [P_N] of patches with [P_bound = 1]
+  let sd-N-kg standard-deviation [P_N] of patches with [P_bound = 1]
+  show (word "min-N-kg  =" min-N-kg ", max-N-kg  = " max-N-kg ", mean-N-kg  ="  mean-N-kg ", sd-N-kg  =" sd-N-kg)
+  
+  let min-P-kg min [P_P] of patches with [P_bound = 1]
+  let max-P-kg max [P_P] of patches with [P_bound = 1]
+  let mean-P-kg mean [P_P] of patches with [P_bound = 1]
+  let sd-P-kg standard-deviation [P_P] of patches with [P_bound = 1]
+  show (word "min-P-kg  =" min-P-kg ", max-P-kg  = " max-P-kg ", mean-P-kg  ="  mean-P-kg ", sd-P-kg  =" sd-P-kg)
+  
+  let min-K-kg min [P_K] of patches with [P_bound = 1]
+  let max-K-kg max [P_K] of patches with [P_bound = 1]
+  let mean-K-kg mean [P_K] of patches with [P_bound = 1]
+  let sd-K-kg standard-deviation [P_K] of patches with [P_bound = 1]
+  show (word "min-K-kg  =" min-K-kg ", max-K-kg  = " max-K-kg ", mean-K-kg  ="  mean-K-kg ", sd-K-kg  =" sd-K-kg)
+  
+  
+show (word ";------SOC")					 															
+			let	Patches#	count patches with [	P_bound	=	1	]											
+			;	min-SOC	max-SOC	mean-SOC	sd-SOC													
+			let	min-SOC	min [	P_SOC%	] of patches with [	P_bound	 = 1]											
+			let	max-SOC	max [	P_SOC%	] of patches with [	P_bound	 = 1]											
+			let	mean-SOC	mean [	P_SOC%	] of patches with [	P_bound	 = 1]											
+			let	sd-SOC	standard-deviation [	P_SOC%	] of patches with [	P_bound	 = 1]											
+			show	(word "min-SOC = " (precision	min-SOC	2) " , max-SOC = " (precision	max-SOC	2) " ,mean-SOC = " (precision	mean-SOC	2) " , sd-SOC = " (precision	sd-SOC	2))								
+			let	no-resp%	0	let	var-resp%	0	let	mod-resp%	0	let	opt-resp%	0	let	mostfert%	0	let	sufficient%	0
+			set	no-resp%	count patches with [	P_SOC%	>	-999	and 	P_SOC%	<	0.5	]	/ Patches# * 100						
+			set	var-resp%	count patches with [	P_SOC%	>=	0.5	and 	P_SOC%	<	0.7	]	/ Patches# * 100						
+			set	mod-resp%	count patches with [	P_SOC%	>=	0.7	and 	P_SOC%	<	1	]	/ Patches# * 100						
+			set	opt-resp%	count patches with [	P_SOC%	>=	1	and 	P_SOC%	<	1.5	]	/ Patches# * 100						
+			set	mostfert%	count patches with [	P_SOC%	>=	1.5	and 	P_SOC%	<	2	]	/ Patches# * 100						
+			set	sufficient%	count patches with [	P_SOC%	>	2	]					/ Patches# * 100						
+			show	(word "noresp% = " (precision	no-resp%	2) " , var-resp% = " (precision	var-resp%	2) " , mod-resp% = " (precision	mod-resp%	2) " , opt-resp% = " (precision	opt-resp%	2) " , most-fert% = " (precision	mostfert%	2) " , sufficient% = " (precision	sufficient%	2))				
+			let	no-resp-mean	0	let	var-resp-mean	0	let	mod-resp-mean	0	let	opt-resp-mean	0	let	mostfert-mean	0	let	sufficient-mean	0
+if	no-resp%	> 0 [	set	no-resp-mean	mean [	P_SOC%	] of patches with [	P_SOC%	>	-999	and 	P_SOC%	<	0.5	]]					
+if	var-resp%	> 0 [	set	var-resp-mean	mean [	P_SOC%	] of patches with [	P_SOC%	>=	0.5	and 	P_SOC%	<	0.7	]]					
+if	mod-resp%	> 0 [	set	mod-resp-mean	mean [	P_SOC%	] of patches with [	P_SOC%	>=	0.7	and 	P_SOC%	<	1	]]					
+if	opt-resp%	> 0 [	set	opt-resp-mean	mean [	P_SOC%	] of patches with [	P_SOC%	>=	1	and 	P_SOC%	<	1.5	]]					
+if	mostfert%	> 0 [	set	mostfert-mean	mean [	P_SOC%	] of patches with [	P_SOC%	>=	1.5	and 	P_SOC%	<	2	]]					
+if	sufficient%	> 0 [	set	sufficient-mean	mean [	P_SOC%	] of patches with [	P_SOC%	>	2	]]									
+			show	(word "noresp-x = " (precision	no-resp-mean	2 ) " , var-resp-x = " (precision	var-resp-mean	2) " , mod-resp-x = " (precision	mod-resp-mean	2) " , opt-resp-x = " (precision	opt-resp-mean	2) " , most-fert-x = " (precision	mostfert-mean	2) " , sufficient-x = " (precision	sufficient-mean	2))				
+			let	no-resp-sd	0	let	var-resp-sd	0	let	mod-resp-sd	0	let	opt-resp-sd	0	let	mostfert-sd	0	let	sufficient-sd	0
+if	no-resp%	> 1 [	set	no-resp-sd	standard-deviation [	P_SOC%	] of patches with [	P_SOC%	>	-999	and 	P_SOC%	<	0.5	]]					
+if	var-resp%	> 1 [	set	var-resp-sd	standard-deviation [	P_SOC%	] of patches with [	P_SOC%	>=	0.5	and 	P_SOC%	<	0.7	]]					
+if	mod-resp%	> 1 [	set	mod-resp-sd	standard-deviation [	P_SOC%	] of patches with [	P_SOC%	>=	0.7	and 	P_SOC%	<	1	]]					
+if	opt-resp%	> 1 [	set	opt-resp-sd	standard-deviation [	P_SOC%	] of patches with [	P_SOC%	>=	1	and 	P_SOC%	<	1.5	]]					
+if	mostfert%	> 1 [	set	mostfert-sd	standard-deviation [	P_SOC%	] of patches with [	P_SOC%	>=	1.5	and 	P_SOC%	<	2	]]					
+if	sufficient%	> 1 [	set	sufficient-sd	standard-deviation [	P_SOC%	] of patches with [	P_SOC%	>	2	]]									
+			show	(word "noresp-sd = " (precision	no-resp-sd	2 ) " , var-resp-sd = " (precision	var-resp-sd	2) " , mod-resp-sd = " (precision	mod-resp-sd	2) " , opt-resp-sd = " (precision	opt-resp-sd	2) " , most-fert-sd = " (precision	mostfert-sd	2) " , sufficient-sd = " (precision	sufficient-sd	2))				
+show (word ";--------Nitrogen")																				
+			;	min-TN	max-TN	mean-TN	sd-TN													
+			let	min-TN	min [	P_Nitrogen%	] of patches with [	P_bound	 = 1]											
+			let	max-TN	max [	P_Nitrogen%	] of patches with [	P_bound	 = 1]											
+			let	mean-TN	mean [	P_Nitrogen%	] of patches with [	P_bound	 = 1]											
+			let	sd-TN	standard-deviation [	P_Nitrogen%] of patches with [	P_bound	 = 1]											
+			show	(word "min-TN = " (precision	min-TN	2) " , max-TN = " (precision	max-TN	2) " ,mean-TN = " (precision	mean-TN	2) " , sd-TN = " (precision	sd-TN	2))								
+			let	very-low%	0	let	Low%	0	let	mod%	0	let	optimal%	0	let	high%	0			
+			set	very-low%	count patches with [	P_Nitrogen%	>	-999	and 	P_Nitrogen%	<	0.08	]	/ Patches# * 100						
+			set	Low%	count patches with [	P_Nitrogen%	>	0.08	and 	P_Nitrogen%	<	0.12	]	/ Patches# * 100						
+			set	mod%	count patches with [	P_Nitrogen%	>	0.12	and 	P_Nitrogen%	<	0.15	]	/ Patches# * 100						
+			set	optimal%	count patches with [	P_Nitrogen%	>	0.15	and 	P_Nitrogen%	<	0.25	]	/ Patches# * 100						
+			set	high%	count patches with [	P_Nitrogen%	>	0.25	]					/ Patches# * 100						
+			show	(word "very-low% = " (precision	very-low%	2) " , low% = " (precision	Low%	2) " , mod% = " (precision	mod%	2) " , opt% = " (precision	0	2) " , high% = " (precision	mod%	2) )						
+			let	very-low-x	0	let	Low-x	0	let	mod-x	0	let	optimal-x	0	let	high-x	0			
+if	very-low%	> 0 [	set	very-low-x	mean [	P_Nitrogen%	] of patches with [	P_Nitrogen%	>	-999	and 	P_Nitrogen%	<	0.08	]]					
+if	Low%	> 0 [	set	Low-x	mean [	P_Nitrogen%	] of patches with [	P_Nitrogen%	>=	0.08	and 	P_Nitrogen%	<	0.12	]]					
+if	mod%	> 0 [	set	mod-x	mean [	P_Nitrogen%	] of patches with [	P_Nitrogen%	>=	0.12	and 	P_Nitrogen%	<	0.15	]]					
+if	optimal%	> 0 [	set	optimal-x	mean [	P_Nitrogen%	] of patches with [	P_Nitrogen%	>=	0.15	and 	P_Nitrogen%	<	0.25	]]					
+if	high%	> 0 [	set	high-x	mean [	P_Nitrogen%	] of patches with [	P_Nitrogen%	>=	0.25	]]									
+			show	(word "very-low-x = " (precision	very-low-x	2) " , low-x = " (precision	Low-x	2) " , mod-x = " (precision	mod-x	2) " , opt-x = " (precision	0	2) " , high-x = " (precision	mod-x	2) )						
+			let	very-low-sd	0	let	Low-sd	0	let	mod-sd	0	let	optimal-sd	0	let	high-sd	0			
+if	very-low%	> 1 [	set	very-low-sd	standard-deviation [	P_Nitrogen%	] of patches with [	P_Nitrogen%	>	-999	and 	P_Nitrogen%	<	0.08	]]					
+if	Low%	> 1 [	set	Low-sd	standard-deviation [	P_Nitrogen%	] of patches with [	P_Nitrogen%	>=	0.08	and 	P_Nitrogen%	<	0.12	]]					
+if	mod%	> 1 [	set	mod-sd	standard-deviation [	P_Nitrogen%	] of patches with [	P_Nitrogen%	>=	0.12	and 	P_Nitrogen%	<	0.15	]]					
+if	optimal%	> 1 [	set	optimal-sd	standard-deviation [	P_Nitrogen%	] of patches with [	P_Nitrogen%	>=	0.15	and 	P_Nitrogen%	<	0.25	]]					
+if	high%	> 1 [	set	high-sd	standard-deviation [	P_Nitrogen%	] of patches with [	P_Nitrogen%	>=	0.25	]]									
+			show	(word "very-low-sd = " (precision	very-low-sd	2) " , low-sd = " (precision	Low-sd	2) " , mod-sd = " (precision	mod-sd	2) " , opt-sd = " (precision	0	2) " , high-sd = " (precision	mod-sd	2) )						
+show (word ";--------Phosphorus")																				
+			;	min-P	max-P	mean-P	sd-P													
+			let	min-P	min [	P_phosphorus_soil	] of patches with [	P_bound	 = 1]											
+			let	max-P	max [	P_phosphorus_soil	] of patches with [	P_bound	 = 1]											
+			let	mean-P	mean [	P_phosphorus_soil	] of patches with [	P_bound	 = 1]											
+			let	sd-P	standard-deviation [	P_phosphorus_soil	] of patches with [	P_bound	 = 1]											
+			show	(word "min-P = " (precision	min-P	2) " , max-P = " (precision	max-P	2) " ,mean-P = " (precision	mean-P	2) " , sd-P = " (precision	sd-P	2))								
+			let	critical-limit%	0	let	low-resp%	0	let	var-res%	0	let	mod-res%	0	let	opt%	0			
+			set	critical-limit%	count patches with [	P_phosphorus_soil	>	-999	and 	P_phosphorus_soil	<	7.4	]	/ Patches# * 100						
+			set	low-resp%	count patches with [	P_phosphorus_soil	>=	7.4	and 	P_phosphorus_soil	<	11	]	/ Patches# * 100						
+			set	var-res%	count patches with [	P_phosphorus_soil	>=	11	and 	P_phosphorus_soil	<	13.5	]	/ Patches# * 100						
+			set	mod-res%	count patches with [	P_phosphorus_soil	>=	13.5	and 	P_phosphorus_soil	<	17	]	/ Patches# * 100						
+			set	opt%	count patches with [	P_phosphorus_soil	>=	17	]					/ Patches# * 100						
+			show	(word " crit-lim% = " (precision	critical-limit%	2) " , low-resp% = " (precision	low-resp%	2) " , var-resp% = " (precision	var-res%	2) " , mod-resp% = " (precision	mod-res%	2) " , opt% = " (precision	opt%	2) )						
+			let	critical-limit-x	0	let	low-resp-x	0	let	var-res-x	0	let	mod-res-x	0	let	opt-x	0			
+if	critical-limit%	> 0 [	set	critical-limit-x	mean [	P_phosphorus_soil	] of patches with [	P_phosphorus_soil	>	-999	and 	P_phosphorus_soil	<	7.4	]]					
+if	low-resp%	> 0 [	set	low-resp-x	mean [	P_phosphorus_soil	] of patches with [	P_phosphorus_soil	>=	7.4	and 	P_phosphorus_soil	<	11	]]					
+if	var-res%	> 0 [	set	var-res-x	mean [	P_phosphorus_soil	] of patches with [	P_phosphorus_soil	>=	11	and 	P_phosphorus_soil	<	13.5	]]					
+if	mod-res%	> 0 [	set	mod-res-x	mean [	P_phosphorus_soil	] of patches with [	P_phosphorus_soil	>=	13.5	and 	P_phosphorus_soil	<	17	]]					
+if	opt%	> 0 [	set	opt-x	mean [	P_phosphorus_soil	] of patches with [	P_phosphorus_soil	>=	17	]]									
+			show	(word " crit-lim-x = " (precision	critical-limit-x	2) " , low-resp-x = " (precision	low-resp-x	2) " , var-resp-x = " (precision	var-res-x	2) " , mod-resp-x = " (precision	mod-res-x	2) " , opt-x = " (precision	opt-x	2) )						
+			let	critical-limit-sd	0	let	low-resp-sd	0	let	var-res-sd	0	let	mod-res-sd	0	let	opt-sd	0			
+if	critical-limit%	> 1 [	set	critical-limit-sd	standard-deviation [	P_phosphorus_soil	] of patches with [	P_phosphorus_soil	>	-999	and 	P_phosphorus_soil	<	7.4	]]					
+if	low-resp%	> 1 [	set	low-resp-sd	standard-deviation [	P_phosphorus_soil	] of patches with [	P_phosphorus_soil	>=	7.4	and 	P_phosphorus_soil	<	11	]]					
+if	var-res%	> 1 [	set	var-res-sd	standard-deviation [	P_phosphorus_soil	] of patches with [	P_phosphorus_soil	>=	11	and 	P_phosphorus_soil	<	13.5	]]					
+if	mod-res%	> 1 [	set	mod-res-sd	standard-deviation [	P_phosphorus_soil	] of patches with [	P_phosphorus_soil	>=	13.5	and 	P_phosphorus_soil	<	17	]]					
+if	opt%	> 1 [	set	opt-sd	standard-deviation [	P_phosphorus_soil	] of patches with [	P_phosphorus_soil	>=	17	]]									
+			show	(word " crit-lim-sd = " (precision	critical-limit-sd	2) " , low-resp-sd = " (precision	low-resp-sd	2) " , var-resp-sd = " (precision	var-res-sd	2) " , mod-resp-sd = " (precision	mod-res-sd	2) " , opt-sd = " (precision	opt-sd	2) )						
+show (word ";---------Pottasium")																				
+			;	min-K	max-K	mean-K	sd-K													
+			let	min-K	min [	P_potassium_soil	] of patches with [	P_bound	 = 1]											
+			let	max-K	max [	P_potassium_soil	] of patches with [	P_bound	 = 1]											
+			let	mean-K	mean [	P_potassium_soil	] of patches with [	P_bound	 = 1]											
+			let	sd-K	standard-deviation [	P_potassium_soil	] of patches with [	P_bound	 = 1]											
+			show	(word "min-K = " (precision	min-K	2) " , max-K = " (precision	max-K	2) " ,mean-K = " (precision	mean-K	2) " , sd-K = " (precision	sd-K	2))								
+			let	defi%	0	let	moder%	0	let	suffi%	0									
+			set	defi%	count patches with [	P_potassium_soil	>	-999	and 	P_potassium_soil	<	125	]	/ Patches# * 100						
+			set	moder%	count patches with [	P_potassium_soil	>=	125	and 	P_potassium_soil	<	190	]	/ Patches# * 100						
+			set	suffi%	count patches with [	P_potassium_soil	>=	190	]					/ Patches# * 100						
+			show	(word "defi% = " (precision	defi%	2) " , mod% = " (precision	moder%	2) " , suffi% = " (precision	suffi%	2) )										
+			let	defi-x	0	let	moder-x	0	let	suffi-x	0									
+if	defi%	> 0 [	set	defi-x	mean [	P_potassium_soil	] of patches with [	P_potassium_soil	>	-999	and 	P_potassium_soil	<	125	]]					
+if	moder%	> 0 [	set	moder-x	mean [	P_potassium_soil	] of patches with [	P_potassium_soil	>=	125	and 	P_potassium_soil	<	190	]]					
+if	suffi%	> 0 [	set	suffi-x	mean [	P_potassium_soil	] of patches with [	P_potassium_soil	>=	190	]]									
+			show	(word "defi-x = " (precision	defi-x	2) " , mod-x = " (precision	moder-x	2) " , suffi-x = " (precision	suffi-x	2) )										
+			let	defi-sd	0	let	moerd-sd	0	let	suffi-sd	0									
+if	defi%	> 1 [	set	defi-sd	standard-deviation [	P_potassium_soil	] of patches with [	P_potassium_soil	>	-999	and 	P_potassium_soil	<	125	]]					
+if	moder%	> 1 [	set	moerd-sd	standard-deviation [	P_potassium_soil	] of patches with [	P_potassium_soil	>=	125	and 	P_potassium_soil	<	190	]]					
+if	suffi%	> 1 [	set	suffi-sd	standard-deviation [	P_potassium_soil	] of patches with [	P_potassium_soil	>=	190	]]									
+			show	(word "defi-sd = " (precision	defi-sd	2) " , mod-sd = " (precision	moerd-sd	2) " , suffi-sd = " (precision	suffi-sd	2) )										
+show (word ";---------C:N")																				
+			;	min-C:N	max-C:N	mean-C:N	sd-C:N													
+			let	min-C:N	min [	C:N	] of patches with [	P_bound	 = 1]											
+			let	max-C:N	max [	C:N	] of patches with [	P_bound	 = 1]											
+			let	mean-C:N	mean [	C:N	] of patches with [	P_bound	 = 1]											
+			let	sd-C:N	standard-deviation [	C:N	] of patches with [	P_bound	 = 1]											
+			show	(word "min-C:N = " (precision	min-C:N	2) " , max-C:N = " (precision	max-C:N	2) " ,mean-C:N = " (precision	mean-C:N	2) " , sd-C:N = " (precision	sd-C:N	2))								
+			let	crit_low0-16%	0	let	shrubland_soil16-20%	0	let	optimum20-25%	0	let	N_limit20-30%	0	let	N-loss>30%	0			
+			set	crit_low0-16%	count patches with [	C:N	>	0	and 	C:N	<	16	]	/ Patches# * 100						
+			set	shrubland_soil16-20%	count patches with [	C:N	>=	16	and 	C:N	<	20	]	/ Patches# * 100						
+			set	optimum20-25%	count patches with [	C:N	>=	20	and 	C:N	<	25	]	/ Patches# * 100						
+			set	N_limit20-30%	count patches with [	C:N	>=	25	and 	C:N	<	30	]	/ Patches# * 100						
+			set	N-loss>30%	count patches with [	C:N	>=	30	]					/ Patches# * 100						
+			show	(word "crit-low% = " (precision	crit_low0-16%	2) " , shrubland_soil% = " (precision	shrubland_soil16-20%	2) " , optimum% = " (precision	optimum20-25%	2) " , N_limit_soil% = " (precision	N_limit20-30%	2) " , N_loss% = " (precision	N-loss>30%	2))						
+			let	crit_low0-16x	0	let	shrubland_soil16-20x	0	let	optimum20-25x	0	let	N_limit20-30x	0	let	N-loss>30x	0			
+if	crit_low0-16%	> 0 [	set	crit_low0-16x	mean [	C:N	] of patches with [	C:N	>	-999	and 	C:N	<	16	]]					
+if	shrubland_soil16-20%	> 0 [	set	shrubland_soil16-20x	mean [	C:N	] of patches with [	C:N	>=	16	and 	C:N	<	20	]]					
+if	optimum20-25%	> 0 [	set	optimum20-25x	mean [	C:N	] of patches with [	C:N	>=	20	and 	C:N	<	25	]]					
+if	N_limit20-30%	> 0 [	set	N_limit20-30x	mean [	C:N	] of patches with [	C:N	>=	25	and 	C:N	<	30	]]					
+if	N-loss>30%	> 0 [	set	N-loss>30x	mean [	C:N	] of patches with [	C:N	>=	30	]]									
+			show	(word "crit-low-x = " (precision	crit_low0-16x	2) " , shrubland_soil-x = " (precision	shrubland_soil16-20x	2) " , optimum-x = " (precision	optimum20-25x	2) " , N_limit_soil-x = " (precision	N_limit20-30x	2) " , N_loss-x = " (precision	N-loss>30x	2))						
+			let	crit_low-sd	0	let	shrubland_soil16-20sd	0	let	optimum20-25sd	0	let	N_limit20-30sd	0	let	N-loss>30sd	0			
+if	crit_low0-16%	> 1 [	set	crit_low-sd	standard-deviation [	C:N	] of patches with [	C:N	>	-999	and 	C:N	<	16	]]					
+if	shrubland_soil16-20%	> 1 [	set	shrubland_soil16-20sd	standard-deviation [	C:N	] of patches with [	C:N	>=	16	and 	C:N	<	20	]]					
+if	optimum20-25%	> 1 [	set	optimum20-25sd	standard-deviation [	C:N	] of patches with [	C:N	>=	20	and 	C:N	<	25	]]					
+if	N_limit20-30%	> 1 [	set	N_limit20-30sd	standard-deviation [	C:N	] of patches with [	C:N	>=	25	and 	C:N	<	30	]]					
+if	N-loss>30%	> 1 [	set	N-loss>30sd	standard-deviation [	C:N	] of patches with [	C:N	>=	30	]]									
+			show	(word "crit-low-sd = " (precision	crit_low-sd	2) " , shrubland_soil-sd = " (precision	shrubland_soil16-20sd	2) " , optimum-sd = " (precision	optimum20-25sd	2) " , N_limit_soil-sd = " (precision	N_limit20-30sd	2) " , N_loss-sd = " (precision	N-loss>30sd	2))						
+show (word " ;---------C:P")																				
+			;	min-C:P	max-C:P	mean-C:P	sd-C:P													
+			let	min-C:P	min [	C:P	] of patches with [	P_bound	 = 1]											
+			let	max-C:P	max [	C:P	] of patches with [	P_bound	 = 1]											
+			let	mean-C:P	mean [	C:P	] of patches with [	P_bound	 = 1]											
+			let	sd-C:P	standard-deviation [	C:P	] of patches with [	P_bound	 = 1]											
+			show	(word "min-C:P = " (precision	min-C:P	2) " , max-C:P = " (precision	max-C:P	2) " ,mean-C:P = " (precision	mean-C:P	2) " , sd-C:P = " (precision	sd-C:P	2))								
+			let	C_limit%	0	let	C-crit-limit%	0	let	optimum%	0	let	P_limit%	0	let	P_crit-limit%	0	let	P_ultra-limit%	0
+			set	C_limit%	count patches with [	C:P	>	0	and 	C:P	<	100	]	/ Patches# * 100						
+			set	C-crit-limit%	count patches with [	C:P	>=	100	and 	C:P	<	200	]	/ Patches# * 100						
+			set	optimum%	count patches with [	C:P	>=	200	and 	C:P	<	300	]	/ Patches# * 100						
+			set	P_limit%	count patches with [	C:P	>=	300	and 	C:P	<	500	]	/ Patches# * 100						
+			set	P_crit-limit%	count patches with [	C:P	>=	500	and 	C:P	<	700	]	/ Patches# * 100						
+			set	P_ultra-limit%	count patches with [	C:P	>=	700	]					/ Patches# * 100						
+			show	(word "c-limit %= " (precision	C_limit%	2) " , C_crit-limit% = " (precision	C-crit-limit%	2) " , optimum% = " (precision	optimum%	2) " , p-limit% = " (precision	P_limit%	2) " , p-crit-limit% = " (precision	P_crit-limit%	2) " , p-ultra-limit% = " (precision	P_ultra-limit%	2))				
+			let	C_limit-x	0	let	C-crit-limit-x	0	let	optimum-x	0	let	P_limit-x	0	let	P-crit-limit-x	0	let	P_ultra-limit-x	0
+if	C_limit%	> 0 [	set	C_limit-x	mean [	C:P	] of patches with [	C:P	>	0	and 	C:P	<	100	]]					
+if	C-crit-limit%	> 0 [	set	C-crit-limit-x	mean [	C:P	] of patches with [	C:P	>	100	and 	C:P	<	200	]]					
+if	optimum%	> 0 [	set	optimum-x	mean [	C:P	] of patches with [	C:P	>=	200	and 	C:P	<	300	]]					
+if	P_limit%	> 0 [	set	P_limit-x	mean [	C:P	] of patches with [	C:P	>=	300	and 	C:P	<	500	]]					
+if	P_crit-limit%	> 0 [	set	P-crit-limit-x	mean [	C:P	] of patches with [	C:P	>=	500	and 	C:P	<	700	]]					
+if	P_ultra-limit%	> 0 [	set	P_ultra-limit-x	mean [	C:P	] of patches with [	C:P	>=	700	]]									
+			show	(word "c-limit-x= " (precision	C_limit-x	2) " , C_crit-limit-x = " (precision	C-crit-limit-x	2) " , optimum-x = " (precision	optimum-x	2) " , p-limit-x = " (precision	P_limit-x	2) " , p-crit-limit-x = " (precision	P-crit-limit-x	2) " , p-ultra-limit-x = " (precision	P_ultra-limit-x	2))				
+			let	C_limit-sd	0	let	C-crit-limit-sd	0	let	optimum-sd	0	let	P_limit-sd	0	let	P-crit-limit-sd	0	let	P_ultra-limit-sd	0
+if	C_limit%	> 1 [	set	C_limit-sd	standard-deviation [	C:P	] of patches with [	C:P	>	0	and 	C:P	<	100	]]					
+if	C-crit-limit%	> 1 [	set	C-crit-limit-sd	standard-deviation [	C:P	] of patches with [	C:P	>	100	and 	C:P	<	200	]]					
+if	optimum%	> 1 [	set	optimum-sd	standard-deviation [	C:P	] of patches with [	C:P	>	200	and 	C:P	<	300	]]					
+if	P_limit%	> 1 [	set	P_limit-sd	standard-deviation [	C:P	] of patches with [	C:P	>	300	and 	C:P	<	500	]]					
+if	P_crit-limit%	> 1 [	set	P-crit-limit-sd	standard-deviation [	C:P	] of patches with [	C:P	>	500	and 	C:P	<	700	]]					
+if	P_ultra-limit%	> 1 [	set	P_ultra-limit-sd	standard-deviation [	C:P	] of patches with [	C:P	>	700	]]									
+			show	(word "c-limit-sd= " (precision	C_limit-sd	2) " , C_crit-limit-sd = " (precision	C-crit-limit-sd	2) " , optimum-sd = " (precision	optimum-sd	2) " , p-limit-sd = " (precision	P_limit-sd	2) " , p-crit-limit-sd = " (precision	P-crit-limit-sd	2) " , p-ultra-limit-sd = " (precision	P_ultra-limit-sd	2))				 
+show (word ";---------Structural stability (StI)")																	
+			ask	patches	with	[P_bound	=	1]									
+			[let	BD_gravel_depth	P_BD20gcm3	*	1000	*	(1	-	P_CoarsePer	/	100)	*	20		
+			set	StI	(1.72	*	P_SOC	/	(10 * BD_gravel_depth))	/	(P_clay%	+	P_silt%)
+			]														
+			;	min-StI	max-StI	mean-StI	sd-StI										
+			let	min-StI	min [	StI	] of patches with [	P_bound	 = 1]								
+			let	max-StI	max [	StI	] of patches with [	P_bound	 = 1]								
+			let	mean-StI	mean [	StI	] of patches with [	P_bound	 = 1]								
+			let	sd-StI	standard-deviation [	StI	] of patches with [	P_bound	 = 1]								
+			show	(word "min-StI = " (precision	min-StI	2) " , max-StI = " (precision	max-StI	2) " ,mean-StI = " (precision	mean-StI	2) " , sd-StI = " (precision	sd-StI	2))					
+			let	deg%	0	let	high-risk%	0	let	low-risk%	0						
+			set	deg%	count patches with [	StI	>	0	and 	StI	<	5	]	/ Patches# * 100			
+			set	high-risk%	count patches with [	StI	>=	5	and 	StI	<	7	]	/ Patches# * 100			
+			set	low-risk%	count patches with [	StI	>=	7	]					/ Patches# * 100			
+			show	(word "degrade% = " (precision	deg%	2) " , high-risk% = " (precision	high-risk%	2) " , low-risk% = " (precision	low-risk%	2) )							
+			let	deg-x	0	let	high-risk-x	0	let	low-risk-x	0						
+if	deg%	> 0 [	set	deg-x	mean [	StI	] of patches with [	StI	>	0	and 	StI	<	5	]]		
+if	high-risk%	> 0 [	set	high-risk-x	mean [	StI	] of patches with [	StI	>=	5	and 	StI	<	7	]]		
+if	low-risk%	> 0 [	set	low-risk-x	mean [	StI	] of patches with [	StI	>=	7	]]						
+			show	(word "degrade-x = " (precision	deg-x	2) " , high-risk-x = " (precision	high-risk-x	2) " , low-risk-x = " (precision	low-risk-x	2) )							
+			let	deg-sd	0	let	high-risk-sd	0	let	low-risk-sd	0						
+if	deg%	> 1 [	set	deg-sd	standard-deviation [	StI	] of patches with [	StI	>	0	and 	StI	<	5	]]		
+if	high-risk%	> 1 [	set	high-risk-sd	standard-deviation [	StI	] of patches with [	StI	>=	5	and 	StI	<	7	]]		
+if	low-risk%	> 1 [	set	low-risk-sd	standard-deviation [	StI	] of patches with [	StI	>=	7	]]						
+			show	(word "degrade-sd = " (precision	deg-sd	2) " , high-risk-sd = " (precision	high-risk-sd	2) " , low-risk-sd = " (precision	low-risk-sd	2) )							
+
+End
+
+To Input-summary-statistics
+let fert_sub% mean [Fert-subsidy] of turtles with [Fert-subsidy > 0] * 100
+let weai2-x mean [WEAI-H] of turtles
+let labour-x mean [Mandays] of turtles
+let depr-x mean [depend-H] of turtles
+let edul-x mean [h_elhi] of turtles
+  show (word "fert_sub%=" (precision fert_sub% 2))
+  show (word "weai-x=" (precision weai2-x 2))
+  show (word "p_labour-x=" (precision labour-x 2))
+  show (word "depr-x=" (precision depr-x 2))
+  show (word "edulm-x=" (precision edul-x 2))
+
+ let Omin-a min [Org_ha] of turtles with [PH_ID != 0 and Org_ha > 0]
+ let Omax-a max [Org_ha] of turtles with [PH_ID != 0 and Org_ha > 0]
+ let Ox-a mean [Org_ha] of turtles with [PH_ID != 0 and Org_ha > 0]
+ let Osd-a standard-deviation [Org_ha] of turtles with [PH_ID != 0 and Org_ha > 0]
+ show (word "Omin-Org_ha-a =" (precision Omin-a 2)", Omax-Org_ha-a = " (precision Omax-a 2)", mean-Org_ha-a = " (precision Ox-a 2)", Osd-Org_ha-a =" precision Osd-a 2)
+
+let Omax-1  (max [Org_ha] of turtles with [HCLUS = 1 and Org_ha > 0 ])  
+let Omin-1  (min [Org_ha] of turtles with [HCLUS = 1 and Org_ha > 0 ]) 
+let Ox-1  (mean [Org_ha] of turtles with [HCLUS = 1 and Org_ha > 0 ])  
+let Osd-1  (standard-deviation [Org_ha] of turtles with [HCLUS = 1 and Org_ha > 0 ]) 
+show (word "Omin-Org_ha-1 =" (precision Omin-1 2)", Omax-Org_ha-1 = " (precision Omax-1 2)", mean-Org_ha-1 = " (precision Ox-1 2)", Osd-Org_ha-1 =" precision Osd-1 2)
+
+let Omax-2  (max [Org_ha] of turtles with [HCLUS = 2 and Org_ha > 0 ])  
+let Omin-2  (min [Org_ha] of turtles with [HCLUS = 2 and Org_ha > 0 ]) 
+let Ox-2  (mean [Org_ha] of turtles with [HCLUS = 2 and Org_ha > 0 ])  
+let Osd-2  (standard-deviation [Org_ha] of turtles with [HCLUS = 2 and Org_ha > 0 ]) 
+show (word "Omin-Org_ha-2 =" (precision Omin-2 2)", Omax-Org_ha-2 = " (precision Omax-2 2)", mean-Org_ha-2 = " (precision Ox-2 2)", Osd-Org_ha-2 =" precision Osd-2 2)
+
+let Omax-3  (max [Org_ha] of turtles with [HCLUS = 3 and Org_ha > 0 ])  
+let Omin-3  (min [Org_ha] of turtles with [HCLUS = 3 and Org_ha > 0 ]) 
+let Ox-3  (mean [Org_ha] of turtles with [HCLUS = 3 and Org_ha > 0 ])  
+let Osd-3  (standard-deviation [Org_ha] of turtles with [HCLUS = 3 and Org_ha > 0 ]) 
+show (word "Omin-Org_ha-3 =" (precision Omin-3 2)", Omax-Org_ha-3 = " (precision Omax-3 2)", mean-Org_ha-3 = " (precision Ox-3 2)", Osd-Org_ha-3 =" precision Osd-3 2)
+  
+  
+ let Fmin-a min [fert_ha] of turtles with [PH_ID != 0 and fert_ha > 0]
+ let Fmax-a max [fert_ha] of turtles with [PH_ID != 0 and fert_ha > 0]
+ let Fx-a mean [fert_ha] of turtles with [PH_ID != 0 and fert_ha > 0]
+ let Fsd-a standard-deviation [fert_ha] of turtles with [PH_ID != 0 and fert_ha > 0]
+ show (word "Fmin-fert_ha-a =" (precision Fmin-a 2)", Fmax-fert_ha-a = " (precision Fmax-a 2)", mean-fert_ha-a = " (precision Fx-a 2)", Fsd-fert_ha-a =" precision Fsd-a 2)
+
+let Fmax-1  (max [fert_ha] of turtles with [HCLUS = 1 and fert_ha > 0 ])  
+let Fmin-1  (min [fert_ha] of turtles with [HCLUS = 1 and fert_ha > 0 ]) 
+let Fx-1  (mean [fert_ha] of turtles with [HCLUS = 1 and fert_ha > 0 ])  
+let Fsd-1  (standard-deviation [fert_ha] of turtles with [HCLUS = 1 and fert_ha > 0 ]) 
+show (word "Fmin-fert_ha-1 =" (precision Fmin-1 2)", Fmax-fert_ha-1 = " (precision Fmax-1 2)", mean-fert_ha-1 = " (precision Fx-1 2)", Fsd-fert_ha-1 =" precision Fsd-1 2)
+
+let Fmax-2  (max [fert_ha] of turtles with [HCLUS = 2 and fert_ha > 0 ])  
+let Fmin-2  (min [fert_ha] of turtles with [HCLUS = 2 and fert_ha > 0 ]) 
+let Fx-2  (mean [fert_ha] of turtles with [HCLUS = 2 and fert_ha > 0 ])  
+let Fsd-2  (standard-deviation [fert_ha] of turtles with [HCLUS = 2 and fert_ha > 0 ]) 
+show (word "Fmin-fert_ha-2 =" (precision Fmin-2 2)", Fmax-fert_ha-2 = " (precision Fmax-2 2)", mean-fert_ha-2 = " (precision Fx-2 2)", Fsd-fert_ha-2 =" precision Fsd-2 2)
+
+let Fmax-3  (max [fert_ha] of turtles with [HCLUS = 3 and fert_ha > 0 ])  
+let Fmin-3  (min [fert_ha] of turtles with [HCLUS = 3 and fert_ha > 0 ]) 
+let Fx-3  (mean [fert_ha] of turtles with [HCLUS = 3 and fert_ha > 0 ])  
+let Fsd-3  (standard-deviation [fert_ha] of turtles with [HCLUS = 3 and fert_ha > 0 ]) 
+show (word "Fmin-fert_ha-3 =" (precision Fmin-3 2)", Fmax-fert_ha-3 = " (precision Fmax-3 2)", mean-fert_ha-3 = " (precision Fx-3 2)", Fsd-fert_ha-3 =" precision Fsd-3 2)
+  
+  
+
+ let min-a min [P_Mzkg] of turtles with [PH_ID != 0]
+ let max-a max [P_Mzkg] of turtles with [PH_ID != 0]
+ let x-a mean [P_Mzkg] of turtles with [PH_ID != 0]
+ let sd-a standard-deviation [P_Mzkg] of turtles with [PH_ID != 0]
+ show (word "min-mzkg-a =" (precision min-a 2)", max-mzkg-a = " (precision max-a 2)", mean-mzkg-a = " (precision x-a 2)", sd-mzkg-a =" precision sd-a 2)
+
+let max-1  (max [P_Mzkg] of turtles with [HCLUS = 1 ])  
+let min-1  (min [P_Mzkg] of turtles with [HCLUS = 1 ]) 
+let x-1  (mean [P_Mzkg] of turtles with [HCLUS = 1 ])  
+let sd-1  (standard-deviation [P_Mzkg] of turtles with [HCLUS = 1 ]) 
+show (word "min-mzkg-1 =" (precision min-1 2)", max-mzkg-1 = " (precision max-1 2)", mean-mzkg-1 = " (precision x-1 2)", sd-mzkg-1 =" precision sd-1 2)
+
+let max-2  (max [P_Mzkg] of turtles with [HCLUS = 2 ])  
+let min-2  (min [P_Mzkg] of turtles with [HCLUS = 2 ]) 
+let x-2  (mean [P_Mzkg] of turtles with [HCLUS = 2 ])  
+let sd-2  (standard-deviation [P_Mzkg] of turtles with [HCLUS = 2 ]) 
+show (word "min-mzkg-2 =" (precision min-2 2)", max-mzkg-2 = " (precision max-2 2)", mean-mzkg-2 = " (precision x-2 2)", sd-mzkg-2 =" precision sd-2 2)
+
+let max-3  (max [P_Mzkg] of turtles with [HCLUS = 3 ])  
+let min-3  (min [P_Mzkg] of turtles with [HCLUS = 3 ]) 
+let x-3  (mean [P_Mzkg] of turtles with [HCLUS = 3 ])  
+let sd-3  (standard-deviation [P_Mzkg] of turtles with [HCLUS = 3 ]) 
+show (word "min-mzkg-3 =" (precision min-3 2)", max-mzkg-3 = " (precision max-3 2)", mean-mzkg-3 = " (precision x-3 2)", sd-mzkg-3 =" precision sd-3 2)  
+
+ let lmin-a min [p_legukg] of turtles with [PH_ID != 0]
+ let lmax-a max [p_legukg] of turtles with [PH_ID != 0]
+ let lx-a mean [p_legukg] of turtles with [PH_ID != 0]
+ let lsd-a standard-deviation [p_legukg] of turtles with [PH_ID != 0]
+ show (word "lmin-legukg-a =" (precision lmin-a 2)", lmax-legukg-a = " (precision lmax-a 2)", mean-legukg-a = " (precision lx-a 2)", sd-legukg-a =" precision lsd-a 2)
+
+let lmax-1  (max [p_legukg] of turtles with [HCLUS = 1 ])  
+let lmin-1  (min [p_legukg] of turtles with [HCLUS = 1 ]) 
+let lx-1  (mean [p_legukg] of turtles with [HCLUS = 1 ])  
+let lsd-1  (standard-deviation [p_legukg] of turtles with [HCLUS = 1 ]) 
+show (word "lmin-legukg-1 =" (precision lmin-1 2)", lmax-legukg-1 = " (precision lmax-1 2)", mean-legukg-1 = " (precision lx-1 2)", sd-legukg-1 =" precision lsd-1 2)
+
+let lmax-2  (max [p_legukg] of turtles with [HCLUS = 2 ])  
+let lmin-2  (min [p_legukg] of turtles with [HCLUS = 2 ]) 
+let lx-2  (mean [p_legukg] of turtles with [HCLUS = 2 ])  
+let lsd-2  (standard-deviation [p_legukg] of turtles with [HCLUS = 2 ]) 
+show (word "lmin-legukg-2 =" (precision lmin-2 2)", lmax-legukg-2 = " (precision lmax-2 2)", mean-legukg-2 = " (precision lx-2 2)", sd-legukg-2 =" precision lsd-2 2)
+
+let lmax-3  (max [p_legukg] of turtles with [HCLUS = 3 ])  
+let lmin-3  (min [p_legukg] of turtles with [HCLUS = 3 ]) 
+let lx-3  (mean [p_legukg] of turtles with [HCLUS = 3 ])  
+let lsd-3  (standard-deviation [p_legukg] of turtles with [HCLUS = 3 ]) 
+show (word "lmin-legukg-3 =" (precision lmin-3 2)", lmax-legukg-3 = " (precision lmax-3 2)", mean-legukg-3 = " (precision lx-3 2)", sd-legukg-3 =" precision lsd-3 2)  
+End
+
+To P321c.Fertilizer-input-summary
+let fertD-a% count turtles with [dfertD-all = 1] / count turtles
+let fertD-1% count turtles with [dfertD-hc = 1 and HCLUS = 1] / count turtles with [HCLUS = 1]
+let fertD-2% count turtles with [dfertD-hc = 1 and HCLUS = 2] / count turtles with [HCLUS = 2]
+let fertD-3% count turtles with [dfertD-hc = 1 and HCLUS = 3] / count turtles with [HCLUS = 3]  
+show (word "fertD-all% =" (precision fertD-a% 2)", fertD-c1% =" (precision fertD-1% 2)", fertD-c2% =" (precision fertD-2% 2)", fertD-c3% =" (precision fertD-3% 2))
+ let min-a   min                [fert_ha] of turtles with [dfertD-all = 1]
+ let max-a   max                [fert_ha] of turtles with [dfertD-all = 1]
+ let x-a     mean               [fert_ha] of turtles with [dfertD-all = 1]
+ let sd-a    standard-deviation [fert_ha] of turtles with [dfertD-all = 1]
+ show (word "min-fert-a =" (precision min-a 2)", max-fert-a = " (precision max-a 2)", mean-fert-a = " (precision x-a 2)", sd-fert-a =" precision sd-a 2)
+
+let max-1   max                [fert_ha-hc] of turtles with [HCLUS = 1 and dfertD-hc = 1]  
+let min-1   min                [fert_ha-hc] of turtles with [HCLUS = 1 and dfertD-hc = 1] 
+let x-1     mean               [fert_ha-hc] of turtles with [HCLUS = 1 and dfertD-hc = 1]  
+let sd-1    standard-deviation [fert_ha-hc] of turtles with [HCLUS = 1 and dfertD-hc = 1] 
+show (word "min-fert-1 =" (precision min-1 2)", max-fert-1 = " (precision max-1 2)", mean-fert-1 = " (precision x-1 2)", sd-fert-1 =" precision sd-1 2)
+
+let max-2   max                [fert_ha-hc] of turtles with [HCLUS = 2 and dfertD-hc = 1]  
+let min-2   min                [fert_ha-hc] of turtles with [HCLUS = 2 and dfertD-hc = 1] 
+let x-2     mean               [fert_ha-hc] of turtles with [HCLUS = 2 and dfertD-hc = 1]  
+let sd-2    standard-deviation [fert_ha-hc] of turtles with [HCLUS = 2 and dfertD-hc = 1] 
+show (word "min-fert-2 =" (precision min-2 2)", max-fert-2 = " (precision max-2 2)", mean-fert-2 = " (precision x-2 2)", sd-fert-2 =" precision sd-2 2)
+
+let max-3   max                [fert_ha-hc] of turtles with [HCLUS = 3 and dfertD-hc = 1]  
+let min-3   min                [fert_ha-hc] of turtles with [HCLUS = 3 and dfertD-hc = 1] 
+let x-3     mean               [fert_ha-hc] of turtles with [HCLUS = 3 and dfertD-hc = 1]  
+let sd-3    standard-deviation [fert_ha-hc] of turtles with [HCLUS = 3 and dfertD-hc = 1] 
+show (word "min-fert-3 =" (precision min-3 2)", max-fert-3 = " (precision max-3 2)", mean-fert-3 = " (precision x-3 2)", sd-fert-3 =" precision sd-3 2) 
+End
+
+To P322c.manure-input-summary
+  let orgaD-a% count turtles with [dorgaD-all = 1] / count turtles * 100
+let orgaD-1% count turtles with [dorgaD-hc = 1 and HCLUS = 1] / count turtles with [HCLUS = 1] * 100
+let orgaD-2% count turtles with [dorgaD-hc = 1 and HCLUS = 2] / count turtles with [HCLUS = 2] * 100
+let orgaD-3% count turtles with [dorgaD-hc = 1 and HCLUS = 3] / count turtles with [HCLUS = 3] * 100 
+show (word "orgaD-all% =" (precision orgaD-a% 2)", orgaD-c1% =" (precision orgaD-1% 2)", orgaD-c2% =" (precision orgaD-2% 2)", orgaD-c3% =" (precision orgaD-3% 2))
+ let min-a min [org_ha] of turtles with [dorgaD-all = 1]
+ let max-a max [org_ha] of turtles with [dorgaD-all = 1]
+ let x-a mean [org_ha] of turtles with [dorgaD-all = 1]
+ let sd-a standard-deviation [org_ha] of turtles with [dorgaD-all = 1]
+ show (word "min-orga-a =" (precision min-a 2)", max-orga-a = " (precision max-a 2)", mean-orga-a = " (precision x-a 2)", sd-orga-a =" precision sd-a 2)
+
+let max-1  (max [orga_ha-hc] of turtles with [HCLUS = 1 and dorgaD-hc = 1])  
+let min-1  (min [orga_ha-hc] of turtles with [HCLUS = 1 and dorgaD-hc = 1]) 
+let x-1  (mean [orga_ha-hc] of turtles with [HCLUS = 1 and dorgaD-hc = 1])  
+let sd-1  (standard-deviation [orga_ha-hc] of turtles with [HCLUS = 1 and dorgaD-hc = 1]) 
+show (word "min-orga-1 =" (precision min-1 2)", max-orga-1 = " (precision max-1 2)", mean-orga-1 = " (precision x-1 2)", sd-orga-1 =" precision sd-1 2)
+
+let max-2  (max [orga_ha-hc] of turtles with [HCLUS = 2 and dorgaD-hc = 1])  
+let min-2  (min [orga_ha-hc] of turtles with [HCLUS = 2 and dorgaD-hc = 1]) 
+let x-2  (mean [orga_ha-hc] of turtles with [HCLUS = 2 and dorgaD-hc = 1])  
+let sd-2  (standard-deviation [orga_ha-hc] of turtles with [HCLUS = 2 and dorgaD-hc = 1]) 
+show (word "min-orga-2 =" (precision min-2 2)", max-orga-2 = " (precision max-2 2)", mean-orga-2 = " (precision x-2 2)", sd-orga-2 =" precision sd-2 2)
+
+let max-3  (max [orga_ha-hc] of turtles with [HCLUS = 3 and dorgaD-hc = 1])  
+let min-3  (min [orga_ha-hc] of turtles with [HCLUS = 3 and dorgaD-hc = 1]) 
+let x-3  (mean [orga_ha-hc] of turtles with [HCLUS = 3 and dorgaD-hc = 1])  
+let sd-3  (standard-deviation [orga_ha-hc] of turtles with [HCLUS = 3 and dorgaD-hc = 1]) 
+show (word "min-orga-3 =" (precision min-3 2)", max-orga-3 = " (precision max-3 2)", mean-orga-3 = " (precision x-3 2)", sd-orga-3 =" precision sd-3 2)
+
+End
+
+To legume-cropping-stats
+  let leguD-a% count turtles with [dleguD-all = 1] / count turtles * 100
+let leguD-1% count turtles with [dleguD-hc = 1 and HCLUS = 1] / count turtles with [HCLUS = 1] * 100
+let leguD-2% count turtles with [dleguD-hc = 1 and HCLUS = 2] / count turtles with [HCLUS = 2]* 100
+let leguD-3% count turtles with [dleguD-hc = 1 and HCLUS = 3] / count turtles with [HCLUS = 3]  * 100
+show (word "leguD-all% =" (precision leguD-a% 2)", leguD-c1% =" (precision leguD-1% 2)", leguD-c2% =" (precision leguD-2% 2)", leguD-c3% =" (precision leguD-3% 2))
+End
+
+To tree-coverage-stats
+let tree10D-a% count turtles with [dtree10D-all = 1] / count turtles * 100
+let tree10D-1% count turtles with [dtree10D-hc = 1 and HCLUS = 1] / count turtles with [HCLUS = 1] * 100
+let tree10D-2% count turtles with [dtree10D-hc = 1 and HCLUS = 2] / count turtles with [HCLUS = 2]* 100
+let tree10D-3% count turtles with [dtree10D-hc = 1 and HCLUS = 3] / count turtles with [HCLUS = 3]  * 100
+show (word "tree10D-all% =" (precision tree10D-a% 2)", tree10D-c1% =" (precision tree10D-1% 2)", tree10D-c2% =" (precision tree10D-2% 2)", tree10D-c3% =" (precision tree10D-3% 2))
+End
+
+To maize-output-statistics
+ let min-a min [mzkg-all] of turtles with [HCLUS > 0 and mzkg-all > 0]
+ let max-a max [mzkg-all] of turtles with [HCLUS > 0]
+ let x-a mean [mzkg-all] of turtles with [HCLUS > 0 and mzkg-all > 0]
+ let sd-a standard-deviation [mzkg-all] of turtles with [HCLUS > 0 and mzkg-all > 0]
+ show (word "min-mzkg-a =" (precision min-a 2)", max-mzkg-a = " (precision max-a 2)", mean-mzkg-a = " (precision x-a 2)", sd-mzkg-a =" precision sd-a 2)
+
+let max-1  (max [mzkg-hc] of turtles with [HCLUS = 1 and mzkg-hc > 0])  
+let min-1  (min [mzkg-hc] of turtles with [HCLUS = 1 and mzkg-hc > 0]) 
+let x-1  (mean [mzkg-hc] of turtles with [HCLUS = 1 and mzkg-hc > 0])  
+let sd-1  (standard-deviation [mzkg-hc] of turtles with [HCLUS = 1 and mzkg-hc > 0]) 
+show (word "min-mzkg-1 =" (precision min-1 2)", max-mzkg-1 = " (precision max-1 2)", mean-mzkg-1 = " (precision x-1 2)", sd-mzkg-1 =" precision sd-1 2)
+
+let max-2  (max [mzkg-hc] of turtles with [HCLUS = 2 and mzkg-hc > 0])  
+let min-2  (min [mzkg-hc] of turtles with [HCLUS = 2 and mzkg-hc > 0]) 
+let x-2  (mean [mzkg-hc] of turtles with [HCLUS = 2 and mzkg-hc > 0])  
+let sd-2  (standard-deviation [mzkg-hc] of turtles with [HCLUS = 2 and mzkg-hc > 0]) 
+show (word "min-mzkg-2 =" (precision min-2 2)", max-mzkg-2 = " (precision max-2 2)", mean-mzkg-2 = " (precision x-2 2)", sd-mzkg-2 =" precision sd-2 2)
+
+let max-3  (max [mzkg-hc] of turtles with [HCLUS = 3 and mzkg-hc > 0])  
+let min-3  (min [mzkg-hc] of turtles with [HCLUS = 3 and mzkg-hc > 0]) 
+let x-3  (mean [mzkg-hc] of turtles with [HCLUS = 3 and mzkg-hc > 0])  
+let sd-3  (standard-deviation [mzkg-hc] of turtles with [HCLUS = 3 and mzkg-hc > 0]) 
+show (word "min-mzkg-3 =" (precision min-3 2)", max-mzkg-3 = " (precision max-3 2)", mean-mzkg-3 = " (precision x-3 2)", sd-mzkg-3 =" precision sd-3 2)
+ 
+
+End
+To legume-yield-statistics
+  let min-a min [p_legukg] of turtles with [dleguD-all = 1]
+  let max-a max [p_legukg] of turtles 
+  let x-a mean [p_legukg] of turtles with [dleguD-all = 1]
+  let sd-a standard-deviation [p_legukg] of turtles with [dleguD-all = 1]
+ show (word "min-legukg-a =" (precision min-a 2)", max-legukg-a = " (precision max-a 2)", mean-legukg-a = " (precision x-a 2)", sd-legukg-a =" precision sd-a 2)
+
+ End
+
+To SO-fert
+ask turtles with [HP_ID != 0] 
+  [if elapsed-years > 0 [
+    set fert_ha fert_ha * (1 + (0.06 / stop-when * elapsed-years)) 
+    if hclus = 1 or hclus = 2 [set fert_ha-hc fert_ha-hc * (1 + (0.06 / stop-when * elapsed-years))]]]
+End
+
+To S2-fert
+ask turtles with [HP_ID != 0] 
+  [if elapsed-years > 0 [
+    set fert_ha fert_ha * (1 + (0.02 / stop-when * elapsed-years)) 
+    if hclus = 1 or hclus = 2 [set fert_ha-hc fert_ha-hc * (1 + (0.02 / stop-when * elapsed-years))]]]
+End
+
+To S3-fert
+ask turtles with [HP_ID != 0] 
+  [if elapsed-years > 0 [
+    set fert_ha fert_ha * (1 - (0.1 / stop-when * elapsed-years)) 
+    if hclus = 1 or hclus = 2 [set fert_ha-hc fert_ha-hc * (1 - (0.1 / stop-when * elapsed-years))]]]
+End
+
+To weai-orga
+ask turtles with [HP_ID != 0] 
+  [if elapsed-years > 0 [if hclus = 1 [set O-hc-w O-hc-w * (1 - (0.3 / stop-when * elapsed-years))] ]]
+End
+
+To labour-fert-orga
+ask turtles with [HP_ID != 0] 
+  [if elapsed-years > 0 [
+    set F-l F-l * (1 - (0.08 / stop-when * elapsed-years)) 
+   if hclus = 3 [set O-hc-l O-hc-l * (1 + (0.2 / stop-when * elapsed-years))]
+    if hclus = 1 or hclus = 2 [set O-hc-l O-hc-l * (1 - (0.26 / stop-when * elapsed-years))]]]
+End
+
+To depend
+ask turtles with [HP_ID != 0] 
+  [if elapsed-years > 0 [
+    if hclus = 1 or hclus = 2 [set O-hc-d O-hc-d * (1 - (0.16 / stop-when * elapsed-years))]]]
+End
+To fert-drift
+ask turtles [
+    set	fert_ha fert_ha * 0.443 * 1.159
+    if hclus = 1 [set fert_ha-hc fert_ha-hc * 0.403 * 1.195] if hclus = 2 [set fert_ha-hc fert_ha-hc * 0.427 * 1.209] if hclus = 3 [set fert_ha-hc fert_ha-hc * 0.415 * 1.169]
+  ]
+End
+To show-estimates
+  show (word "year =" ticks   ",C-orga  =" mean [C_orga_H] of turtles ", C-residues  =" mean [C_cropR_Hin] of turtles ", C-sedi  =" mean [C_sedi_H] of turtles ", C-erod =" mean [C_eroded_H] of turtles ", C-sd ="  mean [C_sd] of patches with [P_plot-centre > 0])
+  show (word "year =" ticks   ",K-orga =" mean [K_orga_H] of turtles ", K-sedi =" mean [K_sedi_H] of turtles ", Kdepo =" mean [K_depo_H] of turtles ", Kcrop = "  mean [K_cropP_H] of turtles ", K-residues = "  mean [K_cropR_Hout] of turtles ", K-eroded =" mean [K_eroded_H] of turtles ", k-leached = "  mean [K_leached_H] of turtles )
+End
+
+To show-productivity-index
+show (word "	LU-score	" count patches with [	LU-score	>	0])
+show (word "	TN-score	" count patches with [	TN-score	>	0])
+show (word "	Phos-score	" count patches with [	Phos-score	>	0])
+show (word "	K-score	" count patches with [	K-score	>	0])
+show (word "	SOC-score	" count patches with [	SOC-score	>	0])
+show (word "	StI-score	" count patches with [	StI-score	>	0])
+show (word "	Slope-score	" count patches with [	Slope-score	>	0])
+show (word "	Gully-score	" count patches with [	Gully-score	>	0 and P_bound = 1])
+show (word "	C:N-score	" count patches with [	C:N-score	>	0])
+show (word "	Erosion-score	" count patches with [	Erosion-score	>	0])
+show (word "	C:P-score	" count patches with [	C:P-score	>	0])
+  let prod0 count patches with [Productivity-INDEX = 0 and  P_bound	 = 1 ] 
+  let prod1 count patches with [Productivity-INDEX > 0 and Productivity-INDEX <= 0.1 and  P_bound	 = 1 ] 
+  let prod2 count patches with [Productivity-INDEX > 0.1 and Productivity-INDEX <= 0.2 and  P_bound	 = 1 ] 
+  let prod3 count patches with [Productivity-INDEX > 0.2 and Productivity-INDEX <= 0.3 and  P_bound	 = 1 ] 
+  let prod4 count patches with [Productivity-INDEX > 0.3 and Productivity-INDEX <= 0.4 and  P_bound	 = 1 ] 
+  let prod5 count patches with [Productivity-INDEX > 0.4 and Productivity-INDEX <= 0.5 and  P_bound	 = 1 ] 
+  let prod6 count patches with [Productivity-INDEX > 0.5 and Productivity-INDEX <= 0.6 and  P_bound	 = 1 ] 
+  let prod7 count patches with [Productivity-INDEX > 0.6 and Productivity-INDEX <= 0.7 and  P_bound	 = 1 ]
+  let prod8 count patches with [Productivity-INDEX > 0.7 and Productivity-INDEX <= 0.8 and  P_bound	 = 1 ] 
+  let prod9 count patches with [Productivity-INDEX > 0.8 and Productivity-INDEX <= 0.9 and  P_bound	 = 1 ] 
+  let prod10 count patches with [Productivity-INDEX > 0.9 and Productivity-INDEX <= 1 and  P_bound	 = 1 ]  
+  
+  show (word "prod0 =" prod0 ", prod1 =" prod1 ", prod2 =" prod2 ", prod3 =" prod3 ", prod4 =" prod4 ", prod5 =" prod5 ", prod6 =" prod6 ", prod7 =" prod7 ", prod8 =" prod8 ", prod9 =" prod9 ", prod10 =" prod10)
+
+  let	min-Productivity-INDEX	min [	Productivity-INDEX	] of patches with [	P_bound	 = 1]							
+	let	max-Productivity-INDEX	max [	Productivity-INDEX	] of patches with [	P_bound	 = 1]							
+	let	mean-Productivity-INDEX	mean [	Productivity-INDEX	] of patches with [	P_bound	 = 1]							
+	let	sd-Productivity-INDEX	standard-deviation [	Productivity-INDEX	] of patches with [	P_bound	 = 1]							
+  	let	count-CON_0	count	patches	with [	Productivity-INDEX	 = 0 and P_bound = 1]	/ count patches with [P_bound = 1]				
+	show	(word "min-Productivity-INDEX = " (	min-Productivity-INDEX	) " , max-Productivity-INDEX = " (	max-Productivity-INDEX	) " ,mean-Productivity-INDEX = " (	mean-Productivity-INDEX	) " , sd-Productivity-INDEX = " (	sd-Productivity-INDEX	) " , Productivity-INDEX0 = " (	count-CON_0	))		
+ask patches with [Productivity-INDEX = 0 and P_Bound = 1] [set pcolor blue]
+
+End

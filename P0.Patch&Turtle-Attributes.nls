@@ -1,0 +1,124 @@
+patches-own  ; THIS PREMITIVE SETS THE PATCH'S VARIABLES
+[
+; Variables representing the physical status of the land are below:
+  P_elevation P_slope P_LS-factor P_Ri-roughness Ri P_flowlength SDR P_wetness P_flowacc P_upslope P_spi
+; Variables representing the houseold and plot location, land-use and ownership status
+  H_x_raster H_y_raster P_plot-centre P_plot-patches P_H-centre P_H-patches P_land-use-state
+  H_dwelling-extent P_owner-residence P_remaining
+; Variables representing the Soil status of the land are below:
+  P_Nitrogen% P_SOC%  P_BD20gcm3 P_CoarsePer
+  P_Phosphorus_soil P_Potassium_soil
+  P_Sand% P_Clay% P_Silt%
+  P_Nitrogen_initial-kgha P_SOC-initial-kgha C:N C:P StI BD-G-D
+; Variables for nutrient inputs and outputs for land parcels
+  P_Nitrogen_fert P_Nitrogen_org P_Nitrogen_legume P_Nitrogen_atmosphere P_Nitrogen_InTotal
+  P_Phosphorus_Fert P_Phosphorus_Org P_Phosphorus_InTotal
+  N_fert N_orga N_fixed N_sedi N_depo N_cropP N_cropRin N_cropRout	N_eroded	N_leached	N_gase 	
+         C_orga	        C_sedi                C_cropRin C_cropRout	C_eroded	   	
+  K_fert K_orga		      K_sedi K_depo K_cropP	K_cropRin K_cropRout	K_eroded	K_leached	    	
+  P_fert P_orga         P_sedi P_depo P_cropP P_cropRin P_cropRout	P_eroded	  	  	  	
+  C_in	 C_out	 N_in	 N_out	 P_in	 P_out	 K_in	 K_out
+  N_balance P_balance K_balance C_balance
+  P_N	      P_P       P_K	      P_SOC  f-env C_sd
+; Variables represent the institutional status of the land
+  P_village        ; The village territory the patch to which the patch belongs (= village id code) (default = 0)
+; Patch variables used for computation only
+  HP_hectare HPnew_patch HPNew_patch2 P_bound P_cult PHCLUS PHNew HP_fert ST-f;P_owner
+  	
+
+  SLerosion NSL SD R-factor K-factor LS-factor C-factor P-factor EG-factor GSL
+  Rainfall S Q PcD M K_texture-SOM gully
+		LU-score			TN-score			Phos-score			K-score			
+		SOC-score			StI-score			Slope-score			Gully-score			
+		C:N-score		 	Erosion-score			C:P-score			Productivity-INDEX Prod-cat		
+]
+turtles-own      ; THIS PREMITIVE SETS THE HOUSEHOLD'S VARIABLES
+[
+  PH_ID	H_village	PH_village	H_x	H_y	H_LSPN	H_AGEH	H_EDUH	H_ELHI	H_EDUI	H_GENH	H_HECT	H_PLOT	H_LABOUR	H_DEPR	H_DEPD	H_TLUN	
+  H_INCC	H_INCL	H_INCO	H_INCR	H_INMS	H_COMM	H_TRAN	H_IMPL	H_EQUI	H_WEAI	weai_prod	weai_inc	weai_res	H_WEAI2	H_GMEM	
+  H_SCHa	H_SLHa	H_CLHa	H_COHa	H_SOHa	H_FALO	H_NoLe	H_WiLe	NoLeF	WiLeF	H_CROP	H_FERT	H_ORGA	H_ROTC	H_SWCn	HCLUS	
+  TimberValue	NTFPValue	naturalValue	NaturalUS	H_size	H_YoMal	H_YoFem	H_workMale	H_workFem	H_old	
+  P_ID	HP_ID	P_y	P_x	P_Hect	P_lclu	P_cultyrs	P_crops	P_cereal5	P_cele5	P_legu5	P_ceother5	P_other5	P_nocrop5	
+  P_fertpers	P_Mzkg P_Mzkg-im	P_MzkgEq	P_Gnkg	P_Legukg	P_laborLP	P_labweed	P_labfert	P_Laborga	P_LabMen	P_LabWomen	P_Labdepend	P_LabourT	
+  Total_fert	Fert_N	Fert_P	Fert_K	fert_ha fert_ha-im	ManureKG	Org_ha Org_ha-im	Org_N	Org_P	Org_K	P_Grainyield	
+  P_YieldUSD	P_Leguton P_LabUSD	Fertpaid	Fert-subsidy	P_SeedActual	P_Benefit	Crop2017	Fertkgpaid	fertkgmarket
+
+  ;nutrient input and output
+ N_fert_H  N_orga_H  N_fixed_H  N_cropR_Hin  N_sedi_H	 N_depo_H   N_cropP_H  N_cropR_Hout  N_eroded_H  N_leached_H  N_gase_H
+ P_fert_H  P_orga_H             P_cropR_Hin  P_sedi_H  P_depo_H	  P_cropP_H  P_cropR_Hout  P_eroded_H
+           K_orga_H             K_cropR_Hin	 K_sedi_H  K_depo_H		K_cropP_H  K_cropR_Hout	 K_eroded_H  K_leached_H	
+           C_orga_H             C_cropR_Hin  C_sedi_H                                      C_eroded_H
+  N_in_H	N_out_H	P_in_H	P_out_H	K_in_H	K_out_H		C_in_H	C_out_H	
+  N_balance-H    P_balance-H    K_balance-H    C_balance-H
+  N_balance-H-hc P_balance-H-hc K_balance-H-hc C_balance-H-hc			
+  P_N-H	      P_P-H       P_K-H	      P_SOC-H
+ ;farmtype specific updated
+  N_fert_H-hc N_orga_H-hc       N_cropR_Hin-hc                    N_cropP_H-hc  N_cropR_Hout-hc	  N_fixed_H-hc
+  P_fert_H-hc P_orga_H-hc       P_cropR_Hin-hc                    P_cropP_H-hc  P_cropR_Hout-hc	
+              K_orga_H-hc       K_cropR_Hin-hc                    K_cropP_H-hc  K_cropR_Hout-hc	
+              C_orga_H-hc       C_cropR_Hin-hc
+  N_in_H-hc P_in_H-hc K_in_H-hc C_in_H-hc N_out_H-hc P_out_H-hc K_out_H-hc C_out_H-hc
+  C_mn C_mn-hc C_CR C_CR-hc 
+
+  ;households
+  H_ID	VILLAGE	Hx	Hy	LSPN	AGEH	EDUH	ELHM	GENH	HLABA	HDEPR	HTLUN	HINCC	HINCL	HINCO	HINCR	
+  HCOMM	HTRAN	HIMPL	HWEIA	HGMEM	HPLOT	HHACT	HLEGU	HCROP	HROTC	HSWCn	HORGA	HFERT	H_CLUS
+  ;new and derived attributes
+  P_fertD P_orgaD manD manI P_leguD Intercrop cereal-vs-integration  P_tree10D ptree10D-hc P_tnper P_socper P_elev
+  cereal-vs-integration-hc p_fertsubsidy fert-sub0 fert-sub1 fert-sub2 fert-sub3
+ WEAI-INCR WEAI-H  Labour-decr Mandays Depend-decr Depend-H  
+  
+  H_dwelling HPnew Hnew initial-plots
+  P_fert$ P_fert$-hc P_orga$ P_orga$-hc p_labour$ p_maize$ p_maize$-hc p_legu$ N_Fert% P_Fert%
+  h_incc%	h_incl%	h_inco%	h_incr% H_income-person HH-produce-value h_nr-value HH_economy
+  Product-$_ha Expenses-$_ha B-C$-ha P$-S0 P$-S1 P$-S2 P$-S3 E$-S0 E$-S1 E$-S2 E$-S3 B-C$-S0 B-C$-S1 B-C$-S2 B-C$-S3
+  Product-$_ha-hc Expenses-$_ha-hc B-C$-ha-hc P$-hc-S0 P$-hc-S1 P$-hc-S2 P$-hc-S3 E$-hc-S0 E$-hc-S1 E$-hc-S2 E$-hc-S3 B-C$-hc-S0 B-C$-hc-S1 B-C$-hc-S2 B-C$-hc-S3
+
+land-use         ; Cultivation status for the sprouted households generate remaining population
+
+
+
+
+;======================Plot hclus specific fertility input decision models=================================================
+fertD-all fertD-hc fert-yes-sequential
+dfertD-all dfertD-hc
+fertA-all fertA-hc
+orgaD-all	orgaD-hc
+dorgaD-all dorgaD-hc
+orgaA-all orgaA-hc
+leguD-all	leguD-hc	
+dleguD-all dleguD-hc
+tree10D-all tree10D-hc
+dtree10D-all dtree10D-hc
+;additional computed input and output levels for each household cluster
+fert_ha-hc 
+orga_ha-hc 
+fert-all-r1	fert-all-r2	fert-all-r3	fert-all-r4	fert-all-r5	fert-all-r6	fert-all-r7	fert-all-r8	fert-all-r9	fert-all-r10
+fert-hc-r1	fert-hc-r2	fert-hc-r3	fert-hc-r4	fert-hc-r5	fert-hc-r6	fert-hc-r7	fert-hc-r8	fert-hc-r9	fert-hc-r10
+orga-all-r1	orga-all-r2	orga-all-r3	orga-all-r4	orga-all-r5	orga-all-r6	orga-all-r7	orga-all-r8	orga-all-r9	orga-all-r10
+orga-hc-r1	orga-hc-r2	orga-hc-r3	orga-hc-r4	orga-hc-r5	orga-hc-r6	orga-hc-r7	orga-hc-r8	orga-hc-r9	orga-hc-r10
+  ;policy variables
+f-S0 f-hc-S0 f-S1 f-hc-S1 f-S2 f-hc-S2 f-S3 f-hc-S3	
+O-S0 O-hc-S0 O-S1 O-hc-S1 O-S2 O-hc-S2 O-S3 O-hc-S3
+F-b	O-b	M-b	L-b	f-hc-b	O-hc-b	M-hc-b	L-hc-b
+F-w	O-w	M-w	L-w	f-hc-w	O-hc-w	M-hc-w	L-hc-w
+F-l	O-l	M-l	L-l	f-hc-l	O-hc-l	M-hc-l	L-hc-l
+F-d	O-d	M-d	L-d	f-hc-d	O-hc-d	M-hc-d	L-hc-d
+ ;---ecological
+NB-S0 NB-hc-S0 NB-S1 NB-hc-S1 NB-S2 NB-hc-S2 NB-S3 NB-hc-S3	 
+PB-S0 PB-hc-S0 PB-S1 PB-hc-S1 PB-S2 PB-hc-S2 PB-S3 PB-hc-S3	 
+KB-S0 KB-hc-S0 KB-S1 KB-hc-S1 KB-S2 KB-hc-S2 KB-S3 KB-hc-S3	 
+CB-S0 CB-hc-S0 CB-S1 CB-hc-S1 CB-S2 CB-hc-S2 CB-S3 CB-hc-S3	   
+  							
+;======================Plot hclus specific maize yield models============================================================
+Mzkg-all Mzkg-hc	
+legukg-all legukg-hc		
+maiz-all-r1	maiz-all-r2	maiz-all-r3	maiz-all-r4	maiz-all-r5	maiz-all-r6	maiz-all-r7	maiz-all-r8	maiz-all-r9	maiz-all-r10
+maiz-hc-r1	maiz-hc-r2	maiz-hc-r3	maiz-hc-r4	maiz-hc-r5	maiz-hc-r6	maiz-hc-r7	maiz-hc-r8	maiz-hc-r9	maiz-hc-r10
+legu-all-r1	legu-all-r2	legu-all-r3	legu-all-r4	legu-all-r5	legu-all-r6	legu-all-r7	legu-all-r8	legu-all-r9	legu-all-r10
+legu-hc-r1	legu-hc-r2	legu-hc-r3	legu-hc-r4	legu-hc-r5	legu-hc-r6	legu-hc-r7	legu-hc-r8	legu-hc-r9	legu-hc-r10  														
+M-S0 M-hc-S0 M-S1 M-hc-S1 M-S2 M-hc-S2 M-S3 M-hc-S3
+L-S0 L-hc-S0 L-S1 L-hc-S1 L-S2 L-hc-S2 L-S3 L-hc-S3
+;====grain-residue-nutrientcontent&conversionfactors=============
+  NpGNg	NpMZg	NpGNs	NpMZs	PpGNg	PpMZg	PpGNs	PpMZs	KpGNg	KpMZg	KpGNs	KpMZs	hiMZ	hiGN	rsMZ	rsGN	mcMZ	mcGN NdfaGN
+]
